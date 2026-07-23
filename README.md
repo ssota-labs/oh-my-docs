@@ -10,6 +10,8 @@ Ask your coding agent:
 
 ```text
 Oh My Docs 스킬을 설치하고 이 프로젝트를 세팅해줘
+
+https://github.com/ssota-labs/oh-my-docs
 ```
 
 The agent should run:
