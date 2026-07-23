@@ -1,0 +1,36 @@
+{
+  "name": "create-oh-my-docs",
+  "version": "0.1.0",
+  "description": "Create a docs-first product workspace with Oh My Docs.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "create-oh-my-docs": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --test --experimental-strip-types src/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "oh-my-docs": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssota-labs/oh-my-docs.git",
+    "directory": "packages/create-oh-my-docs"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

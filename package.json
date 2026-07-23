@@ -11,7 +11,8 @@
     "dev": "turbo run dev",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "check:planning": "pnpm --filter @oh-my-docs/docs check:planning"
+    "check:planning": "pnpm --filter @oh-my-docs/docs check:planning",
+    "omdocs": "pnpm --filter oh-my-docs exec node ./dist/bin.js"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",

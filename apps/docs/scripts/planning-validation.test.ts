@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
-import { validatePlanning } from './planning-validation.ts';
+import { validatePlanning } from '@oh-my-docs/core';
 
 function write(root: string, path: string, contents: string): void {
   const target = join(root, path);

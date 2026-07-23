@@ -20,6 +20,16 @@ pnpm typecheck
 pnpm check:planning
 ```
 
-The docs app lives in `apps/docs`. Product work begins in its PRD, story,
-specification, ADR, and implementation-plan catalogs before code changes begin.
-See [AGENTS.md](AGENTS.md) for the canonical workflow.
+## Packages
+
+| Package | Name | Role |
+|---|---|---|
+| `apps/docs` | `@oh-my-docs/docs` | Product handbook (SSOT) |
+| `packages/ui` | `@oh-my-docs/ui` | Shared Fumadocs document components |
+| `packages/core` | `@oh-my-docs/core` | Detection, planning, validation |
+| `packages/cli` | `oh-my-docs` | `omdocs` / `oh-my-docs` CLI |
+| `packages/create-oh-my-docs` | `create-oh-my-docs` | `npm create oh-my-docs` entry |
+| `templates/default` | — | Canonical user scaffold for `init` |
+
+See [templates/README.md](templates/README.md) for the handbook vs scaffold split,
+and [AGENTS.md](AGENTS.md) for the canonical workflow.

@@ -1,0 +1,4 @@
+{
+  "title": "Handbook",
+  "pages": ["index", "starting", "workflow", "planning", "development", "spec", "agent"]
+}

@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
-import { validatePlanning } from './planning-validation.ts';
+
+import { validatePlanning } from '@oh-my-docs/core';
 
 const contentDirectory = resolve(import.meta.dirname, '../content/docs');
 const problems = validatePlanning(contentDirectory);

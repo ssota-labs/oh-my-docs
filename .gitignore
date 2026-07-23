@@ -2,7 +2,10 @@ node_modules/
 .pnpm-store/
 .turbo/
 .next/
+dist/
 apps/docs/.source/
+docs/.source/
+packages/cli/templates/
 *.tsbuildinfo
 .DS_Store
 .env*
