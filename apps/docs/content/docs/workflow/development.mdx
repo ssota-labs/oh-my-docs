@@ -1,0 +1,39 @@
+---
+title: Development contract
+description: The machine-checkable contract between planning and implementation.
+type: reference
+summary: Implementation must be covered by a reviewed plan that already exists on the base branch.
+id: SPEC-docs-first-development
+stage: accepted
+related:
+  - /docs/workflow/planning
+  - /docs/development/plans
+---
+
+## Artifact states
+
+| Artifact | Ready for implementation |
+|---|---|
+| PRD | `status: active` |
+| Specification | `stage: accepted` |
+| Implementation plan | `stage: ready` or `active` |
+
+## Implementation changes
+
+An implementation change names its plan in the change description:
+
+`Plan: apps/docs/content/docs/development/plans/plan-<initiative>.mdx`
+
+The plan must already exist on the base branch, cover changed code paths through
+`codeAreas`, and reference all required artifacts. If implementation changes
+the intended behavior or scope, update and review planning before continuing.
+
+## Completion
+
+Run the plan's verification steps, then mark it `done`. A PRD becomes `done`
+only when its promised outcomes and linked work are complete.
+
+## Automated boundary
+
+The graph checker validates IDs, references, lifecycle states, and navigation
+registration. Reviewers remain responsible for product correctness and clarity.

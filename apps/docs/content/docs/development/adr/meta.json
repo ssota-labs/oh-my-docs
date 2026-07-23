@@ -1,0 +1,4 @@
+{
+  "title": "Architecture decisions",
+  "pages": ["index", "adr-001-fumadocs-ssot"]
+}

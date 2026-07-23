@@ -1,0 +1,39 @@
+---
+title: Docs foundation contract
+description: The routes, metadata, and graph guarantees of the Phase 1 handbook.
+type: reference
+summary: One MDX source produces browsable pages and processed Markdown twins.
+id: SPEC-docs-foundation
+ticker: SPEC-001
+stage: accepted
+related:
+  - /docs/planning/prds/prd-docs-foundation
+  - /docs/development/adr/adr-001-fumadocs-ssot
+---
+
+## Routes
+
+- `/` introduces the product and links to `/docs`.
+- `/docs` and `/docs/<slug>` render handbook pages.
+- `/docs/<slug>.md` returns the corresponding processed Markdown with
+  `text/markdown; charset=utf-8`.
+- Unknown page slugs return not found.
+
+## Source contract
+
+Content lives under `apps/docs/content/docs`. Fumadocs validates frontmatter and
+generates the page tree. Catalog artifacts use stable kind-prefixed IDs:
+`PRD-`, `US-`, `SPEC-`, `ADR-`, and `PLAN-`.
+
+Plans declare `changeType`, references, lifecycle `stage`, and `codeAreas`.
+Sibling `meta.json` files explicitly register catalog entries.
+
+## Validation
+
+The planning check fails on duplicate or malformed IDs, missing references,
+invalid ready-state dependencies, missing code areas, or unregistered catalog
+documents.
+
+## Compatibility
+
+Phase 1 defines no public API beyond these routes and repository conventions.
