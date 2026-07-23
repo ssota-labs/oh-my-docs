@@ -9,12 +9,24 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
 
 import type { ApplyResult, FileOperation } from './types.ts';
 
 function ensureParent(path: string): void {
   mkdirSync(dirname(path), { recursive: true });
+}
+
+/** Mirror path under the backup root (supports absolute op paths for user scope). */
+function backupMirrorPath(backupRoot: string, projectRoot: string, opPath: string): string {
+  const absolute = resolve(projectRoot, opPath);
+  const rootResolved = resolve(projectRoot);
+  const rel = relative(rootResolved, absolute);
+  if (rel && !rel.startsWith('..') && !isAbsolute(rel)) {
+    return join(backupRoot, rel);
+  }
+  const safe = absolute.replace(/^[A-Za-z]:/, '').replace(/^[/\\]+/, '').split(/[/\\]/).join('__');
+  return join(backupRoot, '__absolute__', safe);
 }
 
 function writeAtomic(path: string, content: string): void {
@@ -65,7 +77,7 @@ export function applyFileOperations(
   try {
     for (const op of writable) {
       const absolute = resolve(root, op.path);
-      const backupPath = join(backupRoot, op.path);
+      const backupPath = backupMirrorPath(backupRoot, root, op.path);
       if (existsSync(absolute)) {
         ensureParent(backupPath);
         copyFileSync(absolute, backupPath);

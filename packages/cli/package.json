@@ -16,10 +16,11 @@
   },
   "files": [
     "dist",
-    "templates"
+    "templates",
+    "skills"
   ],
   "scripts": {
-    "prebuild": "node --experimental-strip-types ./scripts/sync-templates.ts",
+    "prebuild": "node --experimental-strip-types ./scripts/sync-templates.ts && node --experimental-strip-types ../../plugins/scripts/sync-skills.ts",
     "build": "tsc -p tsconfig.json",
     "test": "node --test --experimental-strip-types src/*.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"

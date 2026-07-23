@@ -14,6 +14,7 @@ import {
 import { Command } from 'commander';
 
 import { confirmOrExit, printApply, printDoctor, printPlan, type GlobalFlags } from './output.ts';
+import { resolveSkillRoot } from './skills.ts';
 import { resolveTemplateRoot } from './templates.ts';
 
 const VERSION = (createRequire(import.meta.url)('../package.json') as { version: string }).version;
@@ -85,11 +86,12 @@ export async function runCli(argv: readonly string[] = process.argv): Promise<vo
   addGlobalOptions(
     program
       .command('setup')
-      .description('Install or refresh AGENTS/CLAUDE markers and agent skill stubs')
+      .description('Install or refresh AGENTS/CLAUDE markers and official agent setup skills')
       .option('--agent <agent>', 'codex | cursor | claude | all', 'all')
       .option('--scope <scope>', 'project | user', 'project'),
   ).action(async (opts: Record<string, unknown>) => {
     const globals = globalFlags(opts);
+    const skillRoot = resolveSkillRoot();
     const plan = planSetup({
       cwd: process.cwd(),
       dryRun: globals.dryRun,
@@ -98,6 +100,7 @@ export async function runCli(argv: readonly string[] = process.argv): Promise<vo
       json: globals.json,
       agent: (typeof opts.agent === 'string' ? opts.agent : 'all') as AgentKind,
       scope: (typeof opts.scope === 'string' ? opts.scope : 'project') as SetupScope,
+      skillRoot,
     });
     if (!globals.json) printPlan(plan, false);
     confirmOrExit(globals, 'About to apply setup changes.');

@@ -1,0 +1,14 @@
+{
+  "name": "@oh-my-docs/plugins",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Agent plugin adapters and shared Oh My Docs setup skill.",
+  "scripts": {
+    "sync": "node --experimental-strip-types ./scripts/sync-skills.ts",
+    "sync:check": "node --experimental-strip-types ./scripts/sync-skills.ts --check",
+    "pretest": "node --experimental-strip-types ./scripts/sync-skills.ts",
+    "test": "node --test --experimental-strip-types ./scripts/*.test.ts",
+    "typecheck": "node --experimental-strip-types ./scripts/sync-skills.ts --check"
+  }
+}

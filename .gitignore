@@ -6,6 +6,7 @@ dist/
 apps/docs/.source/
 docs/.source/
 packages/cli/templates/
+packages/cli/skills/
 *.tsbuildinfo
 .DS_Store
 .env*

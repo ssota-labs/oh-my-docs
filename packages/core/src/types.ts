@@ -40,6 +40,10 @@ export interface SetupOptions {
   readonly json?: boolean;
   readonly agent?: AgentKind;
   readonly scope?: SetupScope;
+  /** Absolute path to the shared `setup` skill tree (must contain SKILL.md). */
+  readonly skillRoot?: string;
+  /** Override home directory for `--scope user` (tests). */
+  readonly home?: string;
 }
 
 export interface FileOperation {

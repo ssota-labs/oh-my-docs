@@ -29,6 +29,7 @@ pnpm check:planning
 | `packages/core` | `@oh-my-docs/core` | Detection, planning, validation |
 | `packages/cli` | `oh-my-docs` | `omdocs` / `oh-my-docs` CLI |
 | `packages/create-oh-my-docs` | `create-oh-my-docs` | `npm create oh-my-docs` entry |
+| `plugins/` | `@oh-my-docs/plugins` | Shared setup skill + Codex/Cursor/Claude adapters |
 | `templates/default` | — | Canonical user scaffold for `init` |
 
 See [templates/README.md](templates/README.md) for the handbook vs scaffold split,

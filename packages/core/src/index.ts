@@ -25,6 +25,13 @@ export {
 export { applyFileOperations, readTextIfExists } from './fs-ops.ts';
 export { planInit, resolveInitTarget } from './plan-init.ts';
 export { planSetup } from './plan-setup.ts';
+export {
+  PROJECT_SKILL_ROOTS,
+  agentsFor,
+  skillInstallRoot,
+  userSkillRoot,
+  type ConcreteAgent,
+} from './skill-paths.ts';
 export { doctorProject } from './doctor.ts';
 export {
   collectPlanningDocuments,
