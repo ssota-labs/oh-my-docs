@@ -1,0 +1,69 @@
+---
+title: Agent guide
+description: Repository context, setup skill invocation, and boundaries for coding agents.
+type: guide
+summary: Install the setup skill with the CLI, then resolve product intent from the handbook before changing implementation.
+---
+
+## Source of truth
+
+Use this handbook for product intent, observable contracts, decisions, and reviewed
+implementation plans. Each browser page has a processed Markdown twin at the same
+URL with `.md` appended.
+
+`AGENTS.md` is the canonical instruction file for coding agents. `CLAUDE.md` only
+bridges to it.
+
+## Install or refresh agent setup
+
+Do not hand-edit managed marker blocks or skill trees. Run the CLI:
+
+```bash
+omdocs setup --agent all --scope project --yes
+# or
+npx oh-my-docs@latest setup --agent all --scope project --yes
+```
+
+| Flag | Values | Purpose |
+|---|---|---|
+| `--agent` | `codex`, `cursor`, `claude`, `all` | Which host discovery path to install |
+| `--scope` | `project`, `user` | Repository vs home-directory skills |
+| `--dry-run` | | Print the plan without writing |
+| `--force` | | Replace divergent skill copies |
+
+### Discovery paths
+
+| Host | Project | User |
+|---|---|---|
+| Cursor | `.cursor/skills/setup` | `~/.cursor/skills/setup` |
+| Codex | `.agents/skills/setup` | `~/.agents/skills/setup` |
+| Claude Code | `.claude/skills/setup` | `~/.claude/skills/setup` |
+
+`project` scope still refreshes repository `AGENTS.md` / `CLAUDE.md` markers when
+`--scope user` installs skills under the home directories.
+
+## Explicit skill invocation
+
+The setup skill disables implicit model invocation. Call it on purpose:
+
+| Host | How to invoke |
+|---|---|
+| Cursor | `/setup` |
+| Claude Code | `/oh-my-docs:setup` |
+| Codex | Open `/skills` and choose `setup`, or `$setup` |
+
+Platform plugin packages live under `plugins/codex`, `plugins/cursor`, and
+`plugins/claude-code`. Shared skill content is authored in
+`plugins/shared/skills/setup` and synced into each adapter.
+
+## Before changing code
+
+1. Read the repository `AGENTS.md`.
+2. Follow the [planning workflow](/docs/workflow/planning).
+3. Confirm the change is covered by a ready or active
+   [implementation plan](/docs/development/plans).
+4. Use the [development contract](/docs/workflow/development) for validation and
+   completion requirements.
+
+Do not infer missing product behavior from code or create implementation and its
+authorizing plan in the same change.

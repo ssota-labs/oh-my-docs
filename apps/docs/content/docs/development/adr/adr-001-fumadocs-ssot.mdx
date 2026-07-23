@@ -1,0 +1,37 @@
+---
+title: Fumadocs as the SSOT renderer
+description: Use one MDX collection for browser pages and agent-readable Markdown.
+type: decision
+summary: Fumadocs compiles the canonical content and exposes its processed Markdown.
+id: ADR-001
+ticker: ADR-001
+stage: accepted
+related:
+  - /docs/spec/docs-foundation
+---
+
+## Context
+
+The handbook must serve people through a navigable site and agents through
+plain Markdown without maintaining two content sets.
+
+## Decision
+
+Use Fumadocs MDX as the content and schema layer inside a minimal Next.js app.
+Enable processed Markdown during compilation and expose it through rewritten
+`.md` routes. Keep required components local until shared UI has a demonstrated
+cross-application use.
+
+## Consequences
+
+- A single source produces both representations.
+- Frontmatter is validated while the site builds.
+- Generated `.source` output remains untracked.
+- The docs app owns a small amount of local presentation code.
+
+## Rejected alternatives
+
+- A separate generated Markdown repository risks drift and adds publication work.
+- Parsing raw files directly in routes bypasses Fumadocs processing semantics.
+- A Phase 1 shared UI package would create an abstraction before a second
+  consumer exists.

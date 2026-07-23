@@ -1,0 +1,60 @@
+---
+title: Development contract
+description: The machine-checkable contract between planning and implementation.
+type: reference
+summary: Implementation must be covered by a reviewed plan that already exists on the base branch.
+id: SPEC-docs-first-development
+stage: accepted
+related:
+  - /docs/workflow/planning
+  - /docs/development/plans
+---
+
+## Artifact states
+
+| Artifact | Ready for implementation |
+|---|---|
+| PRD | `status: active` |
+| Specification | `stage: accepted` |
+| Implementation plan | `stage: ready` or `active` |
+
+## Implementation changes
+
+An implementation change names its plan in the change description:
+
+`Plan: apps/docs/content/docs/development/plans/plan-<initiative>.mdx`
+
+(Scaffolded projects using a top-level `docs/` app use
+`Plan: docs/content/docs/development/plans/plan-<initiative>.mdx`.)
+
+The plan must already exist on the base branch, cover changed code paths through
+`codeAreas`, and reference all required artifacts. If implementation changes
+the intended behavior or scope, update and review planning before continuing.
+
+## Exemptions
+
+| Change | Prior plan required |
+|---|---|
+| Docs under `content/docs/` or `templates/` | No |
+| Root `README.md` / `CHANGELOG.md` | No |
+| Product, bugfix, or maintenance code | Yes |
+
+There is no general bypass marker. Local `pnpm check:docs-first` skips when
+`BASE_SHA` is unset; pull-request CI always sets it.
+
+## Completion
+
+Run the plan's verification steps, then mark it `done`. A PRD becomes `done`
+only when its promised outcomes and linked work are complete.
+
+## Automated boundary
+
+```bash
+pnpm check:planning
+pnpm check:docs-first
+```
+
+The graph checker validates IDs, titles, references, lifecycle states,
+`codeAreas` declarations, and navigation registration. The docs-first checker
+ensures implementation diffs cite a `ready|active` plan from the PR base.
+Reviewers remain responsible for product correctness and clarity.

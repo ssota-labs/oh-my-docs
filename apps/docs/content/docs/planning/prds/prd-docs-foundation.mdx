@@ -1,0 +1,49 @@
+---
+title: Docs foundation
+description: Establish one trustworthy place for product intent and delivery plans.
+type: conceptual
+summary: A browsable and agent-readable handbook anchors docs-first product work.
+id: PRD-docs-foundation
+ticker: PRD-001
+period: phase-1
+status: active
+changeType: product
+stories:
+  - US-navigate-product-context
+related:
+  - /docs/planning/stories/us-navigate-product-context
+  - /docs/spec/docs-foundation
+---
+
+## Problem
+
+Product context becomes unreliable when goals, decisions, and delivery plans are
+spread across tools. People and agents then infer intent from whichever fragment
+they find first.
+
+## Outcome
+
+A contributor can begin at one handbook, understand the product direction,
+follow a change from requirement to implementation plan, and retrieve the same
+content as Markdown.
+
+## Goals
+
+- Provide a clear information architecture for product and engineering artifacts.
+- Define stable frontmatter contracts and lifecycle states.
+- Detect broken planning references automatically.
+- Give browsers and agents equivalent access to the same source.
+
+## Non-goals
+
+- Visual graph editing
+- Shared component packages
+- Accounts, permissions, or hosted persistence
+- Integrations with external planning systems
+
+## Success measures
+
+- Every catalog artifact is reachable through navigation.
+- The initial PRD, story, specification, ADR, and plan form a valid graph.
+- Every rendered docs page has a processed Markdown twin.
+- Pull requests run build, type, test, and planning validation.

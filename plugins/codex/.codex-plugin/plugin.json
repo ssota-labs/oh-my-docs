@@ -1,0 +1,25 @@
+{
+  "name": "oh-my-docs",
+  "version": "0.1.0",
+  "description": "Docs-first product workflow for Codex: install Oh My Docs markers and the setup skill, then drive planning and implementation from the handbook SSOT.",
+  "author": {
+    "name": "ssota-labs",
+    "url": "https://github.com/ssota-labs"
+  },
+  "homepage": "https://github.com/ssota-labs/oh-my-docs",
+  "repository": "https://github.com/ssota-labs/oh-my-docs",
+  "license": "MIT",
+  "keywords": [
+    "docs",
+    "fumadocs",
+    "planning",
+    "documentation",
+    "agent-skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "oh-my-docs",
+    "shortDescription": "Docs-first handbook workflow driven from a Codex session.",
+    "category": "Development"
+  }
+}

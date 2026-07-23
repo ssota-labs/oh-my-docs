@@ -1,0 +1,58 @@
+---
+title: Planning workflow
+description: Define and review intent before implementation begins.
+type: guide
+summary: Classify the change, complete its planning graph, and review it separately from code.
+related:
+  - /docs/workflow/development
+  - /docs/planning/prds
+---
+
+## 1. Classify the change
+
+| Change | Required artifacts |
+|---|---|
+| Product behavior | PRD, story, specification, implementation plan |
+| Bug fix | Existing PRD and specification, implementation plan |
+| Maintenance | Implementation plan; specification if a contract changes |
+| Documentation only | No prior plan |
+
+Reuse an existing artifact when it already explains the change. Do not create
+new IDs for the same intent.
+
+## 2. Write in dependency order
+
+Write and review:
+
+`vision → PRD → story → specification/ADR → implementation plan → code`
+
+PRDs and stories use language that product reviewers can evaluate without
+knowing the code. Specifications define observable behavior. ADRs preserve a
+choice and rejected alternatives. Plans authorize a bounded implementation.
+
+## 3. Complete the graph
+
+Use templates in `apps/docs/templates`, or create drafts with:
+
+```bash
+omdocs new prd|story|spec|plan|adr --title "…"
+```
+
+Give every artifact a stable, kind-prefixed ID, link it through frontmatter, and
+register its filename in the sibling `meta.json` (the CLI does this for `new`).
+
+Set an approved PRD to `active`, a reviewed specification to `accepted`, and an
+approved plan to `ready`. Plans that authorize code must declare non-empty
+`codeAreas`.
+
+## 4. Review planning separately
+
+Merge or otherwise approve the planning change before implementation starts.
+Do not add a missing ready plan and its code in one change.
+
+## 5. Validate
+
+```bash
+pnpm check:planning
+pnpm check:docs-first   # CI on pull requests; skips locally without BASE_SHA
+```

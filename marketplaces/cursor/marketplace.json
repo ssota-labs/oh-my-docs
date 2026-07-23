@@ -1,0 +1,22 @@
+{
+  "name": "oh-my-docs",
+  "owner": {
+    "name": "ssota-labs",
+    "url": "https://github.com/ssota-labs"
+  },
+  "metadata": {
+    "description": "Oh My Docs — docs-first product workspaces with a Fumadocs handbook SSOT.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "oh-my-docs",
+      "source": "./plugins/cursor",
+      "description": "Docs-first product workflow for Cursor: setup skill, markers, and handbook-driven planning.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "keywords": ["docs", "fumadocs", "planning", "documentation", "agent-skills"],
+      "category": "Development"
+    }
+  ]
+}

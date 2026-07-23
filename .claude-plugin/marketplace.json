@@ -1,0 +1,15 @@
+{
+  "name": "oh-my-docs",
+  "description": "Oh My Docs — docs-first product workspaces with a Fumadocs handbook SSOT.",
+  "owner": {
+    "name": "ssota-labs",
+    "url": "https://github.com/ssota-labs"
+  },
+  "plugins": [
+    {
+      "name": "oh-my-docs",
+      "source": "./plugins/claude-code",
+      "description": "Docs-first product workflow for Claude Code: setup skill, markers, and handbook-driven planning."
+    }
+  ]
+}

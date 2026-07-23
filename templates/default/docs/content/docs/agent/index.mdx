@@ -1,0 +1,20 @@
+---
+title: Agent notes
+description: How coding agents should use this handbook.
+type: guide
+---
+
+`AGENTS.md` is canonical. Prefer `omdocs setup` to refresh marker blocks and the
+official `setup` skill instead of hand-editing managed sections.
+
+## Invoke setup
+
+| Host | Command |
+|---|---|
+| Cursor | `/setup` |
+| Claude Code | `/oh-my-docs:setup` |
+| Codex | `/skills` → `setup`, or `$setup` |
+
+```bash
+omdocs setup --agent all --scope project --yes
+```
