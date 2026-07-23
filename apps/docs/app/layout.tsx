@@ -1,5 +1,5 @@
 import './global.css';
-import { RootProvider } from 'fumadocs-ui/provider/next';
+import { RootProvider } from '@oh-my-docs/ui/provider';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 

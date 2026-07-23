@@ -13,6 +13,7 @@
     "check:planning": "node --experimental-strip-types scripts/check-planning.ts"
   },
   "dependencies": {
+    "@oh-my-docs/ui": "workspace:*",
     "fumadocs-core": "^16.11.5",
     "fumadocs-mdx": "^15.2.0",
     "fumadocs-ui": "^16.11.5",

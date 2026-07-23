@@ -1,4 +1,4 @@
 {
   "title": "Oh My Docs",
-  "pages": ["index", "vision", "workflow", "planning", "spec", "development"]
+  "pages": ["index", "starting", "workflow", "planning", "development", "spec", "agent", "vision"]
 }
