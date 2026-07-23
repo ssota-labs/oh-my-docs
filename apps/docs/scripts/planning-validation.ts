@@ -92,15 +92,19 @@ export function collectPlanningDocuments(contentDirectory: string): {
     if (!id.toUpperCase().startsWith(PREFIX[kind])) {
       problems.push(`${path}: ${kind} id must start with ${PREFIX[kind]} (found ${id})`);
     }
+    const status = string(data.status);
+    const stage = string(data.stage);
+    const changeType = string(data.changeType);
+    const prd = string(data.prd);
     documents.push({
       file: path,
       slug: basename(file, '.mdx'),
       kind,
       id,
-      ...(string(data.status) ? { status: string(data.status) } : {}),
-      ...(string(data.stage) ? { stage: string(data.stage) } : {}),
-      ...(string(data.changeType) ? { changeType: string(data.changeType) } : {}),
-      ...(string(data.prd) ? { prd: string(data.prd) } : {}),
+      ...(status ? { status } : {}),
+      ...(stage ? { stage } : {}),
+      ...(changeType ? { changeType } : {}),
+      ...(prd ? { prd } : {}),
       specs: strings(data.specs),
       stories: strings(data.stories),
       codeAreas: strings(data.codeAreas),
