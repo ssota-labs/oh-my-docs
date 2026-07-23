@@ -1,7 +1,7 @@
 {
   "name": "oh-my-docs",
-  "version": "0.1.0",
-  "description": "Docs-first product workflow for Cursor: install Oh My Docs markers and the setup skill, then drive planning and implementation from the handbook SSOT.",
+  "version": "0.2.0",
+  "description": "Docs-first product workflow: oh-my-doc skill wrappers around the canonical Oh My Docs runtime.",
   "author": {
     "name": "ssota-labs",
     "url": "https://github.com/ssota-labs"

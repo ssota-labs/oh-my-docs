@@ -50,7 +50,7 @@ terminology. Use stable IDs and update existing documents instead of duplicating
 an idea under a new ID. Register every catalog document in its sibling
 `meta.json`.
 
-Create artifacts with `omdocs new prd|story|spec|plan|adr --title "…"`.
+Create artifacts with `node skills/oh-my-doc/scripts/omd.mjs new prd|story|spec|plan|adr --title "…"`.
 
 ## Commands
 
@@ -62,7 +62,7 @@ pnpm check:planning
 pnpm check:docs-first   # requires BASE_SHA in CI; skips locally when unset
 pnpm check:release-version   # optional: pass vX.Y.Z to match a release tag
 pnpm check:pack-smoke        # build → npm pack → temp install → CLI smoke
-omdocs new <kind> --title "…" [--id ID] [--dry-run] [--yes] [--json]
+node skills/oh-my-doc/scripts/omd.mjs new <kind> --title "…" [--id ID] [--dry-run] [--yes] [--json]
 ```
 
 Do not hand-edit generated files in `apps/docs/.source`.

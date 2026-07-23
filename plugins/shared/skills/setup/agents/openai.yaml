@@ -1,5 +1,0 @@
-interface:
-  display_name: "Oh My Docs setup"
-  short_description: "Install Oh My Docs markers and agent skills via the CLI"
-policy:
-  allow_implicit_invocation: false

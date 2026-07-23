@@ -9,18 +9,17 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "test": "turbo run test && node --test --experimental-strip-types scripts/*.test.ts",
+    "test": "turbo run test && node --test skills/oh-my-doc/tests/*.test.mjs && node --test --experimental-strip-types scripts/*.test.ts",
     "typecheck": "turbo run typecheck",
-    "check:planning": "pnpm --filter @oh-my-docs/core build && pnpm --filter @oh-my-docs/docs check:planning",
-    "check:docs-first": "pnpm --filter @oh-my-docs/core build && node --experimental-strip-types scripts/check-docs-first.ts",
+    "check:planning": "node apps/docs/scripts/check-planning.mjs",
+    "check:docs-first": "node scripts/check-docs-first.mjs",
     "check:release-version": "node scripts/check-release-version.mjs",
-    "check:pack-smoke": "node scripts/check-pack-smoke.mjs",
-    "pack:smoke": "node scripts/check-pack-smoke.mjs",
+    "check:skills": "pnpm --filter @oh-my-docs/plugins sync:check",
     "sync:skills": "pnpm --filter @oh-my-docs/plugins sync",
-    "omdocs": "node packages/cli/dist/bin.js"
+    "omd": "node skills/oh-my-doc/scripts/omd.mjs",
+    "check:ui-snapshot": "node scripts/check-ui-snapshot.mjs"
   },
   "devDependencies": {
-    "@oh-my-docs/core": "workspace:*",
     "@types/node": "^26.1.1",
     "turbo": "^2.10.5",
     "typescript": "^5.9.3"

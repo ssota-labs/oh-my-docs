@@ -8,9 +8,6 @@ importers:
 
   .:
     devDependencies:
-      '@oh-my-docs/core':
-        specifier: workspace:*
-        version: link:packages/core
       '@types/node':
         specifier: ^26.1.1
         version: 26.1.1
@@ -23,9 +20,6 @@ importers:
 
   apps/docs:
     dependencies:
-      '@oh-my-docs/core':
-        specifier: workspace:*
-        version: link:../../packages/core
       '@oh-my-docs/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -72,48 +66,6 @@ importers:
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  packages/cli:
-    dependencies:
-      '@oh-my-docs/core':
-        specifier: workspace:*
-        version: link:../core
-      commander:
-        specifier: ^13.1.0
-        version: 13.1.0
-    devDependencies:
-      '@types/node':
-        specifier: ^26.1.1
-        version: 26.1.1
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  packages/core:
-    dependencies:
-      yaml:
-        specifier: ^2.9.0
-        version: 2.9.0
-    devDependencies:
-      '@types/node':
-        specifier: ^26.1.1
-        version: 26.1.1
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  packages/create-oh-my-docs:
-    dependencies:
-      oh-my-docs:
-        specifier: workspace:*
-        version: link:../cli
-    devDependencies:
-      '@types/node':
-        specifier: ^26.1.1
-        version: 26.1.1
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -1319,10 +1271,6 @@ packages:
 
   comma-separated-tokens@2.0.3:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
-
-  commander@13.1.0:
-    resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
-    engines: {node: '>=18'}
 
   compute-scroll-into-view@3.1.1:
     resolution: {integrity: sha512-VRhuHOLoKYOy4UbilLbUzbYg93XLjv2PncJC50EuTWPA3gaja1UjBsUP/D/9/juV3vQFr6XBEzn9KCAHdUvOHw==}
@@ -3190,8 +3138,6 @@ snapshots:
   collapse-white-space@2.1.0: {}
 
   comma-separated-tokens@2.0.3: {}
-
-  commander@13.1.0: {}
 
   compute-scroll-into-view@3.1.1: {}
 
