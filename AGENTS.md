@@ -74,3 +74,23 @@ Public packages and plugin manifests share one version. Tag `vX.Y.Z` only after
 `.github/workflows/release.yml` with npm Trusted Publishing (OIDC); humans must
 configure Trusted Publishers on npmjs.com before the first tag publish. Do not
 publish from a developer machine.
+
+## Cursor Cloud specific instructions
+
+- Node is provided via `nvm` (default alias points at Node 24, `lts/krypton`).
+  The VM ships an `/exec-daemon/node` (Node 22) that wins in non-login shells, so
+  a bare `node`/`pnpm` may resolve to Node 22. `~/.bashrc` prepends the nvm Node 24
+  bin, so **login shells** (e.g. tmux `bash -l`) get Node 24 automatically — prefer
+  starting long-running commands in a tmux login shell. If a command reports Node 22,
+  run `source ~/.nvm/nvm.sh && nvm use default` first.
+- `pnpm` is provided by corepack (pinned to `pnpm@11.5.2` via the `packageManager`
+  field), not by a global install. It lives in the nvm Node 24 bin.
+- No lint tooling exists (no ESLint/Biome). The "lint" gate is the check scripts:
+  `pnpm check:planning`, `pnpm check:ui-snapshot`, `pnpm check:skills`. See
+  `.github/workflows/validate.yml` for the exact CI gate order.
+- The only long-running service is the docs handbook (`apps/docs`, Next.js). Run it
+  with `pnpm --filter @oh-my-docs/docs dev` (or `pnpm dev`); it serves on
+  `http://localhost:3000` with `/docs/*` pages and their `/md/*` Markdown twins.
+- Agent-runtime smoke test (no server needed):
+  `node skills/oh-my-doc/scripts/omd.mjs inspect --json` and `... check --json`.
+  Test `adopt` against a throwaway temp dir, never the repo root — it scaffolds files.
