@@ -61,7 +61,8 @@ test('adopt greenfield writes .omd and docs skeleton', () => {
       'spec',
     ]);
     assert.equal(result.contract.ui.base, 'fumadocs');
-    assert.equal(result.contract.ui.distribution, 'shadcn-registry');
+    assert.equal(result.contract.ui.distribution, 'skill-template');
+    assert.ok(result.contract.ui.shellDependencies.includes('fumadocs-ui'));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

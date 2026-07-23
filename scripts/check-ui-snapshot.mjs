@@ -1,5 +1,5 @@
 /**
- * Ensure skill template UI snapshot matches packages/ui (registry source).
+ * Ensure skill template UI snapshot matches packages/ui (dogfood source).
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
@@ -8,7 +8,6 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const source = join(root, 'packages/ui/src');
 const snapshot = join(root, 'skills/oh-my-doc/templates/default/packages/ui/src');
-const registryPath = join(root, 'registry.json');
 
 function listFiles(directory) {
   if (!existsSync(directory)) return [];
@@ -24,17 +23,6 @@ function relativePosix(from, to) {
 }
 
 const problems = [];
-
-if (!existsSync(registryPath)) {
-  problems.push('registry.json missing at repo root');
-} else {
-  const registry = JSON.parse(readFileSync(registryPath, 'utf8'));
-  if (registry.name !== 'oh-my-docs') problems.push('registry.json name must be oh-my-docs');
-  if (!Array.isArray(registry.items) || registry.items.length === 0) {
-    problems.push('registry.json has no items');
-  }
-}
-
 const leftFiles = listFiles(source);
 const rightFiles = listFiles(snapshot);
 const leftRel = new Set(leftFiles.map((f) => relativePosix(source, f)));
@@ -54,9 +42,9 @@ for (const rel of rightRel) {
 }
 
 if (problems.length > 0) {
-  console.error('Registry/template snapshot check failed:\n');
+  console.error('UI snapshot check failed:\n');
   for (const problem of problems) console.error(`- ${problem}`);
   process.exit(1);
 }
 
-console.log('registry.json present; packages/ui matches skill template UI snapshot.');
+console.log('packages/ui matches skills/oh-my-doc/templates/default/packages/ui.');

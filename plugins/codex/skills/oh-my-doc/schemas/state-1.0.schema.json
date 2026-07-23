@@ -3,17 +3,17 @@
   "$id": "https://oh-my-docs.dev/schemas/state-1.0.schema.json",
   "title": "Oh My Docs state",
   "type": "object",
-  "required": ["contractVersion", "skillVersion", "templateVersion", "registry", "projectDigest", "inventory", "files"],
+  "required": ["contractVersion", "skillVersion", "templateVersion", "uiSnapshot", "projectDigest", "inventory", "files"],
   "properties": {
     "contractVersion": { "const": "1.0" },
     "skillVersion": { "type": "string" },
     "templateVersion": { "type": "string" },
-    "registry": {
+    "uiSnapshot": {
       "type": "object",
-      "required": ["item", "digest"],
+      "required": ["distribution", "vocabularyDigest"],
       "properties": {
-        "item": { "type": "string" },
-        "digest": { "type": "string" }
+        "distribution": { "const": "skill-template" },
+        "vocabularyDigest": { "type": "string" }
       }
     },
     "projectDigest": { "type": "string" },

@@ -23,14 +23,8 @@ node <skill>/scripts/omd.mjs check --json
 
 ## UI distribution
 
-- Docs shell base: **Fumadocs**
-- Planning vocabulary install: **shadcn registry** (code copy), not npm
-
-```bash
-npx shadcn add ssota-labs/oh-my-docs/oh-my-docs-ui
-```
-
-Offline `adopt` installs the same sources from the skill template snapshot.
+- Docs shell: **Fumadocs via npm** (`fumadocs-ui`, `fumadocs-core`, `fumadocs-mdx`)
+- Planning vocabulary: **copied from the skill template** by `adopt` (no shadcn registry)
 
 ## Optional host plugins
 
@@ -48,7 +42,7 @@ own a separate runtime.
 ```bash
 pnpm install
 pnpm sync:skills
-pnpm check:registry
+pnpm check:ui-snapshot
 pnpm check:planning
 pnpm test
 pnpm build

@@ -28,11 +28,14 @@
     "lifecycles": { "type": "object" },
     "ui": {
       "type": "object",
-      "required": ["base", "distribution", "registryItem", "vocabulary"],
+      "required": ["base", "distribution", "shellDependencies", "vocabulary"],
       "properties": {
         "base": { "const": "fumadocs" },
-        "distribution": { "const": "shadcn-registry" },
-        "registryItem": { "type": "string" },
+        "distribution": { "const": "skill-template" },
+        "shellDependencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "vocabulary": { "type": "array" }
       }
     },

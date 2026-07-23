@@ -34,7 +34,6 @@ import { readTextIfExists } from './fs-ops.mjs';
  *   packageManager?: string,
  *   dryRun?: boolean,
  *   force?: boolean,
- *   onlineRegistry?: boolean,
  * }} options
  */
 export function adoptProject(options) {
@@ -55,7 +54,7 @@ export function adoptProject(options) {
         )
       : { project, operations: [], conflicts: [] };
 
-  // Ensure UI snapshot exists from skill template (offline registry-equivalent copy).
+  // Ensure UI vocabulary snapshot exists from the skill template.
   const uiOps = planUiSnapshot(project.root, options.templateRoot, options.uiPath ?? 'packages/ui', options.force === true);
 
   const setupPlan = planSetup({
@@ -144,7 +143,7 @@ export function adoptProject(options) {
 }
 
 /**
- * Copy UI vocabulary from skill template (byte-identical offline registry path).
+ * Copy UI vocabulary from the skill template into the consumer project.
  * @param {string} root
  * @param {string} templateRoot
  * @param {string} uiPath
@@ -161,16 +160,16 @@ function planUiSnapshot(root, templateRoot, uiPath, force) {
     const content = readFileSync(absolute, 'utf8');
     const existing = readTextIfExists(join(root, targetRel));
     if (existing === null) {
-      operations.push({ path: targetRel, kind: 'create', reason: 'install UI vocabulary snapshot', content });
+      operations.push({ path: targetRel, kind: 'create', reason: 'install UI vocabulary from skill template', content });
     } else if (existing === content) {
       operations.push({ path: targetRel, kind: 'skip', reason: 'UI snapshot up to date', content });
     } else if (force) {
-      operations.push({ path: targetRel, kind: 'update', reason: 'refresh UI vocabulary snapshot', content });
+      operations.push({ path: targetRel, kind: 'update', reason: 'refresh UI vocabulary from skill template', content });
     } else {
       operations.push({
         path: targetRel,
         kind: 'skip',
-        reason: 'UI file differs from registry snapshot',
+        reason: 'UI file differs from skill template snapshot',
         content,
         conflict: true,
       });

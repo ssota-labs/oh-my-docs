@@ -29,7 +29,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm check:planning
-      - run: pnpm check:registry
+      - run: pnpm check:ui-snapshot
       - run: pnpm check:skills
 
       - name: Verify planning preceded implementation

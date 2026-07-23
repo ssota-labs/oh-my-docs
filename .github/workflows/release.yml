@@ -30,7 +30,7 @@ jobs:
       - name: Verify tag matches skill and plugin versions
         run: node scripts/check-release-version.mjs "${{ github.ref_name }}"
 
-      - run: pnpm check:registry
+      - run: pnpm check:ui-snapshot
       - run: pnpm check:skills
       - run: pnpm test
       - run: pnpm typecheck

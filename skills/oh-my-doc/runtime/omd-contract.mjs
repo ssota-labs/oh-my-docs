@@ -4,7 +4,6 @@ import { dirname, join, resolve } from 'node:path';
 
 export const CONTRACT_VERSION = '1.0';
 export const SKILL_VERSION = '0.2.0';
-export const REGISTRY_ITEM = 'oh-my-docs-ui';
 
 /** Default IA: Home → Vision → Start here → Workflow → Planning → Development → Spec */
 export const DEFAULT_IA_SECTIONS = [
@@ -30,17 +29,17 @@ export const DEFAULT_UI_VOCABULARY = [
   { name: 'File', surface: 'fumadocs-mdx', export: 'File', source: 'fumadocs-ui', contractVersion: CONTRACT_VERSION },
   { name: 'Files', surface: 'fumadocs-mdx', export: 'Files', source: 'fumadocs-ui', contractVersion: CONTRACT_VERSION },
   { name: 'Folder', surface: 'fumadocs-mdx', export: 'Folder', source: 'fumadocs-ui', contractVersion: CONTRACT_VERSION },
-  { name: 'DocKind', surface: 'planning-badge', export: 'DocKind', registryItem: 'doc-kind', contractVersion: CONTRACT_VERSION, enums: { kind: ['PRD', 'US', 'PLAN', 'SPEC', 'ADR'] } },
-  { name: 'DocStatus', surface: 'planning-badge', export: 'DocStatus', registryItem: 'doc-status', contractVersion: CONTRACT_VERSION, enums: { status: ['draft', 'accepted', 'ready', 'active', 'done', 'superseded'] } },
-  { name: 'AdrStatus', surface: 'planning-badge', export: 'AdrStatus', registryItem: 'doc-status', contractVersion: CONTRACT_VERSION, enums: { status: ['accepted', 'locked', 'superseded'] } },
-  { name: 'Decision', surface: 'decision-block', export: 'Decision', registryItem: 'decision', contractVersion: CONTRACT_VERSION },
-  { name: 'SpecVersion', surface: 'spec-block', export: 'SpecVersion', registryItem: 'spec-version', contractVersion: CONTRACT_VERSION },
-  { name: 'Canvas', surface: 'visual-block', export: 'Canvas', registryItem: 'canvas', contractVersion: CONTRACT_VERSION, enums: { nodeKind: ['input', 'process', 'output', 'external'] } },
-  { name: 'CanvasLegend', surface: 'visual-block', export: 'CanvasLegend', registryItem: 'canvas', contractVersion: CONTRACT_VERSION },
-  { name: 'DocsInlineToc', surface: 'navigation-shell', export: 'DocsInlineToc', registryItem: 'inline-toc', contractVersion: CONTRACT_VERSION },
-  { name: 'DocsSidebarFolder', surface: 'navigation-shell', export: 'DocsSidebarFolder', registryItem: 'sidebar-folder', contractVersion: CONTRACT_VERSION },
-  { name: 'indexOnlyPageTree', surface: 'catalog-helper', export: 'indexOnlyPageTree', registryItem: 'navigation', contractVersion: CONTRACT_VERSION },
-  { name: 'createCatalogNavigation', surface: 'catalog-helper', export: 'createCatalogNavigation', registryItem: 'navigation', contractVersion: CONTRACT_VERSION },
+  { name: 'DocKind', surface: 'planning-badge', export: 'DocKind', contractVersion: CONTRACT_VERSION, enums: { kind: ['PRD', 'US', 'PLAN', 'SPEC', 'ADR'] } },
+  { name: 'DocStatus', surface: 'planning-badge', export: 'DocStatus', contractVersion: CONTRACT_VERSION, enums: { status: ['draft', 'accepted', 'ready', 'active', 'done', 'superseded'] } },
+  { name: 'AdrStatus', surface: 'planning-badge', export: 'AdrStatus', contractVersion: CONTRACT_VERSION, enums: { status: ['accepted', 'locked', 'superseded'] } },
+  { name: 'Decision', surface: 'decision-block', export: 'Decision', contractVersion: CONTRACT_VERSION },
+  { name: 'SpecVersion', surface: 'spec-block', export: 'SpecVersion', contractVersion: CONTRACT_VERSION },
+  { name: 'Canvas', surface: 'visual-block', export: 'Canvas', contractVersion: CONTRACT_VERSION, enums: { nodeKind: ['input', 'process', 'output', 'external'] } },
+  { name: 'CanvasLegend', surface: 'visual-block', export: 'CanvasLegend', contractVersion: CONTRACT_VERSION },
+  { name: 'DocsInlineToc', surface: 'navigation-shell', export: 'DocsInlineToc', contractVersion: CONTRACT_VERSION },
+  { name: 'DocsSidebarFolder', surface: 'navigation-shell', export: 'DocsSidebarFolder', contractVersion: CONTRACT_VERSION },
+  { name: 'indexOnlyPageTree', surface: 'catalog-helper', export: 'indexOnlyPageTree', contractVersion: CONTRACT_VERSION },
+  { name: 'createCatalogNavigation', surface: 'catalog-helper', export: 'createCatalogNavigation', contractVersion: CONTRACT_VERSION },
 ];
 
 export const DEFAULT_LIFECYCLES = {
@@ -67,7 +66,7 @@ export function stableStringify(value) {
 
 /**
  * @param {string} root
- * @param {{ mode?: 'greenfield' | 'brownfield', docsPath?: string, uiPath?: string, registryItem?: string }} [options]
+ * @param {{ mode?: 'greenfield' | 'brownfield', docsPath?: string, uiPath?: string }} [options]
  */
 export function createDefaultProject(root, options = {}) {
   return {
@@ -86,8 +85,8 @@ export function createDefaultProject(root, options = {}) {
     lifecycles: DEFAULT_LIFECYCLES,
     ui: {
       base: 'fumadocs',
-      distribution: 'shadcn-registry',
-      registryItem: options.registryItem ?? REGISTRY_ITEM,
+      distribution: 'skill-template',
+      shellDependencies: ['fumadocs-ui', 'fumadocs-core', 'fumadocs-mdx'],
       vocabulary: DEFAULT_UI_VOCABULARY,
     },
     ownership: {
@@ -108,9 +107,9 @@ export function createDefaultState(project, options = {}) {
     contractVersion: CONTRACT_VERSION,
     skillVersion: options.skillVersion ?? SKILL_VERSION,
     templateVersion: options.templateVersion ?? SKILL_VERSION,
-    registry: {
-      item: project.ui.registryItem,
-      digest: digest(stableStringify(project.ui.vocabulary)),
+    uiSnapshot: {
+      distribution: project.ui.distribution,
+      vocabularyDigest: digest(stableStringify(project.ui.vocabulary)),
     },
     projectDigest: digest(stableStringify(project)),
     inventory: {

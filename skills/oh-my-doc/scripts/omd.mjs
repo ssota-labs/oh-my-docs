@@ -179,8 +179,11 @@ export async function main(argv = process.argv.slice(2)) {
           if (contract.ui?.base !== 'fumadocs') {
             problems.push('.omd/project.json ui.base must be fumadocs');
           }
-          if (contract.ui?.distribution !== 'shadcn-registry') {
-            problems.push('.omd/project.json ui.distribution must be shadcn-registry');
+          if (contract.ui?.distribution !== 'skill-template') {
+            problems.push('.omd/project.json ui.distribution must be skill-template');
+          }
+          if (!Array.isArray(contract.ui?.shellDependencies) || !contract.ui.shellDependencies.includes('fumadocs-ui')) {
+            problems.push('.omd/project.json ui.shellDependencies must include fumadocs-ui');
           }
           const declared = new Set((contract.ui?.vocabulary ?? []).map((item) => item.name));
           for (const item of DEFAULT_UI_VOCABULARY) {

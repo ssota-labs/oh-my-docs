@@ -36,12 +36,9 @@ node <skill>/scripts/omd.mjs sync --yes --json
 
 ## UI distribution
 
-- Docs shell base is **Fumadocs** (`fd-*` tokens). Do not rewrite vocabulary onto shadcn primitives.
-- Planning vocabulary is distributed via **shadcn registry** (code copy). Offline `adopt` uses the skill template snapshot, which must stay byte-identical to the registry sources under `packages/ui`.
-
-```bash
-npx shadcn add ssota-labs/oh-my-docs/oh-my-docs-ui
-```
+- Docs shell base is **Fumadocs**. Install `fumadocs-ui` / `fumadocs-core` / `fumadocs-mdx` via npm as normal peer dependencies.
+- Planning vocabulary (`DocKind`, `Decision`, …) lives in the skill template and is **copied into the project by `adopt`**. There is no shadcn registry.
+- Keep dogfood `packages/ui` and `skills/oh-my-doc/templates/default/packages/ui` in sync.
 
 ## Progressive disclosure
 
