@@ -11,6 +11,7 @@ import { execFileSync } from 'node:child_process';
 
 import {
   gateScriptExistsOnBase,
+  isDocumentationOnlyPath,
   validateDocsFirst,
 } from '../skills/oh-my-doc/runtime/docs-first.mjs';
 
@@ -35,20 +36,21 @@ function main() {
     .split('\n')
     .filter(Boolean);
 
-  const readBaseFile = (path) => git('show', `${baseSha}:${path}`);
+  /** Must throw when the path is absent — gateScriptExistsOnBase relies on that. */
+  const readBaseFile = (path) => {
+    try {
+      return git('show', `${baseSha}:${path}`);
+    } catch {
+      throw new Error(`${path} missing on ${baseSha}`);
+    }
+  };
 
+  const gatePresent = gateScriptExistsOnBase(readBaseFile);
   const problems = validateDocsFirst({
     prBody,
     changedPaths,
     readBaseFile,
-    gatePresentOnBase: gateScriptExistsOnBase((path) => {
-      try {
-        git('show', `${baseSha}:${path}`);
-        return true;
-      } catch {
-        return false;
-      }
-    }),
+    gatePresentOnBase: gatePresent,
   });
 
   if (problems.length > 0) {
@@ -57,7 +59,13 @@ function main() {
     process.exit(1);
   }
 
-  console.log('✓ docs-first gate passed.');
+  if (changedPaths.every(isDocumentationOnlyPath)) {
+    console.log('✓ documentation-only change; no prior implementation plan required.');
+  } else if (!gatePresent) {
+    console.log('✓ docs-first gate is being introduced; enforcement begins on the next PR.');
+  } else {
+    console.log('✓ implementation uses a ready plan from the PR base SHA.');
+  }
 }
 
 main();
