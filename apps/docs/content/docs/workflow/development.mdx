@@ -24,9 +24,23 @@ An implementation change names its plan in the change description:
 
 `Plan: apps/docs/content/docs/development/plans/plan-<initiative>.mdx`
 
+(Scaffolded projects using a top-level `docs/` app use
+`Plan: docs/content/docs/development/plans/plan-<initiative>.mdx`.)
+
 The plan must already exist on the base branch, cover changed code paths through
 `codeAreas`, and reference all required artifacts. If implementation changes
 the intended behavior or scope, update and review planning before continuing.
+
+## Exemptions
+
+| Change | Prior plan required |
+|---|---|
+| Docs under `content/docs/` or `templates/` | No |
+| Root `README.md` / `CHANGELOG.md` | No |
+| Product, bugfix, or maintenance code | Yes |
+
+There is no general bypass marker. Local `pnpm check:docs-first` skips when
+`BASE_SHA` is unset; pull-request CI always sets it.
 
 ## Completion
 
@@ -35,5 +49,12 @@ only when its promised outcomes and linked work are complete.
 
 ## Automated boundary
 
-The graph checker validates IDs, references, lifecycle states, and navigation
-registration. Reviewers remain responsible for product correctness and clarity.
+```bash
+pnpm check:planning
+pnpm check:docs-first
+```
+
+The graph checker validates IDs, titles, references, lifecycle states,
+`codeAreas` declarations, and navigation registration. The docs-first checker
+ensures implementation diffs cite a `ready|active` plan from the PR base.
+Reviewers remain responsible for product correctness and clarity.

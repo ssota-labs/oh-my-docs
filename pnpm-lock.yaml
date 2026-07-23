@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@oh-my-docs/core':
+        specifier: workspace:*
+        version: link:packages/core
       '@types/node':
         specifier: ^26.1.1
         version: 26.1.1

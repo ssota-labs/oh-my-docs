@@ -32,12 +32,18 @@ choice and rejected alternatives. Plans authorize a bounded implementation.
 
 ## 3. Complete the graph
 
-Use templates in `apps/docs/templates`. Give every artifact a stable,
-kind-prefixed ID, link it through frontmatter, and register its filename in the
-sibling `meta.json`.
+Use templates in `apps/docs/templates`, or create drafts with:
+
+```bash
+omdocs new prd|story|spec|plan|adr --title "…"
+```
+
+Give every artifact a stable, kind-prefixed ID, link it through frontmatter, and
+register its filename in the sibling `meta.json` (the CLI does this for `new`).
 
 Set an approved PRD to `active`, a reviewed specification to `accepted`, and an
-approved plan to `ready`.
+approved plan to `ready`. Plans that authorize code must declare non-empty
+`codeAreas`.
 
 ## 4. Review planning separately
 
@@ -48,4 +54,5 @@ Do not add a missing ready plan and its code in one change.
 
 ```bash
 pnpm check:planning
+pnpm check:docs-first   # CI on pull requests; skips locally without BASE_SHA
 ```

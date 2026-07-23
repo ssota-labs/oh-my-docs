@@ -9,6 +9,7 @@ export interface PlanningDocument {
   readonly slug: string;
   readonly kind: DocumentKind;
   readonly id: string;
+  readonly title?: string;
   readonly status?: string;
   readonly stage?: string;
   readonly changeType?: string;
@@ -17,6 +18,11 @@ export interface PlanningDocument {
   readonly stories: readonly string[];
   readonly codeAreas: readonly string[];
 }
+
+const PRD_STATUSES = ['draft', 'active', 'done'] as const;
+const SPEC_STAGES = ['draft', 'accepted', 'superseded'] as const;
+const PLAN_STAGES = ['draft', 'ready', 'active', 'done', 'superseded'] as const;
+const PLAN_CHANGE_TYPES = ['product', 'bugfix', 'maintenance'] as const;
 
 type Frontmatter = Record<string, unknown>;
 
@@ -41,6 +47,12 @@ function string(value: unknown): string | undefined {
 
 function strings(value: unknown): readonly string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string') ? value : [];
+}
+
+function nonEmptyStrings(value: unknown): readonly string[] | null {
+  if (!Array.isArray(value)) return null;
+  if (!value.every((item) => typeof item === 'string' && item.length > 0)) return null;
+  return value;
 }
 
 export function parseFrontmatter(source: string, file: string): Frontmatter {
@@ -92,22 +104,45 @@ export function collectPlanningDocuments(contentDirectory: string): {
     if (!id.toUpperCase().startsWith(PREFIX[kind])) {
       problems.push(`${path}: ${kind} id must start with ${PREFIX[kind]} (found ${id})`);
     }
+    const title = string(data.title);
+    if (!title) {
+      problems.push(`${path}: ${kind} document is missing title`);
+    }
+
     const status = string(data.status);
     const stage = string(data.stage);
     const changeType = string(data.changeType);
     const prd = string(data.prd);
+
+    let specs = strings(data.specs);
+    let stories = strings(data.stories);
+    let codeAreas = strings(data.codeAreas);
+    if (data.specs !== undefined && nonEmptyStrings(data.specs) === null) {
+      problems.push(`${path}: specs must be an array of non-empty strings`);
+      specs = [];
+    }
+    if (data.stories !== undefined && nonEmptyStrings(data.stories) === null) {
+      problems.push(`${path}: stories must be an array of non-empty strings`);
+      stories = [];
+    }
+    if (data.codeAreas !== undefined && nonEmptyStrings(data.codeAreas) === null) {
+      problems.push(`${path}: codeAreas must be an array of non-empty strings`);
+      codeAreas = [];
+    }
+
     documents.push({
       file: path,
       slug: basename(file, '.mdx'),
       kind,
       id,
+      ...(title ? { title } : {}),
       ...(status ? { status } : {}),
       ...(stage ? { stage } : {}),
       ...(changeType ? { changeType } : {}),
       ...(prd ? { prd } : {}),
-      specs: strings(data.specs),
-      stories: strings(data.stories),
-      codeAreas: strings(data.codeAreas),
+      specs,
+      stories,
+      codeAreas,
     });
   }
   return { documents, problems };
@@ -164,29 +199,40 @@ export function validatePlanning(contentDirectory: string): readonly string[] {
 
   for (const document of collected.documents) {
     if (document.kind === 'prd') {
-      if (!['draft', 'active', 'done'].includes(document.status ?? '')) {
+      if (!PRD_STATUSES.includes((document.status ?? '') as (typeof PRD_STATUSES)[number])) {
         problems.push(`${document.file}: PRD status must be draft, active, or done`);
       }
       for (const story of document.stories) requireReference(document, story, 'story');
       continue;
     }
+    if (document.kind === 'story') {
+      // Stories are catalog entries; lifecycle is owned by the linked PRD/plan.
+      continue;
+    }
     if (document.kind === 'spec' || document.kind === 'adr') {
-      if (!['draft', 'accepted', 'superseded'].includes(document.stage ?? '')) {
-        problems.push(`${document.file}: ${document.kind} stage must be draft, accepted, or superseded`);
+      if (!SPEC_STAGES.includes((document.stage ?? '') as (typeof SPEC_STAGES)[number])) {
+        problems.push(
+          `${document.file}: ${document.kind} stage must be draft, accepted, or superseded`,
+        );
       }
       continue;
     }
     if (document.kind !== 'plan') continue;
 
-    if (!['draft', 'ready', 'active', 'done', 'superseded'].includes(document.stage ?? '')) {
-      problems.push(`${document.file}: plan stage is invalid`);
+    if (!PLAN_STAGES.includes((document.stage ?? '') as (typeof PLAN_STAGES)[number])) {
+      problems.push(
+        `${document.file}: plan stage must be draft, ready, active, done, or superseded`,
+      );
     }
-    if (!['product', 'bugfix', 'maintenance'].includes(document.changeType ?? '')) {
+    if (
+      !PLAN_CHANGE_TYPES.includes((document.changeType ?? '') as (typeof PLAN_CHANGE_TYPES)[number])
+    ) {
       problems.push(`${document.file}: plan changeType must be product, bugfix, or maintenance`);
     }
     if (document.codeAreas.length === 0) {
       problems.push(`${document.file}: plan must declare at least one codeAreas entry`);
     }
+
     const needsProductContext = document.changeType === 'product' || document.changeType === 'bugfix';
     if (needsProductContext && !document.prd) {
       problems.push(`${document.file}: ${document.changeType} plan requires prd`);
@@ -204,13 +250,17 @@ export function validatePlanning(contentDirectory: string): readonly string[] {
       .filter((item): item is PlanningDocument => item !== undefined);
     for (const story of document.stories) requireReference(document, story, 'story');
 
+    // ready|active|done plans may only reference non-draft PRDs and accepted specs.
     if (['ready', 'active', 'done'].includes(document.stage ?? '')) {
       if (prd?.status === 'draft') {
         problems.push(`${document.file}: ${document.stage} plan references draft PRD ${prd.id}`);
       }
       for (const spec of specs) {
         if (spec.stage !== 'accepted') {
-          problems.push(`${document.file}: ${document.stage} plan requires accepted spec ${spec.id}`);
+          problems.push(
+            `${document.file}: ${document.stage} plan requires accepted spec ${spec.id} ` +
+              `(found ${spec.stage ?? 'missing'})`,
+          );
         }
       }
     }

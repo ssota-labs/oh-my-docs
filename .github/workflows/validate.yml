@@ -2,6 +2,7 @@ name: validate
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, edited]
   push:
     branches: [main]
 
@@ -13,15 +14,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: pnpm/action-setup@v4
         with:
           version: 11.5.2
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: pnpm
+
       - run: pnpm install --frozen-lockfile
+
       - run: pnpm check:planning
+
+      - name: Verify planning preceded implementation
+        if: github.event_name == 'pull_request'
+        run: pnpm check:docs-first
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BODY: ${{ github.event.pull_request.body || '' }}
+
       - run: pnpm test
       - run: pnpm typecheck
       - run: pnpm build

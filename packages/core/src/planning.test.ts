@@ -84,3 +84,70 @@ codeAreas: [apps/example]
     rmSync(root, { recursive: true });
   }
 });
+
+test('rejects invalid lifecycle states and missing plan codeAreas', () => {
+  const root = fixture();
+  try {
+    write(
+      root,
+      'planning/prds/prd-one.mdx',
+      document('title: One\nid: PRD-one\nstatus: reviewing\nstories: [US-one]'),
+    );
+    write(
+      root,
+      'development/plans/plan-one.mdx',
+      document(`
+title: One
+id: PLAN-one
+stage: shipping
+changeType: product
+prd: PRD-one
+specs: [SPEC-one]
+stories: [US-one]
+`),
+    );
+    const problems = validatePlanning(root).join('\n');
+    assert.match(problems, /PRD status must be draft, active, or done/);
+    assert.match(problems, /plan stage must be draft, ready, active, done, or superseded/);
+    assert.match(problems, /plan must declare at least one codeAreas entry/);
+  } finally {
+    rmSync(root, { recursive: true });
+  }
+});
+
+test('allows draft maintenance plans without product references', () => {
+  const root = fixture();
+  try {
+    write(
+      root,
+      'development/plans/plan-one.mdx',
+      document(`
+title: One
+id: PLAN-one
+stage: draft
+changeType: maintenance
+codeAreas: [packages/core]
+`),
+    );
+    assert.deepEqual(validatePlanning(root), []);
+  } finally {
+    rmSync(root, { recursive: true });
+  }
+});
+
+test('rejects ready plans that reference draft prerequisites', () => {
+  const root = fixture();
+  try {
+    write(
+      root,
+      'planning/prds/prd-one.mdx',
+      document('title: One\nid: PRD-one\nstatus: draft\nstories: [US-one]'),
+    );
+    write(root, 'spec/spec-one.mdx', document('title: One\nid: SPEC-one\nstage: draft'));
+    const problems = validatePlanning(root).join('\n');
+    assert.match(problems, /references draft PRD PRD-one/);
+    assert.match(problems, /requires accepted spec SPEC-one/);
+  } finally {
+    rmSync(root, { recursive: true });
+  }
+});

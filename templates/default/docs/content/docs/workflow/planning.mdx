@@ -1,12 +1,11 @@
 ---
 title: Planning workflow
-description: How product intent becomes an implementation plan.
+description: Define and review intent before implementation begins.
 type: guide
 ---
 
-Dependency direction:
+Classify the change, complete the planning graph, and review it separately from
+code. Create drafts with `omdocs new prd|story|spec|plan|adr --title "…"`.
 
-`vision → PRD → story → specification/ADR → implementation plan → code`
-
-Use templates in `docs/templates`. Give every catalog artifact a stable
-kind-prefixed ID and register it in the sibling `meta.json`.
+Validate with `omdocs check` (or `pnpm check:planning`) before opening an
+implementation PR.

@@ -28,9 +28,18 @@ product code.
    first. Do not combine a new plan and its implementation.
 6. An implementation PR must include
    `Plan: apps/docs/content/docs/development/plans/plan-….mdx`; that plan must
-   already exist on the PR base with `stage: ready|active`.
+   already exist on the PR base with `stage: ready|active` and `codeAreas`
+   covering every non-docs path in the diff.
 7. If scope changes during implementation, update and review the plan first.
 8. Mark the plan `done` only after implementation and verification complete.
+
+### Exemptions
+
+- **Docs-only** changes under `apps/docs/content/docs/`, `apps/docs/templates/`,
+  plus root `README.md` / `CHANGELOG.md`, do not require a prior plan.
+- There is **no** general bypass for product, bugfix, or maintenance code.
+- Local runs without `BASE_SHA` skip the docs-first script (CI always sets it
+  on pull requests).
 
 The dependency direction is:
 
@@ -41,7 +50,7 @@ terminology. Use stable IDs and update existing documents instead of duplicating
 an idea under a new ID. Register every catalog document in its sibling
 `meta.json`.
 
-Docs-only edits are exempt from a prior plan. There is no general bypass.
+Create artifacts with `omdocs new prd|story|spec|plan|adr --title "…"`.
 
 ## Commands
 
@@ -50,6 +59,8 @@ pnpm build
 pnpm test
 pnpm typecheck
 pnpm check:planning
+pnpm check:docs-first   # requires BASE_SHA in CI; skips locally when unset
+omdocs new <kind> --title "…" [--id ID] [--dry-run] [--yes] [--json]
 ```
 
 Do not hand-edit generated files in `apps/docs/.source`.

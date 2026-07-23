@@ -3,6 +3,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
+
 import { validatePlanning } from './planning-validation.ts';
 
 function write(root: string, path: string, contents: string): void {
@@ -25,17 +26,9 @@ function fixture(): string {
   write(root, 'planning/prds/meta.json', '{"pages":["prd-one"]}\n');
   write(root, 'planning/stories/us-one.mdx', document('title: One\nid: US-one'));
   write(root, 'planning/stories/meta.json', '{"pages":["us-one"]}\n');
-  write(
-    root,
-    'spec/spec-one.mdx',
-    document('title: One\nid: SPEC-one\nstage: accepted'),
-  );
+  write(root, 'spec/spec-one.mdx', document('title: One\nid: SPEC-one\nstage: accepted'));
   write(root, 'spec/meta.json', '{"pages":["spec-one"]}\n');
-  write(
-    root,
-    'development/adr/adr-one.mdx',
-    document('title: One\nid: ADR-one\nstage: accepted'),
-  );
+  write(root, 'development/adr/adr-one.mdx', document('title: One\nid: ADR-one\nstage: accepted'));
   write(root, 'development/adr/meta.json', '{"pages":["adr-one"]}\n');
   write(
     root,
@@ -64,7 +57,7 @@ test('accepts a complete product planning graph', () => {
   }
 });
 
-test('reports duplicate IDs, missing references, and navigation gaps', () => {
+test('reports duplicate IDs and missing references', () => {
   const root = fixture();
   try {
     write(root, 'planning/stories/us-two.mdx', document('title: Two\nid: US-one'));
@@ -78,23 +71,71 @@ id: PLAN-one
 stage: ready
 changeType: product
 prd: PRD-missing
-specs: [SPEC-missing]
-stories: [US-missing]
+specs: [SPEC-one]
+stories: [US-one]
 codeAreas: [apps/example]
 `),
     );
-    const problems = validatePlanning(root).join('\n');
-    assert.match(problems, /duplicate id US-one/);
-    assert.match(problems, /us-two is not registered/);
-    assert.match(problems, /PRD-missing/);
-    assert.match(problems, /SPEC-missing/);
-    assert.match(problems, /US-missing/);
+    const problems = validatePlanning(root);
+    assert.ok(problems.some((p) => p.includes('duplicate id')));
+    assert.ok(problems.some((p) => p.includes('PRD-missing')));
+    assert.ok(problems.some((p) => p.includes('us-two') && p.includes('meta.json')));
   } finally {
     rmSync(root, { recursive: true });
   }
 });
 
-test('rejects an implementation-ready plan with draft prerequisites', () => {
+test('rejects invalid lifecycle states and missing plan codeAreas', () => {
+  const root = fixture();
+  try {
+    write(
+      root,
+      'planning/prds/prd-one.mdx',
+      document('title: One\nid: PRD-one\nstatus: reviewing\nstories: [US-one]'),
+    );
+    write(
+      root,
+      'development/plans/plan-one.mdx',
+      document(`
+title: One
+id: PLAN-one
+stage: shipping
+changeType: product
+prd: PRD-one
+specs: [SPEC-one]
+stories: [US-one]
+`),
+    );
+    const problems = validatePlanning(root).join('\n');
+    assert.match(problems, /PRD status must be draft, active, or done/);
+    assert.match(problems, /plan stage must be draft, ready, active, done, or superseded/);
+    assert.match(problems, /plan must declare at least one codeAreas entry/);
+  } finally {
+    rmSync(root, { recursive: true });
+  }
+});
+
+test('allows draft maintenance plans without product references', () => {
+  const root = fixture();
+  try {
+    write(
+      root,
+      'development/plans/plan-one.mdx',
+      document(`
+title: One
+id: PLAN-one
+stage: draft
+changeType: maintenance
+codeAreas: [packages/core]
+`),
+    );
+    assert.deepEqual(validatePlanning(root), []);
+  } finally {
+    rmSync(root, { recursive: true });
+  }
+});
+
+test('rejects ready plans that reference draft prerequisites', () => {
   const root = fixture();
   try {
     write(

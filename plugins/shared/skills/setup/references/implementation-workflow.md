@@ -7,8 +7,9 @@
    the plan.
 4. If scope or observable behavior changes, return to planning before more code.
 5. Run the plan's verification steps, then mark the plan `done`.
-6. Prefer CLI and project scripts (`omdocs check`, `pnpm test`, `pnpm typecheck`)
-   over ad hoc checks.
+6. Prefer CLI and project scripts (`omdocs check`, `pnpm check:docs-first`,
+   `pnpm test`, `pnpm typecheck`) over ad hoc checks.
 
-Docs-only edits do not require a prior plan. There is no general bypass for
+Docs-only edits under the docs content/templates trees (plus root `README.md` /
+`CHANGELOG.md`) do not require a prior plan. There is no general bypass for
 product, bugfix, or maintenance work.

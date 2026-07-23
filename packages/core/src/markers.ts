@@ -61,13 +61,15 @@ This repository uses a docs-first workflow. Canonical product intent lives under
 3. Bug fixes require an existing PRD/specification and a ready plan.
 4. Maintenance requires a ready plan; add a specification if an observable contract changes.
 5. If required documents are missing, create and review a docs-only change first.
-6. An implementation PR must reference a plan that already exists on the PR base with \`stage: ready|active\`.
+6. An implementation PR must reference a plan that already exists on the PR base with \`stage: ready|active\` and covering \`codeAreas\`.
+7. Docs-only edits under the docs content/templates trees (plus root \`README.md\` / \`CHANGELOG.md\`) are exempt. There is no general bypass.
 
 Dependency direction:
 
 \`product vision → PRD → story → specification/ADR → implementation plan → code\`
 
-Run \`omdocs check\` before opening an implementation PR.`;
+Create drafts with \`omdocs new <kind> --title "…"\`. Run \`omdocs check\` before
+opening an implementation PR.`;
 
 export const DEFAULT_CLAUDE_MARKER_BODY = `@AGENTS.md
 

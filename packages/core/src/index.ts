@@ -40,3 +40,17 @@ export {
   type DocumentKind,
   type PlanningDocument,
 } from './planning.ts';
+export {
+  extractPlanPath,
+  gateScriptExistsOnBase,
+  isDocumentationOnlyPath,
+  validateDocsFirst,
+  type DocsFirstInput,
+} from './docs-first.ts';
+export {
+  planCreateDocument,
+  slugifyTitle,
+  type CreateDocumentOptions,
+  type CreateDocumentResult,
+  type NewDocumentKind,
+} from './create-document.ts';

@@ -4,10 +4,12 @@ import { resolve } from 'node:path';
 import {
   applyFileOperations,
   doctorProject,
+  planCreateDocument,
   planInit,
   planSetup,
   validatePlanning,
   type AgentKind,
+  type NewDocumentKind,
   type PackageManager,
   type SetupScope,
 } from '@oh-my-docs/core';
@@ -16,6 +18,8 @@ import { Command } from 'commander';
 import { confirmOrExit, printApply, printDoctor, printPlan, type GlobalFlags } from './output.ts';
 import { resolveSkillRoot } from './skills.ts';
 import { resolveTemplateRoot } from './templates.ts';
+
+const NEW_KINDS = ['prd', 'story', 'spec', 'plan', 'adr'] as const;
 
 const VERSION = (createRequire(import.meta.url)('../package.json') as { version: string }).version;
 
@@ -144,6 +148,69 @@ export async function runCli(argv: readonly string[] = process.argv): Promise<vo
       console.log('Planning IDs, references, lifecycle states, and navigation are valid.');
     }
     if (problems.length > 0) process.exitCode = 1;
+  });
+
+  addGlobalOptions(
+    program
+      .command('new')
+      .description('Create a planning document and register it in meta.json')
+      .argument('<kind>', 'prd | story | spec | plan | adr')
+      .requiredOption('--title <title>', 'document title')
+      .option('--id <id>', 'stable document id (kind prefix required)')
+      .option('--docs-path <path>', 'docs app path (auto-detected when omitted)'),
+  ).action(async (kindArg: string, opts: Record<string, unknown>) => {
+    const globals = globalFlags(opts);
+    if (!(NEW_KINDS as readonly string[]).includes(kindArg)) {
+      console.error(`Unknown kind "${kindArg}". Expected: ${NEW_KINDS.join(', ')}`);
+      process.exitCode = 1;
+      return;
+    }
+    const kind = kindArg as NewDocumentKind;
+    const title = typeof opts.title === 'string' ? opts.title : '';
+    try {
+      const planned = planCreateDocument({
+        cwd: process.cwd(),
+        kind,
+        title,
+        ...(typeof opts.id === 'string' ? { id: opts.id } : {}),
+        ...(typeof opts.docsPath === 'string' ? { docsPath: opts.docsPath } : {}),
+      });
+      if (!globals.json) {
+        console.log(`Create ${planned.kind} ${planned.id} → ${planned.relativePath}`);
+        for (const operation of planned.operations) {
+          console.log(`  [${operation.kind.toUpperCase()}] ${operation.path} — ${operation.reason}`);
+        }
+      }
+      if (planned.validationProblems.length > 0) {
+        const message = `Created document would fail planning validation:\n${planned.validationProblems
+          .map((problem) => `- ${problem}`)
+          .join('\n')}`;
+        if (globals.json) {
+          console.log(
+            JSON.stringify({ ok: false, planned, problems: planned.validationProblems }, null, 2),
+          );
+        } else {
+          console.error(message);
+        }
+        process.exitCode = 1;
+        return;
+      }
+      confirmOrExit(globals, 'About to create the document.');
+      const result = applyFileOperations(process.cwd(), planned.operations, {
+        dryRun: globals.dryRun,
+        force: globals.force,
+      });
+      if (globals.json) {
+        console.log(JSON.stringify({ ok: true, planned, result }, null, 2));
+      } else {
+        printApply(result, false);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (globals.json) console.log(JSON.stringify({ ok: false, error: message }, null, 2));
+      else console.error(message);
+      process.exitCode = 1;
+    }
   });
 
   addGlobalOptions(

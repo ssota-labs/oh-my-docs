@@ -14,8 +14,10 @@ Planning documents carry machine-readable frontmatter. Common fields:
 | `codeAreas` | Paths a plan authorizes |
 | `related` | Handbook cross-links |
 
-Exact validation grows with `omdocs check`. Treat IDs as immutable once
-published; update the existing document instead of duplicating intent.
+`omdocs check` / `pnpm check:planning` enforce titles, kind-prefixed IDs,
+`meta.json` registration, PRD→story→spec→plan references, lifecycle states, and
+non-empty plan `codeAreas`. Treat IDs as immutable once published; update the
+existing document instead of duplicating intent.
 
 ## Marker blocks
 

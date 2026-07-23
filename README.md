@@ -18,6 +18,8 @@ pnpm build
 pnpm test
 pnpm typecheck
 pnpm check:planning
+pnpm check:docs-first   # skips locally when BASE_SHA is unset
+omdocs new prd --title "…" --yes
 ```
 
 ## Packages
