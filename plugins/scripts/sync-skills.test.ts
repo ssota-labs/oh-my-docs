@@ -7,20 +7,21 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const pluginsRoot = join(here, '..');
-const sharedSkill = join(pluginsRoot, 'shared/skills/setup');
+const repoRoot = join(pluginsRoot, '..');
+const canonicalSkill = join(repoRoot, 'skills/oh-my-doc');
 const syncScript = join(here, 'sync-skills.ts');
 
 const adapterSkills = [
-  join(pluginsRoot, 'codex/skills/setup'),
-  join(pluginsRoot, 'cursor/skills/setup'),
-  join(pluginsRoot, 'claude-code/skills/setup'),
+  join(pluginsRoot, 'codex/skills/oh-my-doc'),
+  join(pluginsRoot, 'cursor/skills/oh-my-doc'),
+  join(pluginsRoot, 'claude-code/skills/oh-my-doc'),
 ] as const;
 
-test('shared setup skill has progressive disclosure layout', () => {
+test('canonical oh-my-doc skill has progressive disclosure layout', () => {
   for (const rel of [
     'SKILL.md',
     'agents/openai.yaml',
-    'scripts/run-setup.mjs',
+    'scripts/omd.mjs',
     'references/methodology.md',
     'references/information-architecture.md',
     'references/planning-workflow.md',
@@ -29,20 +30,20 @@ test('shared setup skill has progressive disclosure layout', () => {
     'references/agent-compatibility.md',
     'assets/AGENTS.md',
     'assets/CLAUDE.md',
+    'VERSION',
   ]) {
-    assert.ok(existsSync(join(sharedSkill, rel)), `missing ${rel}`);
+    assert.ok(existsSync(join(canonicalSkill, rel)), `missing ${rel}`);
   }
 
-  const skill = readFileSync(join(sharedSkill, 'SKILL.md'), 'utf8');
-  assert.match(skill, /disable-model-invocation:\s*true/);
-  assert.match(skill, /name:\s*setup/);
-  assert.match(skill, /omdocs setup|oh-my-docs/);
+  const skill = readFileSync(join(canonicalSkill, 'SKILL.md'), 'utf8');
+  assert.match(skill, /name:\s*oh-my-doc/);
+  assert.match(skill, /omd\.mjs|Oh My Docs/);
 
-  const openai = readFileSync(join(sharedSkill, 'agents/openai.yaml'), 'utf8');
-  assert.match(openai, /allow_implicit_invocation:\s*false/);
+  const openai = readFileSync(join(canonicalSkill, 'agents/openai.yaml'), 'utf8');
+  assert.match(openai, /allow_implicit_invocation:\s*true/);
 });
 
-test('sync-skills --check passes for generated adapters', () => {
+test('sync-skills --check passes for plugin wrappers', () => {
   const sync = spawnSync(
     process.execPath,
     ['--experimental-strip-types', syncScript],
@@ -61,7 +62,7 @@ test('sync-skills --check passes for generated adapters', () => {
     assert.ok(existsSync(join(dest, 'SKILL.md')), `missing synced skill at ${dest}`);
     assert.equal(
       readFileSync(join(dest, 'SKILL.md'), 'utf8'),
-      readFileSync(join(sharedSkill, 'SKILL.md'), 'utf8'),
+      readFileSync(join(canonicalSkill, 'SKILL.md'), 'utf8'),
     );
   }
 });

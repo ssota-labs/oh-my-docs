@@ -8,12 +8,11 @@
     "build": "next build && pnpm run check:planning",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
-    "test": "node --test --experimental-strip-types scripts/*.test.ts",
+    "test": "node --test scripts/*.test.mjs",
     "typecheck": "tsc --noEmit",
-    "check:planning": "node --experimental-strip-types scripts/check-planning.ts"
+    "check:planning": "node scripts/check-planning.mjs"
   },
   "dependencies": {
-    "@oh-my-docs/core": "workspace:*",
     "@oh-my-docs/ui": "workspace:*",
     "fumadocs-core": "^16.11.5",
     "fumadocs-mdx": "^15.2.0",

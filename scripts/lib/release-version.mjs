@@ -1,20 +1,10 @@
 /**
- * Shared release-version checks for public npm packages and agent plugin manifests.
- *
- * All public packages and plugin manifests share one version on purpose so a
- * tagged release cannot ship a CLI that expects a different core, or a plugin
- * that `claude plugin update` treats as already current.
+ * Shared release-version checks for skill + agent plugin manifests.
+ * Public npm packages are no longer part of the release surface.
  */
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-
-export const PUBLIC_PACKAGE_NAMES = Object.freeze([
-  'oh-my-docs',
-  'create-oh-my-docs',
-  '@oh-my-docs/core',
-  '@oh-my-docs/ui',
-]);
 
 export const PLUGIN_MANIFEST_RELATIVE_PATHS = Object.freeze([
   'plugins/claude-code/.claude-plugin/plugin.json',
@@ -44,10 +34,25 @@ export function versionFromTag(tag) {
 
 /**
  * @param {string} root
+ * @returns {string}
+ */
+export function readSkillVersion(root) {
+  const versionFile = join(root, 'skills/oh-my-doc/VERSION');
+  if (existsSync(versionFile)) return readFileSync(versionFile, 'utf8').trim();
+  const contract = join(root, 'skills/oh-my-doc/runtime/omd-contract.mjs');
+  if (!existsSync(contract)) throw new Error('skills/oh-my-doc VERSION/contract missing');
+  const match = /export const SKILL_VERSION = '([^']+)'/.exec(readFileSync(contract, 'utf8'));
+  if (!match) throw new Error('SKILL_VERSION not found');
+  return match[1];
+}
+
+/**
+ * @param {string} root
  * @returns {{ name: string, version: string, path: string }[]}
  */
 export function collectPublicPackages(root) {
   const pkgsDir = join(root, 'packages');
+  if (!existsSync(pkgsDir)) return [];
   /** @type {{ name: string, version: string, path: string }[]} */
   const found = [];
   for (const name of readdirSync(pkgsDir)) {
@@ -97,51 +102,24 @@ export function collectMarketplaceVersions(root) {
 
 /**
  * @param {string} root
- * @param {string} [wantVersion] when omitted, uses the first public package version
- * @returns {{ ok: true, version: string, checked: string[] } | { ok: false, version: string, problems: string[], checked: string[] }}
+ * @param {string} [wantVersion]
  */
 export function checkReleaseVersions(root, wantVersion) {
+  const skillVersion = readSkillVersion(root);
   const packages = collectPublicPackages(root);
   const manifests = collectPluginManifests(root);
   const marketplaces = collectMarketplaceVersions(root);
-  const checked = [
-    ...packages.map((p) => p.name),
-    ...manifests.map((m) => m.name),
-    ...marketplaces.map((m) => m.name),
-  ];
-
-  if (packages.length === 0) {
-    return {
-      ok: false,
-      version: wantVersion ?? '',
-      problems: ['no public packages found under packages/'],
-      checked,
-    };
-  }
-
-  const expectedNames = new Set(PUBLIC_PACKAGE_NAMES);
-  const foundNames = new Set(packages.map((p) => p.name));
+  const checked = ['skills/oh-my-doc', ...manifests.map((m) => m.name), ...marketplaces.map((m) => m.name)];
   /** @type {string[]} */
   const problems = [];
 
-  for (const name of expectedNames) {
-    if (!foundNames.has(name)) problems.push(`missing public package ${name}`);
+  const version = wantVersion ?? skillVersion;
+  if (!SEMVER.test(version)) problems.push(`version ${version} is not a semver version`);
+  if (skillVersion !== version) {
+    problems.push(`skills/oh-my-doc: ${skillVersion}, expected ${version}`);
   }
-  for (const name of foundNames) {
-    if (!expectedNames.has(name)) {
-      problems.push(`unexpected public package ${name} (update PUBLIC_PACKAGE_NAMES if intentional)`);
-    }
-  }
-
-  const version = wantVersion ?? packages[0].version;
-  if (!SEMVER.test(version)) {
-    problems.push(`version ${version} is not a semver version`);
-  }
-
   for (const pkg of packages) {
-    if (pkg.version !== version) {
-      problems.push(`${pkg.name}: package.json says ${pkg.version}, expected ${version}`);
-    }
+    problems.push(`public npm package still present: ${pkg.name}`);
   }
   for (const manifest of manifests) {
     if (manifest.version !== version) {
@@ -154,51 +132,39 @@ export function checkReleaseVersions(root, wantVersion) {
     }
   }
 
-  if (problems.length > 0) {
-    return { ok: false, version, problems, checked };
-  }
+  if (problems.length > 0) return { ok: false, version, problems, checked };
   return { ok: true, version, checked };
 }
 
 /**
- * Fixture helper for unit tests — builds a tiny repo tree with public packages
- * and plugin manifests at the given version (or per-path overrides).
- *
  * @param {{
  *   version?: string,
- *   packageVersions?: Record<string, string>,
  *   manifestVersions?: Record<string, string>,
- *   omitPackages?: string[],
+ *   includePublicPackage?: boolean,
  * }} [options]
- * @returns {string} temp root path
  */
 export function createVersionFixture(options = {}) {
   const version = options.version ?? '0.1.0';
   const root = mkdtempSync(join(tmpdir(), 'omdocs-release-version-'));
-  mkdirSync(join(root, 'packages'), { recursive: true });
+  mkdirSync(join(root, 'skills/oh-my-doc/runtime'), { recursive: true });
+  writeFileSync(join(root, 'skills/oh-my-doc/VERSION'), `${version}\n`);
+  writeFileSync(
+    join(root, 'skills/oh-my-doc/runtime/omd-contract.mjs'),
+    `export const SKILL_VERSION = '${version}';\n`,
+  );
 
-  const packageDirs = {
-    'oh-my-docs': 'cli',
-    'create-oh-my-docs': 'create-oh-my-docs',
-    '@oh-my-docs/core': 'core',
-    '@oh-my-docs/ui': 'ui',
-  };
-
-  for (const [name, dir] of Object.entries(packageDirs)) {
-    if (options.omitPackages?.includes(name)) continue;
-    const pkgVersion = options.packageVersions?.[name] ?? version;
-    mkdirSync(join(root, 'packages', dir), { recursive: true });
+  if (options.includePublicPackage) {
+    mkdirSync(join(root, 'packages/cli'), { recursive: true });
     writeFileSync(
-      join(root, 'packages', dir, 'package.json'),
-      JSON.stringify({ name, version: pkgVersion }, null, 2),
+      join(root, 'packages/cli', 'package.json'),
+      JSON.stringify({ name: 'oh-my-docs', version }, null, 2),
     );
   }
 
-  // Private package should be ignored by the collector.
-  mkdirSync(join(root, 'packages', 'internal-config'), { recursive: true });
+  mkdirSync(join(root, 'packages/ui'), { recursive: true });
   writeFileSync(
-    join(root, 'packages', 'internal-config', 'package.json'),
-    JSON.stringify({ name: '@oh-my-docs/internal', version: '9.9.9', private: true }, null, 2),
+    join(root, 'packages/ui', 'package.json'),
+    JSON.stringify({ name: '@oh-my-docs/ui', version, private: true }, null, 2),
   );
 
   for (const rel of PLUGIN_MANIFEST_RELATIVE_PATHS) {

@@ -28,10 +28,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # Scripts and the docs app import @oh-my-docs/core from dist/.
-      - run: pnpm --filter @oh-my-docs/core build
-
       - run: pnpm check:planning
+      - run: pnpm check:registry
+      - run: pnpm check:skills
 
       - name: Verify planning preceded implementation
         if: github.event_name == 'pull_request'
@@ -41,12 +40,9 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           PR_BODY: ${{ github.event.pull_request.body || '' }}
 
-      - name: Verify public package and plugin versions match
+      - name: Verify skill and plugin versions match
         run: pnpm check:release-version
 
       - run: pnpm test
       - run: pnpm typecheck
       - run: pnpm build
-
-      - name: Pack smoke (tarball install)
-        run: pnpm check:pack-smoke

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "oh-my-docs",
+  "homepage": "https://github.com/ssota-labs/oh-my-docs",
+  "items": [
+    {
+      "name": "oh-my-docs-ui",
+      "type": "registry:block",
+      "title": "Oh My Docs UI vocabulary",
+      "description": "Fumadocs-based planning vocabulary (DocKind, Decision, Canvas, catalog helpers). Not shadcn primitives — install copies source into the consumer project.",
+      "dependencies": [
+        "zod",
+        "@xyflow/react",
+        "lucide-react",
+        "fumadocs-ui",
+        "fumadocs-core"
+      ],
+      "registryDependencies": [
+        "doc-kind",
+        "doc-status",
+        "decision",
+        "spec-version",
+        "canvas",
+        "inline-toc",
+        "sidebar-folder",
+        "navigation",
+        "mdx-components"
+      ],
+      "files": []
+    },
+    {
+      "name": "doc-kind",
+      "type": "registry:component",
+      "title": "DocKind",
+      "description": "PRD/US/PLAN/SPEC/ADR badge using Fumadocs/fd-* tokens.",
+      "files": [
+        { "path": "packages/ui/src/components/doc-kind.tsx", "type": "registry:component" },
+        { "path": "packages/ui/src/doc-kinds.ts", "type": "registry:lib" },
+        { "path": "packages/ui/src/lib/classes.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "doc-status",
+      "type": "registry:component",
+      "title": "DocStatus / AdrStatus",
+      "description": "Document and ADR status badges (Fumadocs tokens).",
+      "files": [
+        { "path": "packages/ui/src/components/doc-status.tsx", "type": "registry:component" },
+        { "path": "packages/ui/src/lib/classes.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "decision",
+      "type": "registry:component",
+      "title": "Decision",
+      "description": "ADR decision block with rejected alternatives.",
+      "dependencies": ["zod"],
+      "files": [
+        { "path": "packages/ui/src/components/decision.tsx", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "spec-version",
+      "type": "registry:component",
+      "title": "SpecVersion",
+      "description": "Specification version metadata block.",
+      "dependencies": ["zod"],
+      "files": [
+        { "path": "packages/ui/src/components/spec-version.tsx", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "canvas",
+      "type": "registry:component",
+      "title": "Canvas",
+      "description": "React Flow canvas for planning diagrams.",
+      "dependencies": ["@xyflow/react"],
+      "files": [
+        { "path": "packages/ui/src/components/canvas.tsx", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "inline-toc",
+      "type": "registry:component",
+      "title": "InlineToc",
+      "description": "On-this-page TOC for Fumadocs pages.",
+      "dependencies": ["lucide-react", "fumadocs-core"],
+      "files": [
+        { "path": "packages/ui/src/components/inline-toc.tsx", "type": "registry:component" }
+      ]
+    },
+    {
+      "name": "sidebar-folder",
+      "type": "registry:component",
+      "title": "DocsSidebarFolder",
+      "description": "Persistent Fumadocs sidebar folder accordion.",
+      "dependencies": ["lucide-react", "fumadocs-core", "fumadocs-ui"],
+      "files": [
+        { "path": "packages/ui/src/components/sidebar-folder.tsx", "type": "registry:component" },
+        { "path": "packages/ui/src/lib/classes.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "navigation",
+      "type": "registry:lib",
+      "title": "Catalog navigation helpers",
+      "description": "indexOnlyPageTree and createCatalogNavigation.",
+      "dependencies": ["fumadocs-core"],
+      "files": [
+        { "path": "packages/ui/src/navigation.ts", "type": "registry:lib" }
+      ]
+    },
+    {
+      "name": "mdx-components",
+      "type": "registry:component",
+      "title": "getMDXComponents",
+      "description": "Assembles Fumadocs MDX defaults with Oh My Docs vocabulary.",
+      "dependencies": ["fumadocs-ui"],
+      "registryDependencies": ["doc-kind", "doc-status", "decision", "spec-version", "canvas"],
+      "files": [
+        { "path": "packages/ui/src/mdx.tsx", "type": "registry:component" },
+        { "path": "packages/ui/src/fumadocs.ts", "type": "registry:lib" },
+        { "path": "packages/ui/src/provider.ts", "type": "registry:lib" },
+        { "path": "packages/ui/src/index.ts", "type": "registry:lib" }
+      ]
+    }
+  ]
+}

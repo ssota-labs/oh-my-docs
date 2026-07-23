@@ -1,5 +1,5 @@
 /**
- * Sync plugins/shared/skills/setup → platform adapters and the CLI skill bundle.
+ * Sync skills/oh-my-doc → optional host plugin wrappers.
  *
  * Usage:
  *   node --experimental-strip-types plugins/scripts/sync-skills.ts
@@ -12,20 +12,22 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const pluginsRoot = join(here, '..');
 const repoRoot = join(pluginsRoot, '..');
-const sharedSkill = join(pluginsRoot, 'shared/skills/setup');
+const canonicalSkill = join(repoRoot, 'skills/oh-my-doc');
 
 const destinations = [
-  join(pluginsRoot, 'codex/skills/setup'),
-  join(pluginsRoot, 'cursor/skills/setup'),
-  join(pluginsRoot, 'claude-code/skills/setup'),
-  join(repoRoot, 'packages/cli/skills/setup'),
+  join(pluginsRoot, 'codex/skills/oh-my-doc'),
+  join(pluginsRoot, 'cursor/skills/oh-my-doc'),
+  join(pluginsRoot, 'claude-code/skills/oh-my-doc'),
 ] as const;
 
 function listFiles(directory: string): string[] {
   if (!existsSync(directory)) return [];
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) return listFiles(path);
+    if (entry.isDirectory()) {
+      if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'dist') return [];
+      return listFiles(path);
+    }
     return [path];
   });
 }
@@ -37,7 +39,7 @@ function relativePosix(from: string, to: string): string {
 function syncCopy(dest: string): void {
   rmSync(dest, { recursive: true, force: true });
   mkdirSync(dirname(dest), { recursive: true });
-  cpSync(sharedSkill, dest, { recursive: true });
+  cpSync(canonicalSkill, dest, { recursive: true });
 }
 
 function checkInSync(dest: string): string[] {
@@ -47,9 +49,9 @@ function checkInSync(dest: string): string[] {
     return problems;
   }
 
-  const sharedFiles = listFiles(sharedSkill);
+  const sharedFiles = listFiles(canonicalSkill);
   const destFiles = listFiles(dest);
-  const sharedRel = new Set(sharedFiles.map((file) => relativePosix(sharedSkill, file)));
+  const sharedRel = new Set(sharedFiles.map((file) => relativePosix(canonicalSkill, file)));
   const destRel = new Set(destFiles.map((file) => relativePosix(dest, file)));
 
   for (const rel of sharedRel) {
@@ -57,7 +59,7 @@ function checkInSync(dest: string): string[] {
       problems.push(`missing in ${relativePosix(repoRoot, dest)}: ${rel}`);
       continue;
     }
-    const left = readFileSync(join(sharedSkill, rel));
+    const left = readFileSync(join(canonicalSkill, rel));
     const right = readFileSync(join(dest, rel));
     if (!left.equals(right)) {
       problems.push(`drift in ${relativePosix(repoRoot, dest)}: ${rel}`);
@@ -74,12 +76,12 @@ function checkInSync(dest: string): string[] {
 function main(): void {
   const checkOnly = process.argv.includes('--check');
 
-  if (!existsSync(join(sharedSkill, 'SKILL.md'))) {
-    console.error(`Shared skill missing at ${sharedSkill}`);
+  if (!existsSync(join(canonicalSkill, 'SKILL.md'))) {
+    console.error(`Canonical skill missing at ${canonicalSkill}`);
     process.exit(1);
   }
-  if (!statSync(sharedSkill).isDirectory()) {
-    console.error(`Shared skill path is not a directory: ${sharedSkill}`);
+  if (!statSync(canonicalSkill).isDirectory()) {
+    console.error(`Canonical skill path is not a directory: ${canonicalSkill}`);
     process.exit(1);
   }
 
@@ -91,7 +93,7 @@ function main(): void {
       console.error('\nRun: node --experimental-strip-types plugins/scripts/sync-skills.ts');
       process.exit(1);
     }
-    console.log('Skill adapters and CLI bundle match plugins/shared/skills/setup');
+    console.log('Plugin skill wrappers match skills/oh-my-doc');
     return;
   }
 

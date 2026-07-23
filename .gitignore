@@ -11,3 +11,6 @@ packages/cli/skills/
 .DS_Store
 .env*
 !.env.example
+
+# Oh My Docs
+.omd/.lock
