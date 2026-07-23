@@ -33,6 +33,7 @@
     "url": "git+https://github.com/ssota-labs/oh-my-docs.git",
     "directory": "packages/core"
   },
+  "homepage": "https://github.com/ssota-labs/oh-my-docs/tree/main/packages/core",
   "engines": {
     "node": ">=24.0.0"
   }

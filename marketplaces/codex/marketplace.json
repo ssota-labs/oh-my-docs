@@ -1,0 +1,17 @@
+{
+  "name": "oh-my-docs",
+  "interface": {
+    "displayName": "oh-my-docs",
+    "shortDescription": "Docs-first handbook workflow driven from a Codex session."
+  },
+  "plugins": [
+    {
+      "name": "oh-my-docs",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex"
+      },
+      "category": "Development"
+    }
+  ]
+}

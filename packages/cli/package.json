@@ -41,6 +41,7 @@
     "url": "git+https://github.com/ssota-labs/oh-my-docs.git",
     "directory": "packages/cli"
   },
+  "homepage": "https://github.com/ssota-labs/oh-my-docs/tree/main/packages/cli",
   "engines": {
     "node": ">=24.0.0"
   }

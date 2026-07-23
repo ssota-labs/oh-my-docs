@@ -9,10 +9,13 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "test": "turbo run test",
+    "test": "turbo run test && node --test --experimental-strip-types scripts/*.test.ts",
     "typecheck": "turbo run typecheck",
     "check:planning": "pnpm --filter @oh-my-docs/docs check:planning",
     "check:docs-first": "node --experimental-strip-types scripts/check-docs-first.ts",
+    "check:release-version": "node scripts/check-release-version.mjs",
+    "check:pack-smoke": "node scripts/check-pack-smoke.mjs",
+    "pack:smoke": "node scripts/check-pack-smoke.mjs",
     "sync:skills": "pnpm --filter @oh-my-docs/plugins sync",
     "omdocs": "node packages/cli/dist/bin.js"
   },

@@ -27,7 +27,8 @@
     "./spec-version": "./src/components/spec-version.tsx"
   },
   "files": [
-    "src"
+    "src",
+    "!src/**/*.test.ts"
   ],
   "publishConfig": {
     "access": "public"
@@ -37,7 +38,11 @@
     "url": "git+https://github.com/ssota-labs/oh-my-docs.git",
     "directory": "packages/ui"
   },
+  "homepage": "https://github.com/ssota-labs/oh-my-docs/tree/main/packages/ui",
   "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "dependencies": {
     "@xyflow/react": "^12.11.2",
     "fumadocs-core": "^16.11.5",

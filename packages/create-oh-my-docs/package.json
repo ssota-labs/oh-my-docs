@@ -30,6 +30,7 @@
     "url": "git+https://github.com/ssota-labs/oh-my-docs.git",
     "directory": "packages/create-oh-my-docs"
   },
+  "homepage": "https://github.com/ssota-labs/oh-my-docs/tree/main/packages/create-oh-my-docs",
   "engines": {
     "node": ">=24.0.0"
   }

@@ -60,7 +60,17 @@ pnpm test
 pnpm typecheck
 pnpm check:planning
 pnpm check:docs-first   # requires BASE_SHA in CI; skips locally when unset
+pnpm check:release-version   # optional: pass vX.Y.Z to match a release tag
+pnpm check:pack-smoke        # build → npm pack → temp install → CLI smoke
 omdocs new <kind> --title "…" [--id ID] [--dry-run] [--yes] [--json]
 ```
 
 Do not hand-edit generated files in `apps/docs/.source`.
+
+## Release
+
+Public packages and plugin manifests share one version. Tag `vX.Y.Z` only after
+`check:release-version` and `check:pack-smoke` pass. Publishing uses
+`.github/workflows/release.yml` with npm Trusted Publishing (OIDC); humans must
+configure Trusted Publishers on npmjs.com before the first tag publish. Do not
+publish from a developer machine.
