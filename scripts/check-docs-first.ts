@@ -63,7 +63,7 @@ function main(): void {
 
   if (changedPaths.every(isDocumentationOnlyPath)) {
     console.log('✓ documentation-only change; no prior implementation plan required.');
-  } else if (!gatePresent && !/^\s*(?:[-*]\s*)?Plan:/im.test(prBody)) {
+  } else if (!gatePresent) {
     console.log('✓ docs-first gate is being introduced; enforcement begins on the next PR.');
   } else {
     console.log('✓ implementation uses a ready plan from the PR base SHA.');

@@ -80,9 +80,12 @@ export function validateDocsFirst(input: DocsFirstInput): readonly string[] {
 
   const gatePresent =
     input.gatePresentOnBase ?? gateScriptExistsOnBase(input.readBaseFile);
+  // While the gate is being introduced, never enforce — even if the PR body
+  // already cites a Plan that only exists on the head SHA.
+  if (!gatePresent) return [];
+
   const planPath = extractPlanPath(input.prBody);
   if (!planPath) {
-    if (!gatePresent) return [];
     return [
       'code changes require a valid `Plan: docs/content/docs/development/plans/plan-*.mdx` ' +
         '(or `apps/docs/...`) entry',

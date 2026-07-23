@@ -84,6 +84,20 @@ test('skips enforcement while the gate is being introduced', () => {
   );
 });
 
+test('skips bootstrap even when the PR body cites a head-only Plan', () => {
+  assert.deepEqual(
+    validateDocsFirst({
+      changedPaths: ['packages/core/src/planning.ts'],
+      prBody: body,
+      gatePresentOnBase: false,
+      readBaseFile: () => {
+        throw new Error('must not read');
+      },
+    }),
+    [],
+  );
+});
+
 test('rejects a draft plan on the base SHA', () => {
   assert.match(
     validateDocsFirst({
