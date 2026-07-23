@@ -42,8 +42,11 @@ function coveredBy(path, codeAreas) {
     });
 }
 export function gateScriptExistsOnBase(readBaseFile) {
+    // Only the skill-era `.mjs` gate counts. Legacy `scripts/check-docs-first.ts`
+    // (packages/core) must not mark the gate "present", or the PR that migrates
+    // the gate itself cannot bootstrap and would require a Plan that cannot yet
+    // exist on the pre-migration base.
     for (const candidate of [
-        'scripts/check-docs-first.ts',
         'scripts/check-docs-first.mjs',
         'skills/oh-my-doc/runtime/docs-first.mjs',
     ]) {

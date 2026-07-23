@@ -10,6 +10,7 @@ import { parseFrontmatter } from '../runtime/frontmatter.mjs';
 import { inspectProject } from '../runtime/inspect.mjs';
 import { adoptProject } from '../runtime/adopt.mjs';
 import { validatePlanning } from '../runtime/planning.mjs';
+import { gateScriptExistsOnBase, validateDocsFirst } from '../runtime/docs-first.mjs';
 
 const skillRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const templateRoot = join(skillRoot, 'templates/default');
@@ -66,6 +67,45 @@ test('adopt greenfield writes .omd and docs skeleton', () => {
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
+});
+
+test('docs-first bootstrap ignores legacy TypeScript gate paths', () => {
+  const files = new Map([
+    ['scripts/check-docs-first.ts', 'legacy'],
+    ['packages/core/src/docs-first.ts', 'legacy'],
+  ]);
+  const readBaseFile = (path) => {
+    if (!files.has(path)) throw new Error(`missing ${path}`);
+    return files.get(path);
+  };
+  assert.equal(gateScriptExistsOnBase(readBaseFile), false);
+  assert.deepEqual(
+    validateDocsFirst({
+      prBody: '',
+      changedPaths: ['skills/oh-my-doc/runtime/docs-first.mjs'],
+      readBaseFile,
+    }),
+    [],
+  );
+});
+
+test('docs-first enforces when skill-era gate exists on base', () => {
+  const files = new Map([
+    ['scripts/check-docs-first.mjs', 'gate'],
+  ]);
+  const readBaseFile = (path) => {
+    if (!files.has(path)) throw new Error(`missing ${path}`);
+    return files.get(path);
+  };
+  assert.equal(gateScriptExistsOnBase(readBaseFile), true);
+  assert.match(
+    validateDocsFirst({
+      prBody: '',
+      changedPaths: ['skills/oh-my-doc/runtime/docs-first.mjs'],
+      readBaseFile,
+    })[0] ?? '',
+    /Plan:/,
+  );
 });
 
 test('planning validator accepts ADR locked stage', () => {
