@@ -28,6 +28,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Scripts and the docs app import @oh-my-docs/core from dist/.
+      - run: pnpm --filter @oh-my-docs/core build
+
       - run: pnpm check:planning
 
       - name: Verify planning preceded implementation
