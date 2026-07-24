@@ -4,7 +4,7 @@
 2. Discover candidate user stories. Moderate unresolved decisions one at a
    time and record only agreed outcomes. `grill-me` is optional.
 3. Group accepted stories into a change-scoped PRD. Product PRDs record
-   `review.status: moderated`.
+   `reviewStatus: moderated` and the moderation method.
 4. Design the approved target state in dependency order:
    Domain terms/models/policies → living SPECs → ADRs → change-scoped PLAN.
 5. Reuse stable living IDs. SPECs are organized by durable contract boundary,
