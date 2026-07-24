@@ -6,7 +6,7 @@ Generated and maintained handbooks use a stable top-level IA:
 |---|---|
 | Home | Handbook landing page |
 | Vision | Product vision |
-| Start here | Shortest path into the product |
+| Start here | Single page — shortest path into the product |
 | Domain | Living terms, models, and policies |
 | Workflow | Planning and development contracts |
 | Planning | PRD and story catalogs (index-only) |
