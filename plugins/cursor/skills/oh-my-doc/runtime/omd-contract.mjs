@@ -19,6 +19,9 @@ export const DEFAULT_IA_SECTIONS = [
 
 
 export const DEFAULT_CATALOGS = [
+  { id: 'glossary', label: 'Glossary', prefix: ['domain', 'glossary'], indexUrl: '/docs/domain/glossary', indexOnly: true },
+  { id: 'models', label: 'Domain models', prefix: ['domain', 'models'], indexUrl: '/docs/domain/models', indexOnly: true },
+  { id: 'policies', label: 'Domain policies', prefix: ['domain', 'policies'], indexUrl: '/docs/domain/policies', indexOnly: true },
   { id: 'prds', label: 'Product requirements', prefix: ['planning', 'prds'], indexUrl: '/docs/planning/prds', indexOnly: true },
   { id: 'stories', label: 'User stories', prefix: ['planning', 'stories'], indexUrl: '/docs/planning/stories', indexOnly: true },
   { id: 'plans', label: 'Implementation plans', prefix: ['plans'], indexUrl: '/docs/plans', indexOnly: true },
