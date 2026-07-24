@@ -1,0 +1,76 @@
+---
+title: Skill UI refresh detection
+description: Make inspect/check report UI snapshot health and document the refresh loop.
+type: guide
+summary: Extend the skill runtime to detect missing or stale packages/ui vs the skill template, and align handbook bootstrap docs.
+id: PLAN-skill-ui-refresh
+ticker: PLAN-003
+stage: ready
+changeType: product
+prd: PRD-skill-ui-refresh
+specs:
+  - SPEC-skill-ui-refresh
+stories:
+  - US-refresh-skill-ui
+codeAreas:
+  - skills/oh-my-doc
+  - plugins
+  - scripts
+  - packages/ui
+  - apps/docs
+  - AGENTS.md
+  - CLAUDE.md
+  - README.md
+related:
+  - /docs/planning/prds/prd-skill-and-ui-refresh-loop
+  - /docs/planning/stories/us-detect-and-refresh-stale-skill-ui
+  - /docs/spec/cli
+  - /docs/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot
+  - /docs/plans/plan-single-skill-omd-runtime
+---
+
+## Scope
+
+1. Rewrite agent and planning handbook pages for skill-first install/`omd.mjs`.
+2. Extend `inspect` / `check` (and supporting runtime helpers) so they report
+   missing or stale UI vocabulary files relative to
+   `skills/oh-my-doc/templates/default/packages/ui` (or the installed skill's
+   template path).
+3. Keep `adopt` / `adopt --force` as the refresh mechanism; do not add a
+   registry.
+4. Sync plugin skill mirrors after runtime changes (`pnpm sync:skills`).
+5. Add or extend runtime tests for snapshot health reporting.
+
+## Implementation sequence
+
+1. Land this planning set and handbook bootstrap rewrites (docs-only).
+2. Add a reusable UI snapshot comparison helper used by `inspect` and `check`.
+3. Surface structured fields in JSON (`missing`, `stale`, `identical`,
+   `recommended: adopt | adopt --force`).
+4. Extend runtime tests; run `pnpm sync:skills` and `pnpm check:ui-snapshot`.
+5. Mark this plan `done` after verification.
+
+## Verification
+
+- `pnpm check:planning`
+- `pnpm check:ui-snapshot`
+- `pnpm check:skills`
+- `node --test skills/oh-my-doc/tests/*.test.mjs`
+- Manual: temp project with missing/stale `packages/ui` → `check` fails with
+  clear problems → `adopt` / `adopt --force` clears them
+
+## Migration and compatibility
+
+Existing projects without `.omd` still need `adopt` first. Projects with local
+UI edits remain protected until `--force`.
+
+## Risks and rollback
+
+False “stale” on intentional forks — mitigate by requiring `--force` and clear
+wording. Rollback by reverting the runtime helper and check wiring.
+
+## Completion criteria
+
+- Handbook no longer references `omdocs` / `setup` skill install paths.
+- `check --json` distinguishes missing vs stale UI snapshot problems.
+- Plugin mirrors match `skills/oh-my-doc`.

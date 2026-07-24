@@ -5,22 +5,23 @@ import { dirname, join, resolve } from 'node:path';
 export const CONTRACT_VERSION = '1.0';
 export const SKILL_VERSION = '0.2.0';
 
-/** Default IA: Home → Vision → Start here → Workflow → Planning → Development → Spec */
+/** Default IA: Home → Vision → Start here → Workflow → Planning → Plans → ADR → Spec */
 export const DEFAULT_IA_SECTIONS = [
   { id: 'home', title: 'Home', path: 'index', required: true, visible: true },
   { id: 'vision', title: 'Vision', path: 'vision', required: true, visible: true },
   { id: 'starting', title: 'Start here', path: 'starting', required: true, visible: true },
   { id: 'workflow', title: 'Workflow', path: 'workflow', required: true, visible: true },
   { id: 'planning', title: 'Planning', path: 'planning', required: true, visible: true },
-  { id: 'development', title: 'Development', path: 'development', required: true, visible: true },
+  { id: 'plans', title: 'Plans', path: 'plans', required: true, visible: true },
+  { id: 'adr', title: 'ADR', path: 'adr', required: true, visible: true },
   { id: 'spec', title: 'Spec', path: 'spec', required: true, visible: true },
 ];
 
 export const DEFAULT_CATALOGS = [
   { id: 'prds', label: 'Product requirements', prefix: ['planning', 'prds'], indexUrl: '/docs/planning/prds', indexOnly: true },
   { id: 'stories', label: 'User stories', prefix: ['planning', 'stories'], indexUrl: '/docs/planning/stories', indexOnly: true },
-  { id: 'plans', label: 'Implementation plans', prefix: ['development', 'plans'], indexUrl: '/docs/development/plans', indexOnly: true },
-  { id: 'adr', label: 'ADR', prefix: ['development', 'adr'], indexUrl: '/docs/development/adr', indexOnly: true },
+  { id: 'plans', label: 'Implementation plans', prefix: ['plans'], indexUrl: '/docs/plans', indexOnly: true },
+  { id: 'adr', label: 'ADR', prefix: ['adr'], indexUrl: '/docs/adr', indexOnly: true },
 ];
 
 export const DEFAULT_UI_VOCABULARY = [

@@ -1,0 +1,9 @@
+{
+  "title": "ADR",
+  "pages": [
+    "index",
+    "adr-001-fumadocs-ssot",
+    "adr-ui-vocabulary-ships-as-skill-template-snapshot",
+    "adr-promote-adr-and-plans-to-top-level-catalogs"
+  ]
+}

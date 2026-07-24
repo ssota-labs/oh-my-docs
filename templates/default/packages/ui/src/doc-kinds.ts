@@ -9,8 +9,8 @@ export function docKindFromSlug(slug: readonly string[] | undefined): DocKindNam
   const [section, catalog] = slug;
   if (section === 'planning' && catalog === 'prds' && slug.length > 2) return 'PRD';
   if (section === 'planning' && catalog === 'stories' && slug.length > 2) return 'US';
-  if (section === 'development' && catalog === 'plans' && slug.length > 2) return 'PLAN';
-  if (section === 'development' && catalog === 'adr' && slug.length > 2) return 'ADR';
+  if (section === 'plans' && slug.length > 1) return 'PLAN';
+  if (section === 'adr' && slug.length > 1) return 'ADR';
   if (section === 'spec' && slug.length >= 2) return 'SPEC';
   return null;
 }

@@ -8,8 +8,8 @@ const KIND_DIR = {
     prd: 'planning/prds',
     story: 'planning/stories',
     spec: 'spec',
-    plan: 'development/plans',
-    adr: 'development/adr',
+    plan: 'plans',
+    adr: 'adr',
 };
 const KIND_FILE_PREFIX = {
     prd: 'prd',

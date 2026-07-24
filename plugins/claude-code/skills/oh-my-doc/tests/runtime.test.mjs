@@ -58,7 +58,8 @@ test('adopt greenfield writes .omd and docs skeleton', () => {
       'starting',
       'workflow',
       'planning',
-      'development',
+      'plans',
+      'adr',
       'spec',
     ]);
     assert.equal(result.contract.ui.base, 'fumadocs');
@@ -110,7 +111,7 @@ test('docs-first enforces when skill-era gate exists on base', () => {
 
 test('planning validator accepts ADR locked stage', () => {
   const root = mkdtempSync(join(tmpdir(), 'omd-plan-'));
-  const adrDir = join(root, 'development/adr');
+  const adrDir = join(root, 'adr');
   mkdirSync(adrDir, { recursive: true });
   writeFileSync(
     join(adrDir, 'meta.json'),

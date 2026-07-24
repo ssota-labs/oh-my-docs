@@ -28,11 +28,11 @@ function fixture() {
   write(root, 'planning/stories/meta.json', '{"pages":["us-one"]}\n');
   write(root, 'spec/spec-one.mdx', document('title: One\nid: SPEC-one\nstage: accepted'));
   write(root, 'spec/meta.json', '{"pages":["spec-one"]}\n');
-  write(root, 'development/adr/adr-one.mdx', document('title: One\nid: ADR-one\nstage: accepted'));
-  write(root, 'development/adr/meta.json', '{"pages":["adr-one"]}\n');
+  write(root, 'adr/adr-one.mdx', document('title: One\nid: ADR-one\nstage: accepted'));
+  write(root, 'adr/meta.json', '{"pages":["adr-one"]}\n');
   write(
     root,
-    'development/plans/plan-one.mdx',
+    'plans/plan-one.mdx',
     document(`
 title: One
 id: PLAN-one
@@ -44,7 +44,7 @@ stories: [US-one]
 codeAreas: [apps/example]
 `),
   );
-  write(root, 'development/plans/meta.json', '{"pages":["plan-one"]}\n');
+  write(root, 'plans/meta.json', '{"pages":["plan-one"]}\n');
   return root;
 }
 
@@ -64,7 +64,7 @@ test('reports duplicate IDs, missing references, and navigation gaps', () => {
     write(root, 'planning/stories/meta.json', '{"pages":["us-one"]}\n');
     write(
       root,
-      'development/plans/plan-one.mdx',
+      'plans/plan-one.mdx',
       document(`
 title: One
 id: PLAN-one

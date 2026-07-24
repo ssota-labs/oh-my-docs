@@ -3,7 +3,7 @@ import { parseFrontmatter } from './planning.mjs';
  * Repo-relative plan paths under either `apps/docs` (this monorepo) or `docs`
  * (default scaffold).
  */
-const PLAN_PATH_RE = /^(?:apps\/)?docs\/content\/docs\/development\/plans\/[a-z0-9][a-z0-9-]*\.mdx$/;
+const PLAN_PATH_RE = /^(?:apps\/)?docs\/content\/docs\/plans\/[a-z0-9][a-z0-9-]*\.mdx$/;
 const DOCUMENTATION_ONLY_PREFIXES = [
     'apps/docs/content/docs/',
     'docs/content/docs/',
@@ -76,7 +76,7 @@ export function validateDocsFirst(input) {
     const planPath = extractPlanPath(input.prBody);
     if (!planPath) {
         return [
-            'code changes require a valid `Plan: docs/content/docs/development/plans/plan-*.mdx` ' +
+            'code changes require a valid `Plan: docs/content/docs/plans/plan-*.mdx` ' +
                 '(or `apps/docs/...`) entry',
         ];
     }

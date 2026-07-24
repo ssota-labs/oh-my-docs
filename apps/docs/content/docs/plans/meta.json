@@ -1,0 +1,11 @@
+{
+  "title": "Plans",
+  "pages": [
+    "index",
+    "plan-docs-foundation",
+    "plan-single-skill-omd-runtime",
+    "plan-skill-ui-refresh-detection",
+    "plan-redirect-root-to-handbook",
+    "plan-flatten-catalogs-and-typed-spec-pages"
+  ]
+}
