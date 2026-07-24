@@ -7,6 +7,12 @@ const CATALOGS = [
   { prefix: ['planning', 'stories'], indexUrl: '/docs/planning/stories', label: 'User stories' },
   { prefix: ['plans'], indexUrl: '/docs/plans', label: 'Implementation plans' },
   { prefix: ['adr'], indexUrl: '/docs/adr', label: 'ADR' },
+  { prefix: ['spec', 'data-model'], indexUrl: '/docs/spec/data-model', label: 'Data model' },
+  {
+    prefix: ['spec', 'system-model'],
+    indexUrl: '/docs/spec/system-model',
+    label: 'System model',
+  },
 ] as const;
 
 export const source = loader({

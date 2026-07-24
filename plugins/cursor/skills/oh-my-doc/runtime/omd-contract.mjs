@@ -23,6 +23,8 @@ export const DEFAULT_CATALOGS = [
   { id: 'stories', label: 'User stories', prefix: ['planning', 'stories'], indexUrl: '/docs/planning/stories', indexOnly: true },
   { id: 'plans', label: 'Implementation plans', prefix: ['plans'], indexUrl: '/docs/plans', indexOnly: true },
   { id: 'adr', label: 'ADR', prefix: ['adr'], indexUrl: '/docs/adr', indexOnly: true },
+  { id: 'spec-data-model', label: 'Data model', prefix: ['spec', 'data-model'], indexUrl: '/docs/spec/data-model', indexOnly: true },
+  { id: 'spec-system-model', label: 'System model', prefix: ['spec', 'system-model'], indexUrl: '/docs/spec/system-model', indexOnly: true },
 ];
 
 export const DEFAULT_UI_VOCABULARY = [
