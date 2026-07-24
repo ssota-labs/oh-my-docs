@@ -1,0 +1,58 @@
+---
+title: Skill and UI refresh loop
+description: Agents detect stale Oh My Docs skill or UI snapshots and refresh them safely.
+type: conceptual
+summary: After install, contributors can tell when the skill or packages/ui snapshot is behind and refresh without guessing.
+id: PRD-skill-ui-refresh
+ticker: PRD-002
+period: phase-1
+status: active
+changeType: product
+stories:
+  - US-refresh-skill-ui
+related:
+  - /docs/planning/stories/us-detect-and-refresh-stale-skill-ui
+  - /docs/spec/spec-skill-snapshot-and-ui-vocabulary-refresh
+  - /docs/development/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot
+---
+
+## Problem
+
+Oh My Docs ships as a skill. Planning UI vocabulary is copied into the project
+on adopt. When the skill updates, projects keep an older `packages/ui` snapshot
+and agents have no clear signal that anything is stale—or how to refresh it.
+
+Handbook pages still describe a removed public CLI and a `setup` skill, so
+install and refresh instructions drift from the runtime.
+
+## Outcome
+
+A contributor (or their coding agent) can install the `oh-my-doc` skill, adopt a
+project, and later learn whether the skill-era contract, UI vocabulary snapshot,
+or managed markers need refresh—and re-apply them with the bundled runtime.
+
+## Goals
+
+- Document the skill-first install and runtime surface accurately.
+- Detect missing or stale UI vocabulary relative to the skill template.
+- Refresh UI via `adopt` (with `--force` when overwriting divergent files).
+- Keep Fumadocs shell packages on npm; keep planning vocabulary as a
+  skill-template snapshot (no component registry).
+
+## Non-goals
+
+- A public npm CLI for end users.
+- A shadcn-style remote component registry.
+- Automatic silent overwrite of project-owned UI edits without `--force`.
+- Hosted update channels or background skill sync daemons.
+
+## Included stories
+
+- `US-refresh-skill-ui` — detect and refresh stale skill UI snapshots.
+
+## Success measures
+
+- Agent and planning handbook pages describe `npx skills add` and `omd.mjs`.
+- `inspect` / `check` report missing or stale UI vocabulary in machine-readable form.
+- Re-running `adopt` (and `--force` when needed) restores the skill-template UI.
+- Planning graph for this PRD validates under `pnpm check:planning`.

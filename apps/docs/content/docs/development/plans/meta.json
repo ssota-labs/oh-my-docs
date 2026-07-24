@@ -4,6 +4,7 @@
     "index",
     "plan-docs-foundation",
     "plan-single-skill-omd-runtime",
+    "plan-skill-ui-refresh-detection",
     "plan-redirect-root-to-handbook"
   ]
 }
