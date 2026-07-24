@@ -5,7 +5,7 @@ type: guide
 summary: Update the foundation route contract and replace the marketing home with a redirect.
 id: PLAN-root-redirect-docs
 ticker: PLAN-004
-stage: ready
+stage: done
 changeType: maintenance
 prd: PRD-docs-foundation
 specs:
@@ -15,17 +15,19 @@ stories:
 codeAreas:
   - apps/docs/app
   - skills/oh-my-doc/templates/default/docs/app
+  - templates/default/docs/app
   - plugins
 related:
+  - /docs/spec/system-model/handbook-ia
   - /docs/spec/data-model
   - /docs/planning/prds/prd-docs-foundation
 ---
 
 ## Scope
 
-1. Change `SPEC-docs-foundation` so `/` redirects to `/docs` (docs-only in this PR).
-2. Replace `apps/docs/app/page.tsx` with a Next.js redirect to `/docs`.
-3. Keep the skill scaffold template (`templates/default/docs/app/page.tsx`) aligned.
+1. Keep the route contract (`/` → `/docs`) as already stated in SPEC-007 Handbook IA.
+2. Replace `apps/docs/app/page.tsx` with a Next.js permanent redirect to `/docs`.
+3. Align skill scaffold and root template `docs/app/page.tsx` the same way.
 4. Sync plugin skill mirrors after template changes.
 
 ## Implementation sequence

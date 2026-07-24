@@ -1,0 +1,66 @@
+---
+title: Domain catalogs index-only like PRDs
+description: Hide Domain glossary, models, and policies detail pages from the sidebar like PRDs.
+type: guide
+summary: Register Domain subfolders as index-only catalogs so only Domain → Glossary/Models/Policies indexes appear.
+id: PLAN-domain-catalogs-index-only-like-prds
+ticker: PLAN-009
+stage: ready
+changeType: product
+prd: PRD-handbook-navigation-and-typed-specs
+specs:
+  - SPEC-handbook-information-architecture
+stories:
+  - US-browse-catalogs-without-sidebar-bloat
+codeAreas:
+  - apps/docs
+  - packages/ui
+  - skills/oh-my-doc
+  - plugins
+  - templates
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/spec/system-model/handbook-ia
+  - /docs/domain
+  - /docs/plans/plan-spec-boundary-index-only-catalogs
+---
+
+## Scope
+
+1. Treat Domain subfolders as index-only catalogs (same mechanism as PRDs):
+   - `domain/glossary` → `/docs/domain/glossary`
+   - `domain/models` → `/docs/domain/models`
+   - `domain/policies` → `/docs/domain/policies`
+2. Update SPEC-007 so Domain sidebar behavior matches Planning’s catalog pattern.
+3. Wire `CATALOGS` / `DEFAULT_CATALOGS` / template `source.ts` and sync plugins.
+4. Keep Domain index tables as the entry to detail pages; do not list TERM/MODEL/POLICY
+   pages in the sidebar.
+
+## Implementation sequence
+
+1. Land SPEC-007 + this ready plan (docs-only).
+2. Add the three Domain catalog prefixes to dogfood and template catalog wiring.
+3. Align skill IA references and `DEFAULT_CATALOGS`; `pnpm sync:skills`.
+4. Verify Domain expands to Glossary / Models / Policies only.
+
+## Verification
+
+- `pnpm check:planning`
+- `pnpm check:ui-snapshot`
+- `pnpm check:skills`
+- Manual: Domain sidebar shows Glossary, Models, Policies; opening Glossary does
+  not list term pages in the sidebar.
+
+## Migration and compatibility
+
+URLs unchanged. Only sidebar visibility changes for Domain detail pages.
+
+## Risks and rollback
+
+Forgetting a catalog prefix leaves children visible — mitigate with source/template
+parity. Rollback by removing the Domain prefixes from `CATALOGS`.
+
+## Completion criteria
+
+- Domain matches Planning: subcatalog indexes visible, detail pages hidden.
+- Templates and `DEFAULT_CATALOGS` include the same Domain prefixes.

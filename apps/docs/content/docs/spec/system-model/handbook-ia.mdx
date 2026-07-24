@@ -34,7 +34,7 @@ default skill template IA.
 
 | Section | Sidebar behavior |
 |---|---|
-| Domain | Living glossary, models, and policies |
+| Domain | Folder with index-only catalogs: Glossary, Models, Policies |
 | Planning | Folder with index-only catalogs: PRDs, Stories |
 | Plans | Index-only catalog at the top level |
 | ADR | Index-only catalog at the top level |
@@ -51,6 +51,9 @@ sibling previous/next links.
 
 Default catalog prefixes:
 
+- `domain/glossary` → `/docs/domain/glossary`
+- `domain/models` → `/docs/domain/models`
+- `domain/policies` → `/docs/domain/policies`
 - `planning/prds` → `/docs/planning/prds`
 - `planning/stories` → `/docs/planning/stories`
 - `plans` → `/docs/plans`
@@ -72,5 +75,6 @@ CLI may remain a single page until it needs children.
 ## Acceptance criteria
 
 - Catalog and Spec-boundary detail pages do not appear as sidebar children.
+- Domain sidebar shows only Glossary, Models, and Policies (indexes).
 - Spec sidebar shows only the three boundary entries.
 - ADR and Plans remain second-level sidebar items.
