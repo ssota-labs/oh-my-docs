@@ -56,12 +56,16 @@ test('adopt greenfield writes .omd and docs skeleton', () => {
       'index',
       'vision',
       'starting',
+      'domain',
       'workflow',
       'planning',
       'plans',
       'adr',
       'spec',
     ]);
+    assert.ok(existsSync(join(root, 'docs/content/docs/domain/index.mdx')));
+    assert.ok(existsSync(join(root, 'docs/content/docs/spec/data-model/index.mdx')));
+    assert.ok(existsSync(join(root, 'docs/content/docs/spec/system-model/index.mdx')));
     assert.equal(result.contract.ui.base, 'fumadocs');
     assert.equal(result.contract.ui.distribution, 'skill-template');
     assert.ok(result.contract.ui.shellDependencies.includes('fumadocs-ui'));
