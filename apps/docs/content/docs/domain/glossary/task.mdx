@@ -1,0 +1,17 @@
+---
+title: Task
+description: The stable internal unit of agent execution.
+type: conceptual
+summary: A task is dependency-aware execution state derived from one approved PLAN.
+id: TERM-task
+related:
+  - /docs/domain/models/task-execution
+  - /docs/spec/spec-task-data-model
+---
+
+A **task** is the smallest independently assignable unit in the Oh My Docs
+execution graph. It belongs to one PLAN, declares dependencies, `codeAreas`,
+status, and acceptance references, and is stored independently under `.omd`.
+
+Task is always the internal execution term. Teams may configure PLAN as “Plan”
+or “Sprint” in UI copy without renaming task storage semantics.

@@ -1,0 +1,62 @@
+---
+title: Task board snapshot
+description: The handbook view of committed task execution state.
+type: reference
+specType: ui
+documentClass: living
+summary: "The development task route renders a read-only task graph from the checked-out .omd snapshot."
+id: SPEC-task-board
+ticker: SPEC-006
+stage: accepted
+related:
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/planning/stories/us-view-approved-execution-state
+  - /docs/spec/spec-task-data-model
+  - /docs/development/adr/adr-git-snapshots-approve-task-execution-state
+---
+
+## Scope
+
+Defines the local and Vercel handbook task view. It does not provide live
+process state or mutation APIs.
+
+## Interface
+
+- Route: `/docs/development/tasks`
+- Source: `.omd/tasks/*.json` from the checked-out commit
+- Presentation: PLAN grouping, status, dependencies, blockers, `codeAreas`, and
+  acceptance references
+
+## Behavior
+
+- The docs build reads the repository snapshot at build time.
+- Local development reflects the local filesystem after rebuild/reload.
+- Vercel reflects the deployed commit.
+- Empty projects show an explicit “no approved tasks” state.
+- Invalid task snapshots fail validation rather than presenting partial truth.
+
+## Data and invariants
+
+- The board is read-only.
+- It never writes `.omd`.
+- Display labels may map PLAN to “Plan”, “Sprint”, or another configured term;
+  stored IDs remain unchanged.
+- The board identifies the commit/snapshot when available.
+
+## Errors
+
+- Missing `.omd/tasks` renders the empty state.
+- Invalid task data surfaces a build/check error.
+- No credentials or database connection are required.
+
+## Compatibility
+
+Static rendering works on Vercel and other Git-based build hosts. Real-time
+updates would require a separate authenticated remote store and are outside
+this contract.
+
+## Acceptance criteria
+
+- A committed task appears in local and Vercel handbook builds.
+- Uncommitted or remote-only task state does not appear in deployed docs.
+- Dependencies and blocking reasons are understandable without reading JSON.

@@ -1,0 +1,16 @@
+---
+title: Approved snapshot
+description: Execution state committed to the shared Git base.
+type: conceptual
+summary: Agents and deployed docs trust merged `.omd` task state, not branch-local or live process state.
+id: TERM-approved-snapshot
+related:
+  - /docs/development/adr/adr-git-snapshots-approve-task-execution-state
+  - /docs/spec/spec-task-board-snapshot
+---
+
+An **approved snapshot** is the `.omd` task graph and statuses visible in a
+commit on the shared base branch. Git review acts as approval and audit history.
+
+Branch-local state may be useful evidence, but it does not release dependent
+tasks or appear on the deployed Vercel board until merged.

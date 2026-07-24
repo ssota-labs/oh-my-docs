@@ -1,0 +1,28 @@
+---
+title: Task runnable policy
+description: Conditions that must all hold before an agent starts a task.
+type: reference
+summary: Only approved, dependency-complete, scoped, non-conflicting tasks may become active.
+id: POLICY-task-runnable
+related:
+  - /docs/domain/models/task-execution
+  - /docs/spec/spec-task-execution-system-model
+---
+
+A task is runnable only when all conditions hold:
+
+1. Its linked PLAN exists on the shared base with `stage: ready|active`.
+2. Its status is `ready`.
+3. Every `dependsOn` task is `done` in the approved snapshot.
+4. `codeAreas` is non-empty.
+5. `POLICY-code-area-exclusion` permits assignment.
+6. Required acceptance references resolve.
+
+| PLAN | Dependencies | Scope/conflict | Decision |
+|---|---|---|---|
+| ready/active | all done | valid/no conflict | runnable |
+| draft/done/superseded | any | any | forbidden |
+| ready/active | incomplete | any | blocked |
+| ready/active | all done | empty/conflicting | blocked |
+
+An agent reports blockers instead of bypassing this policy.
