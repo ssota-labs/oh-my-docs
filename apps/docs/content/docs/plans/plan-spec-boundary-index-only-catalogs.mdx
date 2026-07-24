@@ -1,0 +1,82 @@
+---
+title: Spec boundary index-only catalogs
+description: Make Data model and System model PRD-style index-only folders with hidden child pages.
+type: guide
+summary: Spec keeps three boundary entries; each boundary can own detail pages that stay out of the sidebar.
+id: PLAN-spec-boundary-index-only-catalogs
+ticker: PLAN-007
+stage: ready
+changeType: product
+prd: PRD-handbook-navigation-and-typed-specs
+specs:
+  - SPEC-handbook-information-architecture
+  - SPEC-docs-foundation
+stories:
+  - US-browse-catalogs-without-sidebar-bloat
+codeAreas:
+  - apps/docs
+  - packages/ui
+  - skills/oh-my-doc
+  - plugins
+  - templates
+  - AGENTS.md
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/spec/system-model
+  - /docs/spec/data-model
+  - /docs/plans/plan-flatten-catalogs-and-typed-spec-pages
+---
+
+## Scope
+
+1. Turn Spec boundary pages into folders with an index and detail children:
+   - `spec/data-model/` (index-only)
+   - `spec/system-model/` (index-only)
+   - `cli` may remain a single page unless it needs children
+2. Register those folders in `CATALOGS` / `DEFAULT_CATALOGS` / `indexOnlyPageTree` so
+   children do not appear in the sidebar (same mechanism as PRDs).
+3. Split the folded task/PDCA sections into child pages listed from each index
+   table.
+4. Sync skill templates and plugin mirrors.
+
+## Implementation sequence
+
+1. Land this plan (docs-only).
+2. Ensure Spec content is already folded into the three boundaries (Agent removed).
+3. Move `data-model.mdx` / `system-model.mdx` into folders; add child pages and
+   index tables.
+4. Extend catalog wiring in `apps/docs/lib/source.ts`, skill template `source.ts`,
+   and `DEFAULT_CATALOGS`.
+5. Update `docKindFromSlug` if needed so `spec/<boundary>/<page>` still infers
+   `SPEC`.
+6. Verify sidebar + `pnpm check:planning` + skill sync checks.
+
+## Verification
+
+- `pnpm check:planning`
+- `pnpm check:ui-snapshot`
+- `pnpm check:skills`
+- `pnpm test`
+- Manual: Spec shows only Data model / System model / CLI; opening Data model
+  or System model shows an index table; child pages are reachable but hidden
+  from the sidebar.
+
+## Migration and compatibility
+
+- URLs change from `/docs/spec/data-model` (page) to `/docs/spec/data-model`
+  (folder index) — usually stable — with children at
+  `/docs/spec/data-model/<slug>`.
+- Update in-repo links that pointed at monolithic section anchors if split.
+
+## Risks and rollback
+
+- Forgetting catalog registration reintroduces sidebar bloat — mitigate with
+  source/template parity tests.
+- Rollback by restoring monolithic pages and removing the extra catalog
+  prefixes.
+
+## Completion criteria
+
+- Spec sidebar lists only the three boundaries.
+- Data model and System model behave like PRDs: index table in, children out.
+- Templates match the live handbook wiring.

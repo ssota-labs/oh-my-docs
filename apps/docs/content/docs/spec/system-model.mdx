@@ -57,18 +57,22 @@ Default catalog prefixes:
 - `plans` → `/docs/plans`
 - `adr` → `/docs/adr`
 
-## Spec typed pages
+## Spec typed boundaries
 
-Spec is not an index-only catalog. The sidebar lists a stable set of contract
-boundaries, for example:
+Spec is not a flat `SPEC-*` catalog. The sidebar lists a stable set of
+boundaries:
 
 - [Data model](/docs/spec/data-model)
 - [System model](/docs/spec/system-model)
 - [CLI](/docs/spec/cli)
 
-Each page is a single living contract for that boundary. Initiative-specific
-behavior belongs in these pages (or a new typed page), not as an unbounded
-sidebar list of `SPEC-*` filenames.
+**Data model** and **System model** are index-only folders (same mechanism as
+PRDs): the sidebar shows the boundary entry; detail pages live under the folder
+and appear in the boundary index table, not in the sidebar. CLI may stay a
+single page until it needs children.
+
+Initiative-specific behavior belongs under these boundaries (as hidden child
+pages or sections), not as an unbounded top-level Spec list.
 
 ## Source
 
@@ -82,5 +86,5 @@ aligned with `.omd` IA defaults.
 - Catalog detail pages do not appear as sidebar children.
 - Catalog indexes render tables, not long unstructured link stacks alone.
 - ADR and Plans are reachable as second-level sidebar items.
-- Spec sidebar shows typed pages; foundation and CLI contracts remain accepted
-  living documents under those pages.
+- Spec sidebar shows only the boundary entries; Data model and System model
+  children stay index-only like PRDs.
