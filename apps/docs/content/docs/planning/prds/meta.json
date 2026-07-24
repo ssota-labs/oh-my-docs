@@ -1,4 +1,8 @@
 {
   "title": "PRDs",
-  "pages": ["index", "prd-docs-foundation"]
+  "pages": [
+    "index",
+    "prd-docs-foundation",
+    "prd-skill-and-ui-refresh-loop"
+  ]
 }

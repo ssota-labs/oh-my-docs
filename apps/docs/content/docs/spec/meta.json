@@ -1,4 +1,8 @@
 {
   "title": "Specifications",
-  "pages": ["index", "docs-foundation"]
+  "pages": [
+    "index",
+    "docs-foundation",
+    "spec-skill-snapshot-and-ui-vocabulary-refresh"
+  ]
 }

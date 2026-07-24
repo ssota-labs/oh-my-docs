@@ -1,0 +1,36 @@
+---
+title: Detect and refresh stale skill UI
+description: Know when packages/ui lags the skill template and refresh it.
+type: conceptual
+summary: Agents surface stale or missing UI vocabulary and refresh it from the skill template.
+id: US-refresh-skill-ui
+ticker: US-002
+related:
+  - /docs/planning/prds/prd-skill-and-ui-refresh-loop
+  - /docs/spec/spec-skill-snapshot-and-ui-vocabulary-refresh
+---
+
+As a contributor using a coding agent, I want to know when the project's
+planning UI snapshot is missing or behind the installed `oh-my-doc` skill so
+that I can refresh `packages/ui` without hunting through templates by hand.
+
+## Context
+
+Adopt copies UI vocabulary from the skill into the project. Skill updates do
+not automatically rewrite that copy. Contributors need a clear detect → refresh
+loop.
+
+## Acceptance criteria
+
+- `inspect` or `check` reports when the UI package is missing.
+- `inspect` or `check` reports when project UI files differ from the skill
+  template snapshot (stale or locally modified).
+- Recommended next action is `adopt` to create missing files, or
+  `adopt --force` to overwrite divergent skill-managed UI files.
+- Handbook agent and planning pages describe this loop without referring to a
+  public CLI or a `setup` skill.
+
+## Out of scope
+
+- Merging local UI customizations with upstream template changes automatically.
+- Updating Fumadocs npm packages as part of skill refresh.

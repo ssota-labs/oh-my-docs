@@ -6,6 +6,7 @@ summary: Classify the change, complete its planning graph, and review it separat
 related:
   - /docs/workflow/development
   - /docs/planning/prds
+  - /docs/agent
 ---
 
 ## 1. Classify the change
@@ -32,14 +33,15 @@ choice and rejected alternatives. Plans authorize a bounded implementation.
 
 ## 3. Complete the graph
 
-Use templates in `apps/docs/templates`, or create drafts with:
+Use templates under the docs app `templates/` directory, or create drafts with
+the skill runtime:
 
 ```bash
-omdocs new prd|story|spec|plan|adr --title "…"
+node <skill>/scripts/omd.mjs new prd|story|spec|plan|adr --title "…" --yes
 ```
 
 Give every artifact a stable, kind-prefixed ID, link it through frontmatter, and
-register its filename in the sibling `meta.json` (the CLI does this for `new`).
+register its filename in the sibling `meta.json` (`new` does this).
 
 Set an approved PRD to `active`, a reviewed specification to `accepted`, and an
 approved plan to `ready`. Plans that authorize code must declare non-empty
@@ -55,4 +57,5 @@ Do not add a missing ready plan and its code in one change.
 ```bash
 pnpm check:planning
 pnpm check:docs-first   # CI on pull requests; skips locally without BASE_SHA
+node <skill>/scripts/omd.mjs check --json
 ```

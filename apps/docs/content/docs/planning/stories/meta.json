@@ -1,4 +1,8 @@
 {
   "title": "Stories",
-  "pages": ["index", "us-navigate-product-context"]
+  "pages": [
+    "index",
+    "us-navigate-product-context",
+    "us-detect-and-refresh-stale-skill-ui"
+  ]
 }
