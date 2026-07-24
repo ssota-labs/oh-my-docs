@@ -5,7 +5,14 @@ type: guide
 ---
 
 Classify the change, complete the planning graph, and review it separately from
-code. Create drafts with `omdocs new prd|story|spec|plan|adr --title "…"`.
+code.
+
+Design order for living contracts:
+
+`Domain (terms/models/policies) → Spec boundaries → ADRs → PLAN`
+
+Spec keeps Data model and System model as index-only folders (like PRDs). Create
+drafts with `omdocs new prd|story|spec|plan|adr --title "…"`.
 
 Validate with `omdocs check` (or `pnpm check:planning`) before opening an
 implementation PR.

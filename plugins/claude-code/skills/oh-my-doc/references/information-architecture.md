@@ -12,7 +12,7 @@ Generated and maintained handbooks use a stable top-level IA:
 | Planning | PRD and story catalogs (index-only) |
 | Plans | Implementation plans (index-only catalog) |
 | ADR | Architecture decisions (index-only catalog) |
-| Spec | Living contract pages (children visible) |
+| Spec | Boundary entries; Data/System model are index-only |
 
 Default order:
 

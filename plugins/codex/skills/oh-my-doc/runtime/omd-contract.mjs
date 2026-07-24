@@ -5,11 +5,12 @@ import { dirname, join, resolve } from 'node:path';
 export const CONTRACT_VERSION = '1.0';
 export const SKILL_VERSION = '0.2.0';
 
-/** Default IA: Home → Vision → Start here → Workflow → Planning → Plans → ADR → Spec */
+/** Default IA: Home → Vision → Start here → Domain → Workflow → Planning → Plans → ADR → Spec */
 export const DEFAULT_IA_SECTIONS = [
   { id: 'home', title: 'Home', path: 'index', required: true, visible: true },
   { id: 'vision', title: 'Vision', path: 'vision', required: true, visible: true },
   { id: 'starting', title: 'Start here', path: 'starting', required: true, visible: true },
+  { id: 'domain', title: 'Domain', path: 'domain', required: true, visible: true },
   { id: 'workflow', title: 'Workflow', path: 'workflow', required: true, visible: true },
   { id: 'planning', title: 'Planning', path: 'planning', required: true, visible: true },
   { id: 'plans', title: 'Plans', path: 'plans', required: true, visible: true },
