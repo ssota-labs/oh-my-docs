@@ -1,6 +1,6 @@
 ---
-title: Skill snapshot and UI vocabulary refresh
-description: Observable contracts for detecting and refreshing skill-template UI.
+title: CLI
+description: Observable contracts for omd.mjs inspect, check, adopt, and sync.
 type: reference
 summary: inspect and check report UI snapshot health; adopt restores it from the skill template.
 id: SPEC-skill-ui-refresh
@@ -11,13 +11,15 @@ related:
   - /docs/planning/stories/us-detect-and-refresh-stale-skill-ui
   - /docs/development/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot
   - /docs/development/plans/plan-skill-ui-refresh-detection
+  - /docs/spec/system-model
+  - /docs/spec/data-model
 ---
 
 ## Scope
 
 Covers the skill-era runtime actions that install, inspect, and refresh the
-planning UI vocabulary snapshot. Does not cover Fumadocs shell package versions
-on npm.
+planning UI vocabulary snapshot and managed IA files. Does not cover Fumadocs
+shell package versions on npm.
 
 ## Interface
 
@@ -66,7 +68,7 @@ Runtime entrypoint: `node <skill>/scripts/omd.mjs <action>`.
 ## Compatibility
 
 - Brownfield projects that already customized `packages/ui` must use `--force`
-  knowingly; adopt never silently overwrites divergent files without it.
+  knowingly; adopt never silently overwrites divergent files without `--force`.
 - `sync` must not rewrite UI vocabulary files.
 
 ## Acceptance criteria

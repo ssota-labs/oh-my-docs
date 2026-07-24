@@ -1,0 +1,86 @@
+---
+title: System model
+description: Handbook routes, default IA, index-only catalogs, and Spec typed pages.
+type: reference
+summary: One MDX tree renders /docs pages and .md twins; catalogs collapse; Spec stays typed.
+id: SPEC-handbook-information-architecture
+ticker: SPEC-003
+stage: accepted
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/planning/stories/us-browse-catalogs-without-sidebar-bloat
+  - /docs/development/adr/adr-promote-adr-and-plans-to-top-level-catalogs
+  - /docs/spec/data-model
+  - /docs/spec/cli
+  - /docs/development/adr/adr-001-fumadocs-ssot
+---
+
+## Scope
+
+Observable navigation and rendering contracts for the handbook app and the
+default skill template IA. Does not define `.omd` task execution.
+
+## Routes
+
+- `/` redirects to `/docs` (handbook entry).
+- `/docs` and `/docs/<slug>` render handbook pages.
+- `/docs/<slug>.md` returns the corresponding processed Markdown with
+  `text/markdown; charset=utf-8`.
+- Unknown page slugs return not found.
+
+## Default information architecture
+
+Top-level sidebar order:
+
+`Home → Vision → Start here → Workflow → Planning → Plans → ADR → Spec`
+
+| Section | Sidebar behavior |
+|---|---|
+| Planning | Folder with index-only catalogs: PRDs, Stories |
+| Plans | Index-only catalog at the top level |
+| ADR | Index-only catalog at the top level |
+| Spec | Folder of typed living pages (children visible) |
+
+There is no intermediate Development section in the default IA.
+
+## Index-only catalogs
+
+Configured catalog folders keep detail pages registered in `meta.json` for
+validation, but the page tree exposes only the catalog index. Opening the
+index shows a table of documents (ID, status when present, title). Detail pages
+provide back-to-index and sibling previous/next links.
+
+Default catalog prefixes:
+
+- `planning/prds` → `/docs/planning/prds`
+- `planning/stories` → `/docs/planning/stories`
+- `plans` → `/docs/plans`
+- `adr` → `/docs/adr`
+
+## Spec typed pages
+
+Spec is not an index-only catalog. The sidebar lists a stable set of contract
+boundaries, for example:
+
+- [Data model](/docs/spec/data-model)
+- [System model](/docs/spec/system-model)
+- [CLI](/docs/spec/cli)
+
+Each page is a single living contract for that boundary. Initiative-specific
+behavior belongs in these pages (or a new typed page), not as an unbounded
+sidebar list of `SPEC-*` filenames.
+
+## Source
+
+Content lives under the configured docs content root (this repo:
+`apps/docs/content/docs`). Fumadocs validates frontmatter and generates the
+page tree. Skill `adopt` / `sync` keep template `meta.json` and catalog wiring
+aligned with `.omd` IA defaults.
+
+## Acceptance criteria
+
+- Catalog detail pages do not appear as sidebar children.
+- Catalog indexes render tables, not long unstructured link stacks alone.
+- ADR and Plans are reachable as second-level sidebar items.
+- Spec sidebar shows typed pages; foundation and CLI contracts remain accepted
+  living documents under those pages.

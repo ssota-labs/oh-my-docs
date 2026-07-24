@@ -1,0 +1,38 @@
+---
+title: Browse catalogs without sidebar bloat
+description: Open a catalog index table instead of expanding every document in the sidebar.
+type: conceptual
+summary: Catalogs collapse to an index; Spec stays a short typed tree.
+id: US-browse-catalogs-without-sidebar-bloat
+ticker: US-003
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+---
+
+As a product reader or coding agent, I want catalog sections to open an index
+table and keep detail pages out of the sidebar so that navigation stays short
+as the handbook grows.
+
+## Context
+
+Oh My Docs handbooks accumulate many PRDs, stories, plans, and ADRs. Spec
+contracts should stay discoverable as a few typed pages rather than another
+endless list.
+
+## Acceptance criteria
+
+- Clicking PRDs, Stories, Implementation Plans, or ADR in the sidebar opens the
+  catalog index (no child document links in the sidebar).
+- Each catalog index lists documents in a table with ID, status (when present),
+  and title linking to the detail page.
+- ADR and Implementation Plans appear as top-level sidebar sections (not under
+  Development).
+- Spec sidebar lists typed pages such as Data model, System model, and CLI
+  (or API), each a single living contract page.
+- Detail pages for index-only catalogs still expose back-to-index and sibling
+  previous/next navigation.
+
+## Out of scope
+
+- Changing the meaning of PRD/US/PLAN/ADR/SPEC IDs.
+- Building a search or filter UI beyond the index table.

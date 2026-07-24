@@ -1,25 +1,17 @@
 ---
 title: Specifications
-description: Observable product and system contracts.
+description: Living contracts by boundary — data, system, and CLI.
 type: overview
 ---
 
-<div className="not-prose flex flex-col gap-2">
-  <div className="flex items-center gap-2">
-    <DocKind kind="SPEC" ticker="SPEC-001" href="/docs/spec/docs-foundation" />
-    <DocStatus status="accepted" />
-    <a href="/docs/spec/docs-foundation">Docs foundation contract</a>
-  </div>
-  <div className="flex items-center gap-2">
-    <DocKind kind="SPEC" ticker="SPEC-002" href="/docs/spec/spec-skill-snapshot-and-ui-vocabulary-refresh" />
-    <DocStatus status="accepted" />
-    <a href="/docs/spec/spec-skill-snapshot-and-ui-vocabulary-refresh">
-      Skill snapshot and UI vocabulary refresh
-    </a>
-  </div>
-  <div className="flex items-center gap-2">
-    <DocKind kind="SPEC" ticker="SPEC-docs-first-development" href="/docs/workflow/development" />
-    <DocStatus status="accepted" />
-    <a href="/docs/workflow/development">Development contract</a>
-  </div>
-</div>
+Specifications are typed living pages, not an endless catalog. Open a boundary
+and keep it current.
+
+| Boundary | Contract | Summary |
+|---|---|---|
+| [Data model](/docs/spec/data-model) | SPEC-001 | IDs, frontmatter, catalog registration |
+| [System model](/docs/spec/system-model) | SPEC-003 | Routes, IA, index-only catalogs, Spec tree |
+| [CLI](/docs/spec/cli) | SPEC-002 | `omd.mjs` inspect, check, adopt, sync |
+
+Workflow gates for implementation remain in
+[Development contract](/docs/workflow/development).

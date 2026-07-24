@@ -4,25 +4,61 @@ description: Durable technical choices and their rejected alternatives.
 type: overview
 ---
 
-<div className="not-prose flex flex-col gap-3">
-  <div className="flex items-center gap-2">
-    <DocKind
-      kind="ADR"
-      ticker="ADR-001"
-      href="/docs/development/adr/adr-001-fumadocs-ssot"
-    />
-    <AdrStatus status="accepted" />
-    <a href="/docs/development/adr/adr-001-fumadocs-ssot">Fumadocs as the SSOT renderer</a>
-  </div>
-  <div className="flex items-center gap-2">
-    <DocKind
-      kind="ADR"
-      ticker="ADR-002"
-      href="/docs/development/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot"
-    />
-    <AdrStatus status="accepted" />
-    <a href="/docs/development/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot">
-      UI vocabulary ships as skill-template snapshot
-    </a>
-  </div>
+<div className="not-prose overflow-x-auto">
+  <table className="w-full text-sm">
+    <thead>
+      <tr className="border-b text-left">
+        <th className="py-2 pr-4 font-medium">ID</th>
+        <th className="py-2 pr-4 font-medium">Status</th>
+        <th className="py-2 font-medium">Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind kind="ADR" ticker="ADR-001" href="/docs/development/adr/adr-001-fumadocs-ssot" />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <AdrStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/development/adr/adr-001-fumadocs-ssot">Fumadocs as the SSOT renderer</a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind
+            kind="ADR"
+            ticker="ADR-002"
+            href="/docs/development/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot"
+          />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <AdrStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/development/adr/adr-ui-vocabulary-ships-as-skill-template-snapshot">
+            UI vocabulary ships as skill-template snapshot
+          </a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind
+            kind="ADR"
+            ticker="ADR-003"
+            href="/docs/development/adr/adr-promote-adr-and-plans-to-top-level-catalogs"
+          />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <AdrStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/development/adr/adr-promote-adr-and-plans-to-top-level-catalogs">
+            Promote ADR and plans to top-level catalogs
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

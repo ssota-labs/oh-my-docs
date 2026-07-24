@@ -1,8 +1,6 @@
 {
   "title": "Specifications",
-  "pages": [
-    "index",
-    "docs-foundation",
-    "spec-skill-snapshot-and-ui-vocabulary-refresh"
-  ]
+  "pages": ["index", "data-model", "system-model", "cli"],
+  "collapsible": true,
+  "defaultOpen": true
 }

@@ -1,0 +1,52 @@
+---
+title: Handbook navigation and typed specs
+description: Keep catalogs scannable and Spec contracts typed without endless sidebars.
+type: conceptual
+summary: Index-only catalogs use tables; ADR and plans sit at the top level; Spec uses typed pages.
+id: PRD-handbook-navigation-and-typed-specs
+ticker: PRD-003
+period: handbook-ia
+status: active
+changeType: product
+stories:
+  - US-browse-catalogs-without-sidebar-bloat
+---
+
+## Problem
+
+PRDs, stories, plans, and ADRs grow quickly. Listing every document in the
+sidebar makes navigation unusable. Nesting ADR and plans under a Development
+folder adds an extra click without helping discovery. Spec today behaves like
+another long catalog instead of a small set of living contract boundaries.
+
+## Outcome
+
+Readers open a catalog index (table) for PRDs, stories, plans, and ADRs. ADR
+and Implementation Plans appear as second-level sidebar items. Spec exposes a
+few typed pages (data model, system model, CLI/API), following the holiday-cfo
+pattern.
+
+## Goals
+
+- Catalog folders stay index-only in the sidebar.
+- Catalog indexes present rows in a table (ID, status, title).
+- Remove the intermediate Development section from the default IA.
+- Spec children are typed contract pages, not a growing SPEC-* list.
+- Skill templates and runtime defaults stay aligned with the live handbook.
+
+## Non-goals
+
+- Domain glossary/models/policies (separate initiative).
+- Task board / `.omd` task runtime.
+- Redesigning the Fumadocs chrome beyond catalog and Spec IA.
+
+## Included stories
+
+- [US-003](/docs/planning/stories/us-browse-catalogs-without-sidebar-bloat)
+
+## Success measures
+
+- Sidebar depth for catalogs does not grow with document count.
+- A new reader reaches ADR or Plans in one sidebar click from the top level.
+- Spec sidebar shows a stable set of typed pages.
+- `pnpm check:planning`, skill template sync, and docs build pass.
