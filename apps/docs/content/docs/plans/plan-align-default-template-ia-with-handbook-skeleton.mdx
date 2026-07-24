@@ -1,0 +1,83 @@
+---
+title: Align default template IA with handbook skeleton
+description: Make adopt scaffolds match the live handbook IA skeleton, including Domain and Spec boundary catalogs.
+type: guide
+summary: Close the drift between apps/docs structure and skill/template defaults so other repos adopt the same IA.
+id: PLAN-align-default-template-ia-with-handbook-skeleton
+ticker: PLAN-008
+stage: ready
+changeType: maintenance
+prd: PRD-handbook-navigation-and-typed-specs
+specs:
+  - SPEC-handbook-information-architecture
+  - SPEC-docs-foundation
+stories:
+  - US-browse-catalogs-without-sidebar-bloat
+codeAreas:
+  - skills/oh-my-doc
+  - plugins
+  - templates
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/spec/system-model/handbook-ia
+  - /docs/plans/plan-spec-boundary-index-only-catalogs
+  - /docs/domain
+---
+
+## Scope
+
+1. Put **Domain** into the default skill IA (`DEFAULT_IA_SECTIONS`) so greenfield
+   `adopt` / `sync` write the same top-level order as SPEC-007:
+   `Home → Vision → Start here → Domain → Workflow → Planning → Plans → ADR → Spec`.
+2. Scaffold Domain stubs in `skills/oh-my-doc/templates/default` and
+   `templates/default`:
+   - `domain/` with glossary, models, and policies indexes
+   - empty catalog tables (no dogfood product terms)
+3. Keep Spec boundary folders (`data-model`, `system-model`) as index-only
+   catalogs with PRD-style empty tables in the template (not Oh My Docs
+   product SPEC pages).
+4. Fix skill reference drift (`information-architecture.md`) so Spec wording
+   matches index-only boundaries.
+5. Sync plugin skill mirrors (`pnpm sync:skills`).
+
+Out of scope: copying dogfood PRDs, SPECs, ADRs, or Domain term pages into
+adopter templates.
+
+## Implementation sequence
+
+1. Land this plan (docs-only).
+2. Update `DEFAULT_IA_SECTIONS` and adopt greenfield test expectations.
+3. Add Domain scaffold + Spec boundary index tables in skill and root templates.
+4. Refresh IA reference docs; run `pnpm sync:skills`.
+5. Verify with adopt smoke + planning/skills checks.
+
+## Verification
+
+- `pnpm check:planning`
+- `pnpm check:skills`
+- `node --test skills/oh-my-doc/tests/runtime.test.mjs`
+- Manual: `adopt` into a temp dir yields Domain + Spec boundaries; sidebar
+  matches SPEC-007 skeleton (no dogfood product pages).
+
+## Migration and compatibility
+
+- Greenfield adopts pick up Domain automatically.
+- Brownfield `sync` updates managed `meta.json` page order from
+  `.omd/project.json`; projects that customized IA keep their contract file.
+- Existing adopters without Domain can add the section via `.omd` + `sync` or
+  by copying the template stubs.
+
+## Risks and rollback
+
+- Adding Domain to the default contract may reorder brownfield `meta.json` on
+  `sync` — mitigate by documenting that `.omd/project.json` is the source of
+  truth and only greenfield gets the new scaffold files.
+- Rollback by removing Domain from `DEFAULT_IA_SECTIONS` and template stubs.
+
+## Completion criteria
+
+- Template IA skeleton matches SPEC-007 (including Domain).
+- Spec Data/System model remain index-only catalogs in templates and
+  `DEFAULT_CATALOGS`.
+- Plugin mirrors match `skills/oh-my-doc`.
+- Dogfood product pages stay only under `apps/docs`.
