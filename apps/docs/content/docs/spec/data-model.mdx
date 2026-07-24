@@ -1,14 +1,16 @@
 ---
 title: Data model
-description: Stable IDs, frontmatter fields, and catalog registration for handbook artifacts.
+description: Handbook artifacts and committed .omd task state.
 type: reference
-summary: Kind-prefixed IDs and sibling meta.json registration are the handbook data contract.
+summary: Kind-prefixed catalog IDs plus one-file-per-task .omd snapshots are the data contract.
 id: SPEC-docs-foundation
 ticker: SPEC-001
 stage: accepted
 related:
   - /docs/planning/prds/prd-docs-foundation
   - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/domain/models/task-execution
   - /docs/adr/adr-001-fumadocs-ssot
   - /docs/spec/system-model
   - /docs/spec/cli
@@ -16,19 +18,23 @@ related:
 
 ## Scope
 
-Defines the durable data shape of planning artifacts in the handbook content
-tree. Routes, runtime actions, and sidebar behavior are covered by
-[System model](/docs/spec/system-model) and [CLI](/docs/spec/cli).
+Defines the durable data shape of handbook planning artifacts and the committed
+Git snapshot for agent execution tasks. Routes, orchestration behavior, and
+sidebar IA are covered by [System model](/docs/spec/system-model). Runtime
+actions are covered by [CLI](/docs/spec/cli).
 
-## Entities
+Absorbs the former standalone task data contract (`SPEC-004`).
 
-| Kind | ID prefix | Catalog path (after IA flatten) | Lifecycle field |
+## Handbook entities
+
+| Kind | ID prefix | Catalog path | Lifecycle field |
 |---|---|---|---|
 | Product requirements | `PRD-` | `planning/prds` | `status` |
 | User stories | `US-` | `planning/stories` | (owned by linked PRD/plan) |
 | Specifications | `SPEC-` | `spec/<typed-page>` | `stage` |
 | Architecture decisions | `ADR-` | `adr` | `stage` |
 | Implementation plans | `PLAN-` | `plans` | `stage` |
+| Execution tasks | `TASK-` | `.omd/tasks/` (not a sidebar catalog) | `status` |
 
 ## Frontmatter invariants
 
@@ -39,13 +45,55 @@ tree. Routes, runtime actions, and sidebar behavior are covered by
 - Spec documents are living typed pages; they keep `SPEC-*` IDs even when the
   filename is a boundary name (`data-model`, `system-model`, `cli`).
 
+## Task snapshot (`.omd`)
+
+```text
+.omd/
+  project.json
+  state.json
+  tasks/
+    TASK-<stable-id>.json
+```
+
+One task per file minimizes merge conflicts between worktrees.
+
+Required task fields:
+
+```json
+{
+  "id": "TASK-task-runtime-001",
+  "planId": "PLAN-pdca-task-runtime",
+  "title": "Implement task state validation",
+  "status": "ready",
+  "dependsOn": [],
+  "codeAreas": ["skills/oh-my-doc/runtime"],
+  "acceptance": ["POLICY-task-runnable", "SPEC-handbook-information-architecture"]
+}
+```
+
+- ID prefix is `TASK-` and immutable after publication.
+- One task belongs to exactly one PLAN.
+- Status values are `draft`, `ready`, `blocked`, `active`, `done`, `failed`,
+  `cancelled`.
+- Dependencies reference task IDs in the same project and form a DAG.
+- `codeAreas` is non-empty before `ready`.
+- Acceptance references use stable US, POLICY, or SPEC IDs.
+- Internal kinds remain `PLAN` and `TASK`; configured labels do not change IDs.
+
+An agent generates tasks from a base-branch PLAN in `ready|active`. Task files
+are proposed and committed before or with execution-state transitions.
+
 ## Validation
 
 The planning check fails on duplicate or malformed IDs, missing references,
 invalid ready-state dependencies, missing code areas, or unregistered catalog
-documents.
+documents. Task checks fail on duplicate/malformed task IDs, missing PLANs,
+dangling or cyclic dependencies, empty `codeAreas` on ready tasks, or invalid
+status values.
 
 ## Compatibility
 
 Brownfield handbooks that still use `development/plans` and `development/adr`
 must migrate paths with the IA flatten. IDs do not change when files move.
+Task state is additive to the current `.omd` contract; projects without tasks
+remain valid until they request implementation orchestration.
