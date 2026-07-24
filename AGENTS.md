@@ -33,6 +33,15 @@ product code.
 7. If scope changes during implementation, update and review the plan first.
 8. Mark the plan `done` only after implementation and verification complete.
 
+### Pull requests
+
+- **Always open PRs against `main`.** Never set a PR base to another feature
+  branch (`cursor/…`, stacked bases, etc.).
+- Sequential work may still land as separate PRs (plan, then implementation).
+  Overlapping commits across those PRs are fine; humans merge them **in order**.
+- Do not wait on GitHub stacked-base mechanics. Rebase or recreate onto
+  `main` when needed, even if that duplicates commits from an earlier PR.
+
 ### Exemptions
 
 - **Docs-only** changes under `apps/docs/content/docs/`, `apps/docs/templates/`,
