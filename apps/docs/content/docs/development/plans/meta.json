@@ -1,4 +1,9 @@
 {
   "title": "Implementation plans",
-  "pages": ["index", "plan-docs-foundation", "plan-single-skill-omd-runtime"]
+  "pages": [
+    "index",
+    "plan-docs-foundation",
+    "plan-single-skill-omd-runtime",
+    "plan-redirect-root-to-handbook"
+  ]
 }
