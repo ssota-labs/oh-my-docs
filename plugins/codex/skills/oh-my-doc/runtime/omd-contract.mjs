@@ -17,6 +17,7 @@ export const DEFAULT_IA_SECTIONS = [
   { id: 'spec', title: 'Spec', path: 'spec', required: true, visible: true },
 ];
 
+
 export const DEFAULT_CATALOGS = [
   { id: 'prds', label: 'Product requirements', prefix: ['planning', 'prds'], indexUrl: '/docs/planning/prds', indexOnly: true },
   { id: 'stories', label: 'User stories', prefix: ['planning', 'stories'], indexUrl: '/docs/planning/stories', indexOnly: true },

@@ -1,0 +1,47 @@
+---
+title: Git snapshots approve task execution state
+description: Commit task files individually and use the shared base as the approved execution view.
+type: decision
+summary: Git review is the synchronization and approval mechanism for `.omd` tasks; no live database is required.
+id: ADR-003
+ticker: ADR-003
+stage: accepted
+related:
+  - /docs/spec/spec-task-data-model
+  - /docs/spec/spec-task-execution-system-model
+  - /docs/spec/spec-task-board-snapshot
+  - /docs/domain/policies/task-execution
+---
+
+## Context
+
+Remote worktrees and local agents need a common execution view. A single mutable
+task file creates merge conflicts; a real-time control plane adds database,
+authentication, authorization, and deployment scope before it is needed. The
+handbook already uses Git review as the approval boundary.
+
+## Decision
+
+- Store one task per `.omd/tasks/TASK-*.json`.
+- Treat the shared base branch as the approved task state.
+- Release dependent tasks only from predecessor state merged into that base.
+- Render the same committed snapshot in the docs app and Vercel.
+- Do not add a live task database in this phase.
+
+## Consequences
+
+- Parallel agents usually touch different task files.
+- Status is eventually updated through commits rather than live presence.
+- Vercel shows approved snapshots, not current processes.
+- Git history provides task auditability and rollback.
+- Real-time orchestration can later add a remote store without redefining task
+  identity or policy.
+
+## Rejected alternatives
+
+- **One `.omd/tasks.json` file** — independent worktrees contend on every status
+  update.
+- **Database-first scheduler** — requires hosted state and access control before
+  the product needs live operation.
+- **PLAN as execution state** — mixes reviewed change intent with mutable agent
+  progress and makes plan/sprint naming affect runtime semantics.

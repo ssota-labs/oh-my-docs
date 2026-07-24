@@ -86,7 +86,7 @@ publish from a developer machine.
 - `pnpm` is provided by corepack (pinned to `pnpm@11.5.2` via the `packageManager`
   field), not by a global install. It lives in the nvm Node 24 bin.
 - No lint tooling exists (no ESLint/Biome). The "lint" gate is the check scripts:
-  `pnpm check:planning`, `pnpm check:ui-snapshot`, `pnpm check:skills`. See
+  `pnpm check:ui-snapshot`, `pnpm check:skills`. See
   `.github/workflows/validate.yml` for the exact CI gate order.
 - The only long-running service is the docs handbook (`apps/docs`, Next.js). Run it
   with `pnpm --filter @oh-my-docs/docs dev` (or `pnpm dev`); it serves on

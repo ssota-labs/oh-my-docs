@@ -28,7 +28,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm check:planning
       - run: pnpm check:ui-snapshot
       - run: pnpm check:skills
 

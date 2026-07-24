@@ -6,6 +6,7 @@
     "plan-single-skill-omd-runtime",
     "plan-skill-ui-refresh-detection",
     "plan-redirect-root-to-handbook",
+    "plan-pdca-domain-and-task-runtime",
     "plan-flatten-catalogs-and-typed-spec-pages"
   ]
 }

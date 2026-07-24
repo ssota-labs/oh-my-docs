@@ -1,17 +1,84 @@
 ---
 title: Specifications
-description: Living contracts by boundary — data, system, and CLI.
+description: Living contracts by boundary, plus accepted initiative contracts.
 type: overview
 ---
 
-Specifications are typed living pages, not an endless catalog. Open a boundary
-and keep it current.
+## Typed boundaries
+
+Stable handbook contract surfaces (holiday-cfo style).
 
 | Boundary | Contract | Summary |
 |---|---|---|
 | [Data model](/docs/spec/data-model) | SPEC-001 | IDs, frontmatter, catalog registration |
-| [System model](/docs/spec/system-model) | SPEC-003 | Routes, IA, index-only catalogs, Spec tree |
+| [System model](/docs/spec/system-model) | SPEC-007 | Routes, IA, index-only catalogs, Spec tree |
 | [CLI](/docs/spec/cli) | SPEC-002 | `omd.mjs` inspect, check, adopt, sync |
 
 Workflow gates for implementation remain in
 [Development contract](/docs/workflow/development).
+
+## Initiative contracts
+
+Accepted SPECs that are not yet folded into a typed boundary page.
+
+<div className="not-prose overflow-x-auto">
+  <table className="w-full text-sm">
+    <thead>
+      <tr className="border-b text-left">
+        <th className="py-2 pr-4 font-medium">ID</th>
+        <th className="py-2 pr-4 font-medium">Status</th>
+        <th className="py-2 font-medium">Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind kind="SPEC" ticker="SPEC-003" href="/docs/spec/spec-pdca-planning-workflow" />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/spec/spec-pdca-planning-workflow">PDCA planning workflow</a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind kind="SPEC" ticker="SPEC-004" href="/docs/spec/spec-task-data-model" />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/spec/spec-task-data-model">Task data model</a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind
+            kind="SPEC"
+            ticker="SPEC-005"
+            href="/docs/spec/spec-task-execution-system-model"
+          />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/spec/spec-task-execution-system-model">Task execution system model</a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind kind="SPEC" ticker="SPEC-006" href="/docs/spec/spec-task-board-snapshot" />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="accepted" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/spec/spec-task-board-snapshot">Task board snapshot</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,6 +1,15 @@
 {
   "title": "Specifications",
-  "pages": ["index", "data-model", "system-model", "cli"],
+  "pages": [
+    "index",
+    "data-model",
+    "system-model",
+    "cli",
+    "spec-pdca-planning-workflow",
+    "spec-task-data-model",
+    "spec-task-execution-system-model",
+    "spec-task-board-snapshot"
+  ],
   "collapsible": true,
   "defaultOpen": true
 }

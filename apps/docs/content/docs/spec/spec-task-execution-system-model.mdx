@@ -1,0 +1,76 @@
+---
+title: Task execution system model
+description: Selection, assignment, parallelism, and completion behavior for approved tasks.
+type: reference
+specType: system-model
+documentClass: living
+summary: The orchestrator executes only runnable tasks and isolates independent work.
+id: SPEC-task-system-model
+ticker: SPEC-005
+stage: accepted
+related:
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/planning/stories/us-start-approved-implementation-tasks
+  - /docs/domain/policies/task-execution
+  - /docs/adr/adr-git-snapshots-approve-task-execution-state
+---
+
+## Scope
+
+Defines how the agent generates a task graph, selects runnable work, chooses
+local/subagent/worktree execution, and closes Check/Act.
+
+## Interface
+
+Natural-language operations:
+
+- “Start implementation” — inspect approval and task state, generate tasks if
+  absent, and start runnable work.
+- “Show status” — report phase, task states, blockers, and next actions.
+- “Check implementation” — compare completed work with acceptance references.
+
+## Behavior
+
+1. Resolve a PLAN from the base branch with stage `ready|active`.
+2. If no task graph exists, derive a proposal from implementation sequence,
+   `codeAreas`, verification, and referenced living contracts.
+3. Validate the graph and commit/approve its snapshot.
+4. Select only tasks satisfying `POLICY-task-runnable`.
+5. Partition independent tasks:
+   - remote worktrees for non-overlapping, independently mergeable work;
+   - one primary agent plus subagents for tightly coupled local work.
+6. Transition selected tasks to `active`.
+7. Run implementation and focused verification.
+8. Check implementation against US/POLICY/SPEC acceptance references.
+9. Mark tasks `done` or `failed`; release blocked dependents only after the
+   predecessor is `done` on the shared base.
+
+## Data and invariants
+
+- No task runner modifies another task's status file.
+- Overlapping active `codeAreas` are mutually exclusive.
+- Branch-local `done` does not release a dependent task until merged into the
+  shared base.
+- The orchestrator never auto-merges task branches.
+- PLAN completion requires all non-cancelled tasks done and final Check passing.
+
+## Errors
+
+- Missing or unapproved PLAN: do not generate/start tasks.
+- Invalid/cyclic graph: report problems and stop.
+- No runnable tasks: report blockers, do not infer progress.
+- Verification failure: mark failed or create corrective tasks during Act.
+
+## Compatibility
+
+The first implementation of this system may use a manually approved PLAN
+without task orchestration (bootstrap). Existing agent workflows remain usable
+when no task graph exists.
+
+## Acceptance criteria
+
+- Runnable selection is deterministic for the same Git commit.
+- Parallel assignment never knowingly overlaps declared `codeAreas`.
+- Dependency release depends on shared-base state.
+- Check/Act produce concrete task transitions rather than percentage claims
+  without evidence.
