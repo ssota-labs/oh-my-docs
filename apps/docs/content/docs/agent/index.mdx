@@ -1,60 +1,80 @@
 ---
 title: Agent guide
-description: Repository context, setup skill invocation, and boundaries for coding agents.
+description: Install the oh-my-doc skill, adopt a project, and follow the handbook before changing code.
 type: guide
-summary: Install the setup skill with the CLI, then resolve product intent from the handbook before changing implementation.
+summary: Agents install oh-my-doc, drive omd.mjs, and resolve product intent from this handbook before implementation.
+related:
+  - /docs/workflow/planning
+  - /docs/workflow/development
+  - /docs/starting
 ---
 
 ## Source of truth
 
-Use this handbook for product intent, observable contracts, decisions, and reviewed
-implementation plans. Each browser page has a processed Markdown twin at the same
-URL with `.md` appended.
+Use this handbook for product intent, observable contracts, decisions, and
+reviewed implementation plans. Each browser page has a processed Markdown twin at
+the same URL with `.md` appended.
 
-`AGENTS.md` is the canonical instruction file for coding agents. `CLAUDE.md` only
-bridges to it.
+`AGENTS.md` is the canonical instruction file for coding agents. `CLAUDE.md`
+only bridges to it.
 
-## Install or refresh agent setup
+## Install the skill
 
-Do not hand-edit managed marker blocks or skill trees. Run the CLI:
+Users do not run a public Oh My Docs CLI. Install the skill, then drive the
+bundled runtime:
 
 ```bash
-omdocs setup --agent all --scope project --yes
-# or
-npx oh-my-docs@latest setup --agent all --scope project --yes
+npx skills add ssota-labs/oh-my-docs --skill oh-my-doc -y
 ```
-
-| Flag | Values | Purpose |
-|---|---|---|
-| `--agent` | `codex`, `cursor`, `claude`, `all` | Which host discovery path to install |
-| `--scope` | `project`, `user` | Repository vs home-directory skills |
-| `--dry-run` | | Print the plan without writing |
-| `--force` | | Replace divergent skill copies |
 
 ### Discovery paths
 
 | Host | Project | User |
 |---|---|---|
-| Cursor | `.cursor/skills/setup` | `~/.cursor/skills/setup` |
-| Codex | `.agents/skills/setup` | `~/.agents/skills/setup` |
-| Claude Code | `.claude/skills/setup` | `~/.claude/skills/setup` |
+| Cursor | `.cursor/skills/oh-my-doc` | `~/.cursor/skills/oh-my-doc` |
+| Codex | `.agents/skills/oh-my-doc` | `~/.agents/skills/oh-my-doc` |
+| Claude Code | `.claude/skills/oh-my-doc` | `~/.claude/skills/oh-my-doc` |
 
-`project` scope still refreshes repository `AGENTS.md` / `CLAUDE.md` markers when
-`--scope user` installs skills under the home directories.
+In this repository the canonical skill source is `skills/oh-my-doc`. Optional
+host plugin wrappers under `plugins/{cursor,codex,claude-code}` mirror it for
+marketplace discovery.
 
-## Explicit skill invocation
+## Adopt and check a project
 
-The setup skill disables implicit model invocation. Call it on purpose:
+```bash
+node <skill>/scripts/omd.mjs inspect --json
+node <skill>/scripts/omd.mjs adopt --yes --json
+node <skill>/scripts/omd.mjs check --json
+```
 
-| Host | How to invoke |
+| Action | Purpose |
 |---|---|
-| Cursor | `/setup` |
-| Claude Code | `/oh-my-docs:setup` |
-| Codex | Open `/skills` and choose `setup`, or `$setup` |
+| `inspect` | Classify greenfield vs brownfield; report docs/UI/`.omd` state |
+| `adopt` | Scaffold or import handbook, write `.omd/`, copy UI vocabulary into `packages/ui` |
+| `adopt --force` | Also overwrite UI files that diverge from the skill template |
+| `check` | Validate planning graph, `.omd` contract, and UI snapshot health |
+| `sync` | Refresh managed IA pages and `AGENTS.md` / `CLAUDE.md` markers (not UI) |
+| `new` | Create `prd` / `story` / `spec` / `plan` / `adr` drafts |
 
-Platform plugin packages live under `plugins/codex`, `plugins/cursor`, and
-`plugins/claude-code`. Shared skill content is authored in
-`plugins/shared/skills/setup` and synced into each adapter.
+Greenfield scaffolds land under `docs/content/docs`. Brownfield keeps an
+existing `docs/` or `apps/docs` tree in place.
+
+Do not hand-edit managed `<!-- oh-my-docs:* -->` marker blocks; run `sync` or
+`adopt`.
+
+### Skill or UI updates
+
+Updating the skill does not rewrite the project. When `check` or `inspect`
+reports missing or stale UI vocabulary, refresh from the skill template:
+
+```bash
+node <skill>/scripts/omd.mjs adopt --yes --json
+# if files diverge intentionally or look stale:
+node <skill>/scripts/omd.mjs adopt --yes --force --json
+```
+
+Fumadocs shell packages (`fumadocs-ui`, `fumadocs-core`, `fumadocs-mdx`) stay on
+npm. Planning vocabulary is a skill-template snapshot, not a component registry.
 
 ## Before changing code
 
@@ -65,5 +85,5 @@ Platform plugin packages live under `plugins/codex`, `plugins/cursor`, and
 4. Use the [development contract](/docs/workflow/development) for validation and
    completion requirements.
 
-Do not infer missing product behavior from code or create implementation and its
-authorizing plan in the same change.
+Do not invent product behavior from code alone, and do not create an
+implementation together with the plan that first authorizes it.

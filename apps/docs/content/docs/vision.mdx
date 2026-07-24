@@ -25,8 +25,17 @@ as Markdown to agents, and verifiable as a graph.
 3. Human review decides product quality; automation checks structural integrity.
 4. Documentation and agent-readable Markdown are two views of the same source.
 5. The foundation stays product-neutral so teams can add their own domain.
+6. Coding agents install one skill (`oh-my-doc`) and drive a bundled runtime;
+   people do not need a public CLI.
+
+## How it ships
+
+- Handbook content lives in the consumer project (`docs/` or `apps/docs`).
+- Fumadocs shell packages come from npm.
+- Planning UI vocabulary is copied from the skill template into `packages/ui`
+  on adopt, and refreshed the same way when the skill advances.
 
 ## Not yet in scope
 
-Phase 1 does not provide shared UI packages, a visual planning canvas,
+Phase 1 does not provide a public component registry, a visual planning canvas,
 authentication, persistence services, or project-management integrations.
