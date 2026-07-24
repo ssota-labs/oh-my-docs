@@ -1,0 +1,61 @@
+---
+title: Flatten Start here to a single page
+description: Replace the starting/ folder with a single starting.mdx page in dogfood and templates.
+type: guide
+summary: Start here does not need a group; keep /docs/starting as one page like Vision.
+id: PLAN-flatten-start-here-to-a-single-page
+ticker: PLAN-010
+stage: ready
+changeType: maintenance
+prd: PRD-handbook-navigation-and-typed-specs
+specs:
+  - SPEC-handbook-information-architecture
+stories:
+  - US-browse-catalogs-without-sidebar-bloat
+codeAreas:
+  - apps/docs
+  - skills/oh-my-doc
+  - plugins
+  - templates
+related:
+  - /docs/spec/system-model/handbook-ia
+  - /docs/starting
+  - /docs/plans/plan-align-default-template-ia-with-handbook-skeleton
+---
+
+## Scope
+
+1. Replace `starting/index.mdx` (+ `meta.json`) with a single `starting.mdx` in:
+   - dogfood `apps/docs`
+   - skill / root templates
+2. Keep the URL `/docs/starting` and the IA section id `starting`.
+3. Sync plugin skill mirrors.
+4. Note in SPEC-007 / IA reference that Start here is a single page (not a folder).
+
+## Implementation sequence
+
+1. Land this ready plan (docs-only).
+2. Move content to `starting.mdx`; delete the `starting/` directory.
+3. Mirror in templates; `pnpm sync:skills`.
+4. Verify sidebar shows Start here as one item (no expandable group).
+
+## Verification
+
+- `pnpm check:planning`
+- `pnpm check:skills`
+- Manual: sidebar Start here is a leaf page at `/docs/starting`.
+
+## Migration and compatibility
+
+URL stays `/docs/starting`. Empty `starting/` folders in brownfield projects can be
+replaced with `starting.mdx` on the next content edit; `DEFAULT_IA` path is
+unchanged.
+
+## Risks and rollback
+
+Restore the `starting/` folder from git if a project relied on nested start pages.
+
+## Completion criteria
+
+- Dogfood and templates use `starting.mdx` only.
+- No `starting/meta.json` remains in default scaffolds.
