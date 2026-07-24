@@ -11,6 +11,12 @@ export function docKindFromSlug(slug: readonly string[] | undefined): DocKindNam
   if (section === 'planning' && catalog === 'stories' && slug.length > 2) return 'US';
   if (section === 'plans' && slug.length > 1) return 'PLAN';
   if (section === 'adr' && slug.length > 1) return 'ADR';
+  if (
+    section === 'spec' &&
+    (catalog === 'data-model' || catalog === 'system-model')
+  ) {
+    return slug.length > 2 ? 'SPEC' : null;
+  }
   if (section === 'spec' && slug.length >= 2) return 'SPEC';
   return null;
 }

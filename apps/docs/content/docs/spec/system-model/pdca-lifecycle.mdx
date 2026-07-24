@@ -1,0 +1,55 @@
+---
+title: PDCA lifecycle
+description: The user-centered lifecycle from moderated discovery through verified delivery.
+type: reference
+summary: Product changes progress through explicit PDCA gates backed by living and change-scoped documents.
+id: SPEC-pdca-workflow
+ticker: SPEC-003
+stage: accepted
+related:
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/planning/stories/us-plan-from-moderated-user-intent
+  - /docs/domain
+  - /docs/workflow/planning
+  - /docs/spec/system-model/task-orchestration
+---
+
+## Scope
+
+Defines the planning and delivery behavior for product changes. It classifies
+documents by lifetime and separates product approval from task execution.
+
+## Interface
+
+Natural-language operations:
+
+- “Start planning” enters Discover.
+- “Start implementation” enters Do only after approval gates pass.
+- “Show status” reports PDCA phase, document readiness, and task state.
+
+## Phases
+
+`Discover → Plan → Design → Approve → Do → Check → Act`
+
+| Phase | Primary artifacts |
+|---|---|
+| Discover / Plan | Candidate US, moderated PRD |
+| Design | Domain, Spec boundaries, ADR, PLAN |
+| Approve | Ready PLAN (and task graph when present) on shared base |
+| Do | Agent-generated `.omd` tasks and implementation |
+| Check / Act | Evidence vs acceptance; corrective tasks or PLAN completion |
+
+## Document classes
+
+| Class | Examples |
+|---|---|
+| Living | Vision, Domain, Spec boundaries |
+| Decision | ADR |
+| Change | PRD, PLAN |
+| Execution | `.omd` tasks |
+
+## Acceptance criteria
+
+- Product approval is visible in handbook documents before Do starts.
+- Living contracts are updated in Design rather than reinvented per initiative.
+- Status reporting names the PDCA phase and blocking artifacts.
