@@ -1,0 +1,87 @@
+---
+title: Flatten catalogs and typed Spec pages
+description: Promote plans/ADR, keep catalogs index-only with tables, and ship typed Spec pages in app and templates.
+type: guide
+summary: Move plans and adr to top-level, rewire runtime/IA defaults, sync templates, and align Spec with typed pages.
+id: PLAN-flatten-catalogs-and-typed-spec-pages
+ticker: PLAN-006
+stage: done
+changeType: product
+prd: PRD-handbook-navigation-and-typed-specs
+specs:
+  - SPEC-handbook-information-architecture
+  - SPEC-docs-foundation
+  - SPEC-skill-ui-refresh
+stories:
+  - US-browse-catalogs-without-sidebar-bloat
+codeAreas:
+  - apps/docs
+  - packages/ui
+  - skills/oh-my-doc
+  - plugins
+  - scripts
+  - templates
+  - AGENTS.md
+  - CLAUDE.md
+  - README.md
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/planning/stories/us-browse-catalogs-without-sidebar-bloat
+  - /docs/spec/system-model
+  - /docs/adr/adr-promote-adr-and-plans-to-top-level-catalogs
+---
+
+## Scope
+
+1. Content IA: top-level `plans/` and `adr/`; remove `development/`; Spec typed
+   pages (`data-model`, `system-model`, `cli`) with table-based catalog indexes.
+2. App wiring: `CATALOGS`, `indexOnlyPageTree`, `docKindFromSlug`, and docs
+   content links.
+3. Skill runtime: `DEFAULT_IA_SECTIONS`, `DEFAULT_CATALOGS`, create-document
+   directories, planning classify paths, docs-first `Plan:` path regex.
+4. Templates and plugin mirrors: `pnpm sync:skills` / `pnpm check:ui-snapshot`.
+5. Root docs (`AGENTS.md`, workflow pages) cite the new plan path.
+
+## Implementation sequence
+
+1. Land this planning set (docs-only) with accepted SPEC/ADR and ready plan.
+2. Move `development/plans` → `plans` and `development/adr` → `adr`; delete the
+   Development section; update all in-repo links.
+3. Ensure Spec meta lists typed pages only; remove legacy SPEC filenames.
+4. Convert catalog indexes to tables.
+5. Update `apps/docs/lib/source.ts`, `packages/ui` slug inference/tests, and
+   skill runtime/template copies.
+6. Run sync/check scripts and mark this plan `done` after verification.
+
+## Verification
+
+- `pnpm check:planning`
+- `BASE_SHA=origin/main HEAD_SHA=HEAD` docs-first on the implementation PR
+- `pnpm check:ui-snapshot`
+- `pnpm check:skills`
+- `pnpm test`
+- `pnpm typecheck`
+- `pnpm build`
+- Manual: sidebar shows Plans and ADR at L2; catalog children hidden; Spec
+  shows typed pages; indexes are tables.
+
+## Migration and compatibility
+
+- Update every `Plan:` citation and internal `/docs/development/*` link.
+- Greenfield `adopt` scaffolds the flattened IA.
+- Existing consumer projects need `sync` / content moves on upgrade (document in
+  completion notes).
+
+## Risks and rollback
+
+- Broken external bookmarks to `/docs/development/*` — mitigate with thorough
+  in-repo link updates; optional redirects can follow later.
+- PDCA planning branch still uses nested paths — rebase after this lands.
+- Rollback by reverting the path move and restoring `DEFAULT_*` constants.
+
+## Completion criteria
+
+- No default `development` section in handbook or skill template IA.
+- Catalog indexes are tables; sidebar stays index-only for those catalogs.
+- Spec sidebar is typed pages aligned with templates.
+- Plugin skill mirrors match `skills/oh-my-doc`.

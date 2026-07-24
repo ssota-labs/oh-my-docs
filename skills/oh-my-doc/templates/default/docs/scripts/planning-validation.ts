@@ -73,8 +73,8 @@ function classify(file: string, contentDirectory: string, data: Frontmatter): Do
   if (basename(file) === 'index.mdx') return null;
   if (path.startsWith('planning/prds/')) return 'prd';
   if (path.startsWith('planning/stories/')) return 'story';
-  if (path.startsWith('development/plans/')) return 'plan';
-  if (path.startsWith('development/adr/')) return 'adr';
+  if (path.startsWith('plans/')) return 'plan';
+  if (path.startsWith('adr/')) return 'adr';
   return string(data.id)?.toUpperCase().startsWith('SPEC-') ? 'spec' : null;
 }
 

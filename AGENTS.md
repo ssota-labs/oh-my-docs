@@ -27,7 +27,7 @@ product code.
 5. If required documents are missing, create and review a docs-only change
    first. Do not combine a new plan and its implementation.
 6. An implementation PR must include
-   `Plan: apps/docs/content/docs/development/plans/plan-….mdx`; that plan must
+   `Plan: apps/docs/content/docs/plans/plan-….mdx`; that plan must
    already exist on the PR base with `stage: ready|active` and `codeAreas`
    covering every non-docs path in the diff.
 7. If scope changes during implementation, update and review the plan first.

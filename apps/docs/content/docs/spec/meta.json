@@ -2,11 +2,14 @@
   "title": "Specifications",
   "pages": [
     "index",
-    "docs-foundation",
-    "spec-skill-snapshot-and-ui-vocabulary-refresh",
+    "data-model",
+    "system-model",
+    "cli",
     "spec-pdca-planning-workflow",
     "spec-task-data-model",
     "spec-task-execution-system-model",
     "spec-task-board-snapshot"
-  ]
+  ],
+  "collapsible": true,
+  "defaultOpen": true
 }

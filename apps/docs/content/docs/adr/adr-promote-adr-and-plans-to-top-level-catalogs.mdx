@@ -1,0 +1,50 @@
+---
+title: Promote ADR and plans to top-level catalogs
+description: ADR and Implementation Plans are top-level index-only catalogs, not nested under Development.
+type: decision
+summary: Drop the Development folder; keep plans and ADRs as sibling catalogs beside Planning and Spec.
+id: ADR-promote-adr-and-plans-to-top-level-catalogs
+ticker: ADR-004
+stage: accepted
+related:
+  - /docs/spec/system-model
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+---
+
+## Context
+
+The default IA nested plans and ADRs under Development. That mirrored an
+internal “implementation” bucket, but readers treat those catalogs the same way
+as PRDs and stories: open an index, pick a row. The extra folder only lengthened
+paths (`/docs/plans/...`) and sidebar depth.
+
+## Decision
+
+1. Promote `plans` and `adr` to top-level content folders and sidebar sections.
+2. Remove the intermediate `development` section from the default IA.
+3. Keep both catalogs index-only, matching PRDs and stories.
+4. Spec remains a visible folder of typed contract pages (not index-only).
+
+Default order becomes:
+
+`Home → Vision → Start here → Workflow → Planning → Plans → ADR → Spec`
+
+## Consequences
+
+- Runtime defaults (`DEFAULT_IA_SECTIONS`, `DEFAULT_CATALOGS`), `docKindFromSlug`,
+  docs-first plan path regex, create-document directories, templates, and handbook
+  links must move together.
+- Existing URLs under `/docs/development/*` break unless redirects are added;
+  this change updates links in-repo and accepts path migration for greenfield
+  templates.
+- Docs-first citations become
+  `Plan: apps/docs/content/docs/plans/plan-<initiative>.mdx`.
+
+## Rejected alternatives
+
+- **Keep Development, only collapse children** — still wastes a sidebar level and
+  keeps longer URLs.
+- **Make Spec index-only like PRDs** — rejects the holiday-cfo typed-page model
+  the product wants for living contracts.
+- **Virtual sidebar aliases without moving files** — Fumadocs meta.json cannot
+  promote nested folders to root without filesystem moves or custom tree hacks.

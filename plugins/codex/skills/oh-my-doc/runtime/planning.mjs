@@ -41,9 +41,9 @@ function classify(file, contentDirectory, data) {
         return 'prd';
     if (path.startsWith('planning/stories/'))
         return 'story';
-    if (path.startsWith('development/plans/'))
+    if (path.startsWith('plans/'))
         return 'plan';
-    if (path.startsWith('development/adr/'))
+    if (path.startsWith('adr/'))
         return 'adr';
     return string(data.id)?.toUpperCase().startsWith('SPEC-') ? 'spec' : null;
 }

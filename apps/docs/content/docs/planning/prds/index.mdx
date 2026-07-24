@@ -4,22 +4,72 @@ description: Outcomes, scope, and success measures for product initiatives.
 type: overview
 ---
 
-<div className="not-prose flex flex-col gap-3">
-  <div className="flex items-center gap-2">
-    <DocKind kind="PRD" ticker="PRD-001" href="/docs/planning/prds/prd-docs-foundation" />
-    <DocStatus status="active" />
-    <a href="/docs/planning/prds/prd-docs-foundation">Docs foundation</a>
-  </div>
-  <div className="flex items-center gap-2">
-    <DocKind kind="PRD" ticker="PRD-002" href="/docs/planning/prds/prd-skill-and-ui-refresh-loop" />
-    <DocStatus status="active" />
-    <a href="/docs/planning/prds/prd-skill-and-ui-refresh-loop">Skill and UI refresh loop</a>
-  </div>
-  <div className="flex items-center gap-2">
-    <DocKind kind="PRD" ticker="PRD-003" href="/docs/planning/prds/prd-pdca-domain-and-task-orchestration" />
-    <DocStatus status="active" />
-    <a href="/docs/planning/prds/prd-pdca-domain-and-task-orchestration">
-      PDCA domain and task orchestration
-    </a>
-  </div>
+<div className="not-prose overflow-x-auto">
+  <table className="w-full text-sm">
+    <thead>
+      <tr className="border-b text-left">
+        <th className="py-2 pr-4 font-medium">ID</th>
+        <th className="py-2 pr-4 font-medium">Status</th>
+        <th className="py-2 font-medium">Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind kind="PRD" ticker="PRD-001" href="/docs/planning/prds/prd-docs-foundation" />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="active" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/planning/prds/prd-docs-foundation">Docs foundation</a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind kind="PRD" ticker="PRD-002" href="/docs/planning/prds/prd-skill-and-ui-refresh-loop" />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="active" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/planning/prds/prd-skill-and-ui-refresh-loop">Skill and UI refresh loop</a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind
+            kind="PRD"
+            ticker="PRD-003"
+            href="/docs/planning/prds/prd-pdca-domain-and-task-orchestration"
+          />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="active" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/planning/prds/prd-pdca-domain-and-task-orchestration">
+            PDCA domain and task orchestration
+          </a>
+        </td>
+      </tr>
+      <tr className="border-b border-fd-border/60">
+        <td className="py-3 pr-4 align-middle">
+          <DocKind
+            kind="PRD"
+            ticker="PRD-004"
+            href="/docs/planning/prds/prd-handbook-navigation-and-typed-specs"
+          />
+        </td>
+        <td className="py-3 pr-4 align-middle">
+          <DocStatus status="active" />
+        </td>
+        <td className="py-3 align-middle">
+          <a href="/docs/planning/prds/prd-handbook-navigation-and-typed-specs">
+            Handbook navigation and typed specs
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

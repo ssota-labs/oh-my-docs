@@ -1,0 +1,56 @@
+---
+title: Redirect root to handbook
+description: Send `/` to `/docs` so the handbook is the default entry.
+type: guide
+summary: Update the foundation route contract and replace the marketing home with a redirect.
+id: PLAN-root-redirect-docs
+ticker: PLAN-004
+stage: ready
+changeType: maintenance
+prd: PRD-docs-foundation
+specs:
+  - SPEC-docs-foundation
+stories:
+  - US-navigate-product-context
+codeAreas:
+  - apps/docs/app
+  - skills/oh-my-doc/templates/default/docs/app
+  - plugins
+related:
+  - /docs/spec/data-model
+  - /docs/planning/prds/prd-docs-foundation
+---
+
+## Scope
+
+1. Change `SPEC-docs-foundation` so `/` redirects to `/docs` (docs-only in this PR).
+2. Replace `apps/docs/app/page.tsx` with a Next.js redirect to `/docs`.
+3. Keep the skill scaffold template (`templates/default/docs/app/page.tsx`) aligned.
+4. Sync plugin skill mirrors after template changes.
+
+## Implementation sequence
+
+1. Merge the specification and this ready plan.
+2. Implement permanent redirect at `/` in the dogfood docs app.
+3. Mirror the same redirect in the skill default template; `pnpm sync:skills`.
+4. Smoke the docs app: `/` → `/docs`.
+
+## Verification
+
+- `pnpm check:planning`
+- `pnpm check:skills` (after template sync)
+- Manual or automated hit of `/` returns redirect to `/docs`
+
+## Migration and compatibility
+
+Bookmarks to `/` land on the handbook home. The previous intro copy on `/` is
+removed; handbook `index` remains the landing content.
+
+## Risks and rollback
+
+Revert the page components and restore the prior SPEC route bullet if needed.
+
+## Completion criteria
+
+- SPEC and runtime agree that `/` redirects to `/docs`.
+- Dogfood app and skill template match.
