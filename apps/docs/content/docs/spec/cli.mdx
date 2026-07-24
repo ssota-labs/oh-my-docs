@@ -17,9 +17,25 @@ related:
 
 ## Scope
 
-Covers the skill-era runtime actions that install, inspect, and refresh the
-planning UI vocabulary snapshot and managed IA files. Does not cover Fumadocs
-shell package versions on npm.
+Covers skill install plus the skill-era runtime actions that inspect, adopt,
+check, and refresh the planning UI vocabulary snapshot and managed IA files.
+Does not cover Fumadocs shell package versions on npm. Product intent still
+comes from this handbook and root `AGENTS.md` (with `CLAUDE.md` as a bridge).
+
+## Install
+
+```bash
+npx skills add ssota-labs/oh-my-docs --skill oh-my-doc -y
+```
+
+| Host | Project | User |
+|---|---|---|
+| Cursor | `.cursor/skills/oh-my-doc` | `~/.cursor/skills/oh-my-doc` |
+| Codex | `.agents/skills/oh-my-doc` | `~/.agents/skills/oh-my-doc` |
+| Claude Code | `.claude/skills/oh-my-doc` | `~/.claude/skills/oh-my-doc` |
+
+In this repository the canonical skill source is `skills/oh-my-doc`. Optional
+host plugin wrappers under `plugins/{cursor,codex,claude-code}` mirror it.
 
 ## Interface
 

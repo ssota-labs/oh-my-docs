@@ -32,8 +32,8 @@ catalogs, ADRs remain decision records, and `.omd/tasks` is execution state.
 
 Catalog folders (`planning/prds`, `planning/stories`, `plans`, `adr`) stay
 index-only in the sidebar. Each document is registered in its sibling
-`meta.json`. Spec keeps children visible (typed boundary pages and accepted
-contract pages).
+`meta.json`. Spec keeps children visible as typed boundary pages (`data-model`,
+`system-model`, `cli`).
 
 Browser pages expose a processed Markdown twin at the same URL with `.md`
 appended so agents can read the identical SSOT without scraping HTML.
