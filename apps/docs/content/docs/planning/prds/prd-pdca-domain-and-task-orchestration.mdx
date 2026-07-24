@@ -1,0 +1,86 @@
+---
+title: PDCA domain and task orchestration
+description: Carry moderated user intent through durable product contracts into safe agent execution.
+type: conceptual
+summary: Oh My Docs needs a user-centered PDCA workflow, shared domain language, and Git-approved task graphs.
+id: PRD-pdca-task-orchestration
+ticker: PRD-003
+period: phase-2
+status: active
+changeType: product
+stories:
+  - US-moderated-planning
+  - US-start-approved-tasks
+  - US-view-task-snapshot
+review:
+  status: moderated
+  method: pdca-discovery
+related:
+  - /docs/planning/stories/us-plan-from-moderated-user-intent
+  - /docs/planning/stories/us-start-approved-implementation-tasks
+  - /docs/planning/stories/us-view-approved-execution-state
+  - /docs/domain
+  - /docs/spec/spec-pdca-planning-workflow
+  - /docs/spec/spec-task-data-model
+  - /docs/spec/spec-task-execution-system-model
+  - /docs/spec/spec-task-board-snapshot
+---
+
+## Problem
+
+Oh My Docs validates a planning graph, but it does not yet model the full
+software delivery loop. User intent is not moderated as an explicit discovery
+stage, product and system vocabulary has no first-class home, and approved
+plans do not become dependency-aware execution tasks.
+
+Agents therefore cannot safely answer “start implementation” from repository
+state alone, especially when work is distributed across cloud worktrees or
+local subagents.
+
+## Outcome
+
+A team starts from moderated user stories, maintains shared domain language and
+living specifications, approves change-scoped PRDs and plans through Git, and
+lets an agent derive and execute a task graph only after those approvals exist
+on the base branch.
+
+## Goals
+
+- Adopt a user-centered `Discover → Plan → Design → Do → Check → Act` workflow.
+- Separate living documents, decision records, change records, and execution
+  state.
+- Add living Domain documents for terms, models, and policies.
+- Keep specifications evergreen by stable contract boundary: behavior, data
+  model, system model, API, UI, security, or a custom boundary.
+- Generate `.omd` tasks from a reviewed ready/active PLAN immediately before
+  implementation.
+- Prevent task execution when dependencies, plan state, or code-area exclusion
+  policies are not satisfied.
+- Render committed task snapshots in the handbook and on Vercel.
+- Support safe worktree parallelism and local subagent collaboration.
+
+## Non-goals
+
+- A live task database or real-time hosted control plane.
+- Requiring one third-party moderation skill.
+- Forcing DDD code-layer architecture on consumer repositories.
+- Replacing Git review with automatic agent approval.
+- Treating PLAN and task as the same artifact.
+
+## Included stories
+
+- `US-moderated-planning` — turn moderated user intent into approved planning.
+- `US-start-approved-tasks` — start only runnable tasks from approved plans.
+- `US-view-task-snapshot` — view the Git-approved execution snapshot in docs.
+
+## Success measures
+
+- Every product change begins with moderated discovery and accepted user
+  stories before design and implementation.
+- Domain terms, models, and policies are referenced consistently by living
+  SPECs and change-scoped PLANs.
+- “Start implementation” deterministically selects only runnable tasks.
+- Dependency cycles and overlapping active `codeAreas` fail validation.
+- Independent tasks can run in separate worktrees without sharing one mutable
+  task file.
+- A Vercel docs build shows exactly the task state committed in Git.

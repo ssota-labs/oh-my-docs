@@ -1,0 +1,25 @@
+---
+title: Code-area exclusion policy
+description: Minimum mutual-exclusion rule for parallel task assignment.
+type: reference
+summary: Tasks with overlapping declared code areas do not run concurrently.
+id: POLICY-code-area-exclusion
+related:
+  - /docs/domain/models/task-execution
+  - /docs/spec/spec-task-execution-system-model
+---
+
+Two tasks must not be assigned concurrently when either task's normalized
+`codeAreas` path equals or contains the other task's path.
+
+Examples:
+
+| Task A | Task B | Decision |
+|---|---|---|
+| `packages/ui` | `packages/ui/src/button.tsx` | serialize |
+| `apps/docs` | `skills/oh-my-doc/runtime` | parallel allowed |
+| `skills/oh-my-doc` | `plugins/cursor` | parallel allowed by path; orchestrator may still group semantically |
+
+This policy is a minimum safety boundary, not proof of independence. The
+orchestrator may serialize tasks with semantic coupling even when paths do not
+overlap.

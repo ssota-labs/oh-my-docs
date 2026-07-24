@@ -1,0 +1,39 @@
+---
+title: Plan from moderated user intent
+description: Turn user outcomes into reviewed product and design contracts before code.
+type: conceptual
+summary: Contributors explore candidate stories, moderate assumptions, and approve the resulting PRD, domain, SPEC, ADR, and PLAN graph.
+id: US-moderated-planning
+ticker: US-003
+stage: accepted
+related:
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/domain
+  - /docs/spec/spec-pdca-planning-workflow
+---
+
+As a product contributor, I want the agent to challenge and structure user
+intent before implementation so that requirements reflect agreed outcomes
+rather than assumptions inferred from code.
+
+## Context
+
+Discovery begins with candidate user stories. A moderation session asks one
+decision at a time, recommends an answer, and records only the resulting
+agreement. `grill-me` can provide this interaction, but the workflow depends on
+the moderation contract rather than a specific external skill.
+
+## Acceptance criteria
+
+- Product work follows `Discover → Plan → Design` before `Do`.
+- Discovery produces draft user stories before the PRD groups and prioritizes
+  them.
+- An active PRD records `review.status: moderated`.
+- Accepted stories, living Domain documents, and accepted SPECs exist before a
+  PLAN becomes ready.
+- Planning and implementation are reviewed in separate changes.
+
+## Out of scope
+
+- Persisting the full interview transcript.
+- Automatically approving a product decision.

@@ -1,0 +1,47 @@
+---
+title: Task execution model
+description: The product concepts and relationships behind approved agent work.
+type: conceptual
+summary: A PLAN authorizes a DAG of tasks whose committed state controls execution.
+id: MODEL-task-execution
+related:
+  - /docs/domain/glossary/task
+  - /docs/domain/glossary/plan
+  - /docs/domain/policies/task-execution
+  - /docs/spec/spec-task-data-model
+---
+
+## Concepts
+
+| Concept | Responsibility |
+|---|---|
+| PLAN | Approved implementation intent and bounded code scope |
+| Task | One executable unit derived from a PLAN |
+| Dependency | A predecessor task that must be complete on the shared base |
+| Acceptance reference | A US, POLICY, or SPEC the task must satisfy |
+| Approved snapshot | Task graph and state committed on the shared base |
+| Runner | Agent/worktree currently responsible for an active task |
+
+## Relationships
+
+```text
+PRD 1 ── * PLAN
+PLAN 1 ── * TASK
+TASK * ── * TASK (dependsOn, acyclic)
+TASK * ── * US | POLICY | SPEC (acceptance)
+APPROVED SNAPSHOT 1 ── * TASK
+```
+
+## Lifecycle
+
+```text
+draft → ready → active → done
+          ↓        ↓
+        blocked  failed
+          ↓
+        ready
+
+draft|ready|blocked|failed → cancelled
+```
+
+Status describes approved execution state, not transient process presence.

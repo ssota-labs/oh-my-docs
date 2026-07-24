@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "prd-docs-foundation",
-    "prd-skill-and-ui-refresh-loop"
+    "prd-skill-and-ui-refresh-loop",
+    "prd-pdca-domain-and-task-orchestration"
   ]
 }

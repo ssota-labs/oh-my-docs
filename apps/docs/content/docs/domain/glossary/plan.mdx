@@ -1,0 +1,18 @@
+---
+title: Plan
+description: A reviewed change record that authorizes bounded implementation.
+type: conceptual
+summary: PLAN preserves implementation intent while tasks carry mutable execution state.
+id: TERM-plan
+related:
+  - /docs/workflow/development
+  - /docs/domain/glossary/task
+---
+
+A **PLAN** is a change-scoped document that references approved product and
+system contracts, declares code scope and verification, and must exist on the
+base branch before implementation.
+
+A PLAN is not a task container with mutable progress. The agent derives tasks
+from it immediately before implementation. Presentation may call a PLAN a
+“Sprint”, but its stable kind and `PLAN-*` identity remain unchanged.

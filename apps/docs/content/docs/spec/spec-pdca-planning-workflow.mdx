@@ -1,0 +1,81 @@
+---
+title: PDCA planning workflow
+description: The user-centered lifecycle from moderated discovery through verified delivery.
+type: reference
+specType: behavior
+documentClass: living
+summary: Product changes progress through explicit PDCA gates backed by living and change-scoped documents.
+id: SPEC-pdca-workflow
+ticker: SPEC-003
+stage: accepted
+related:
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/planning/stories/us-plan-from-moderated-user-intent
+  - /docs/domain
+  - /docs/workflow/planning
+---
+
+## Scope
+
+Defines the planning and delivery behavior for product changes. It classifies
+documents by lifetime and separates product approval from task execution.
+
+## Interface
+
+The primary UX is natural language:
+
+- “Start planning” enters Discover.
+- “Start implementation” enters Do only after approval gates pass.
+- “Show status” reports PDCA phase, document readiness, and task state.
+
+Agents may call bundled runtime actions, but users do not need a public CLI.
+
+## Behavior
+
+| Phase | Required output | Gate |
+|---|---|---|
+| Discover | Draft user stories and moderated decisions | Shared understanding confirmed |
+| Plan | Active PRD containing accepted stories | PRD review is moderated |
+| Design | Living Domain updates, accepted SPECs/ADRs, ready PLAN | Planning change merged |
+| Do | Agent-generated `.omd` tasks and implementation | Runnable task policy passes |
+| Check | Tests and gap analysis against US, Policy, and SPEC | No unresolved required gap |
+| Act | Corrections, living-doc updates, completion state | Tasks and PLAN complete |
+
+Document classes:
+
+- `living`: Vision, US, Domain, SPEC
+- `decision`: ADR
+- `change`: PRD, PLAN
+- `execution`: `.omd` tasks
+
+## Data and invariants
+
+- An accepted user story belongs to an active PRD before Design completes.
+- Product PRDs record `review.status: moderated`; the moderation method is
+  implementation-agnostic.
+- Living documents are updated in place under stable IDs.
+- PRD and PLAN preserve an initiative's bounded history.
+- PLAN and implementation first appear in separate reviewed changes.
+- Check compares implementation with living target contracts, not copied
+  contract text in the PLAN.
+
+## Errors
+
+- Missing moderation blocks product PRD activation.
+- Missing accepted stories or SPECs blocks a product PLAN from ready.
+- Missing base-branch PLAN blocks task generation and Do.
+
+## Compatibility
+
+Existing stories without `stage` are treated as accepted during migration.
+Existing SPECs remain living documents. Existing PRDs and PLANs become change
+records without rewriting their IDs.
+
+## Acceptance criteria
+
+- The handbook and skill references describe this lifecycle consistently.
+- Validation can distinguish all four document classes.
+- Validation enforces story lifecycle and moderated product PRDs after the
+  migration boundary.
+- A PLAN contains references and implementation details, not a duplicate
+  integrated specification.

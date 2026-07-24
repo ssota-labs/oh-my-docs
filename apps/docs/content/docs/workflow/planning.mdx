@@ -1,37 +1,79 @@
 ---
 title: Planning workflow
-description: Define and review intent before implementation begins.
+description: Move from moderated user discovery through approved design before implementation.
 type: guide
-summary: Classify the change, complete its planning graph, and review it separately from code.
+summary: Discover user outcomes, maintain living contracts, and approve a bounded change record separately from code.
 related:
   - /docs/workflow/development
   - /docs/planning/prds
+  - /docs/domain
   - /docs/agent
 ---
+
+## PDCA lifecycle
+
+`Discover → Plan → Design → Approve → Do → Check → Act`
+
+| Phase | Primary artifacts |
+|---|---|
+| Discover | Candidate user stories and moderated decisions |
+| Plan | Change-scoped PRD with accepted stories |
+| Design | Living Domain/SPEC updates, ADRs, and a change-scoped PLAN |
+| Approve | Planning-only change merged; PLAN ready on the base branch |
+| Do | Agent-generated `.omd` tasks and implementation |
+| Check | Tests and gap analysis against US, Policy, and SPEC |
+| Act | Corrective tasks, living-doc updates, and completion |
 
 ## 1. Classify the change
 
 | Change | Required artifacts |
 |---|---|
-| Product behavior | PRD, story, specification, implementation plan |
+| Product behavior | Moderated PRD, accepted story, living Domain/SPEC updates, implementation PLAN |
 | Bug fix | Existing PRD and specification, implementation plan |
 | Maintenance | Implementation plan; specification if a contract changes |
 | Documentation only | No prior plan |
 
-Reuse an existing artifact when it already explains the change. Do not create
-new IDs for the same intent.
+Reuse living artifacts when they already describe the intended state. Do not
+create new IDs for the same term, model, policy, story, or contract.
 
-## 2. Write in dependency order
+## 2. Discover from user stories
 
-Write and review:
+Start with candidate user outcomes rather than implementation ideas. Ask one
+unresolved decision at a time, include a recommended answer, and confirm shared
+understanding. `grill-me` is one optional moderation implementation; the
+workflow does not depend on it.
 
-`vision → PRD → story → specification/ADR → implementation plan → code`
+Record agreed outcomes in draft user stories. Do not persist the interview
+transcript as product truth.
 
-PRDs and stories use language that product reviewers can evaluate without
-knowing the code. Specifications define observable behavior. ADRs preserve a
-choice and rejected alternatives. Plans authorize a bounded implementation.
+## 3. Plan the initiative
 
-## 3. Complete the graph
+Group and prioritize stories in a PRD. Product PRDs become active only after
+moderation and record:
+
+```yaml
+review:
+  status: moderated
+  method: pdca-discovery
+```
+
+Accepted stories are living documents. The PRD remains the bounded change
+record for this initiative.
+
+## 4. Design the target state
+
+Update or add documents in this order:
+
+`Domain terms/models/policies → SPECs → ADRs → PLAN`
+
+- Domain and SPEC documents are living: update stable IDs in place.
+- SPECs are organized by durable contract boundary (`behavior`, `data-model`,
+  `system-model`, `api`, `ui`, `security`, or custom), not by initiative.
+- ADRs preserve durable choices and rejected alternatives.
+- PLAN references the affected living contracts and defines bounded
+  implementation/verification without copying an integrated specification.
+
+## 5. Complete the graph
 
 Use templates under the docs app `templates/` directory, or create drafts with
 the skill runtime:
@@ -43,16 +85,20 @@ node <skill>/scripts/omd.mjs new prd|story|spec|plan|adr --title "…" --yes
 Give every artifact a stable, kind-prefixed ID, link it through frontmatter, and
 register its filename in the sibling `meta.json` (`new` does this).
 
-Set an approved PRD to `active`, a reviewed specification to `accepted`, and an
-approved plan to `ready`. Plans that authorize code must declare non-empty
-`codeAreas`.
+Set an approved PRD to `active`, story to `accepted`, reviewed specification to
+`accepted`, and approved PLAN to `ready`. Plans that authorize code must declare
+non-empty `codeAreas`.
 
-## 4. Review planning separately
+## 6. Approve planning separately
 
 Merge or otherwise approve the planning change before implementation starts.
 Do not add a missing ready plan and its code in one change.
 
-## 5. Validate
+After approval, an implementation agent may derive dependency-aware `.omd`
+tasks from the PLAN. PLAN remains the reviewed change record; task remains the
+internal execution unit even if UI terminology calls the PLAN a sprint.
+
+## 7. Validate
 
 ```bash
 pnpm check:planning

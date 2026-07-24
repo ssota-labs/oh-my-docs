@@ -3,6 +3,9 @@
   "pages": [
     "index",
     "us-navigate-product-context",
-    "us-detect-and-refresh-stale-skill-ui"
+    "us-detect-and-refresh-stale-skill-ui",
+    "us-plan-from-moderated-user-intent",
+    "us-start-approved-implementation-tasks",
+    "us-view-approved-execution-state"
   ]
 }

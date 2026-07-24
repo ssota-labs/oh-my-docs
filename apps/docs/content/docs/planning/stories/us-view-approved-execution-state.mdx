@@ -1,0 +1,33 @@
+---
+title: View approved execution state
+description: Show committed tasks, dependencies, and status in the handbook.
+type: conceptual
+summary: The docs task board renders the same Git-approved `.omd` snapshot locally and on Vercel.
+id: US-view-task-snapshot
+ticker: US-005
+stage: accepted
+related:
+  - /docs/planning/prds/prd-pdca-domain-and-task-orchestration
+  - /docs/spec/spec-task-board-snapshot
+---
+
+As a contributor, I want to inspect the approved task graph in the handbook so
+that I can understand progress and blockers without reading JSON by hand.
+
+## Context
+
+Git is the approval and synchronization mechanism. The board is read-only and
+represents the commit being built, not live agent processes.
+
+## Acceptance criteria
+
+- `/docs/development/tasks` lists committed tasks by PLAN and status.
+- Dependencies, blockers, and `codeAreas` are visible.
+- A Vercel build renders `.omd` from the checked-out commit.
+- Uncommitted or remote-only agent state is not shown.
+- The task board does not require credentials or a database.
+
+## Out of scope
+
+- Live presence, streaming logs, or push updates.
+- Editing task status from the browser.

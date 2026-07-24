@@ -1,17 +1,24 @@
 # Planning workflow
 
 1. Classify the change (`product`, `bugfix`, `maintenance`, or docs-only).
-2. Reuse an existing artifact when it already explains the intent. Do not mint
-   a new ID for the same idea.
-3. Write in dependency order: vision → PRD → story → specification/ADR → plan.
-4. Create drafts with `omdocs new prd|story|spec|plan|adr --title "…"` (or copy
-   from `docs/templates`). Give every artifact a stable, kind-prefixed ID and
-   register its filename in the sibling `meta.json`.
-5. Set lifecycle states for implementation readiness:
+2. Discover candidate user stories. Moderate unresolved decisions one at a
+   time and record only agreed outcomes. `grill-me` is optional.
+3. Group accepted stories into a change-scoped PRD. Product PRDs record
+   `review.status: moderated`.
+4. Design the approved target state in dependency order:
+   Domain terms/models/policies → living SPECs → ADRs → change-scoped PLAN.
+5. Reuse stable living IDs. SPECs are organized by durable contract boundary,
+   not recreated as one integrated spec per initiative.
+6. Create drafts with
+   `node <skill>/scripts/omd.mjs new prd|story|spec|plan|adr --title "…" --yes`
+   (or copy docs templates). Register each catalog document in sibling
+   `meta.json`.
+7. Set readiness:
    - PRD: `status: active`
+   - Story: `stage: accepted`
    - Specification: `stage: accepted`
-   - Plan: `stage: ready` (or `active` while implementing) with `codeAreas`
-6. Review and merge planning separately from code. Do not introduce a missing
-   ready plan in the same change as its implementation.
-7. Validate with `omd.mjs check` / `pnpm check:planning`, and
+   - PLAN: `stage: ready` (or `active` during implementation), with `codeAreas`
+8. Review and merge planning separately from code. After approval, derive
+   dependency-aware `.omd` tasks from the PLAN.
+9. Validate with `omd.mjs check` / `pnpm check:planning`, and
    `pnpm check:docs-first` on implementation PRs.
