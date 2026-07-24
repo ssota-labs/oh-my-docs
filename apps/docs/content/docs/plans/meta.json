@@ -8,6 +8,7 @@
     "plan-redirect-root-to-handbook",
     "plan-pdca-domain-and-task-runtime",
     "plan-flatten-catalogs-and-typed-spec-pages",
-    "plan-spec-boundary-index-only-catalogs"
+    "plan-spec-boundary-index-only-catalogs",
+    "plan-domain-catalogs-index-only-like-prds"
   ]
 }
