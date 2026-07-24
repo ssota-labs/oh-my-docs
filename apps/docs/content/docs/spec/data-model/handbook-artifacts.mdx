@@ -1,0 +1,52 @@
+---
+title: Handbook artifacts
+description: Stable IDs, frontmatter fields, and catalog registration for handbook documents.
+type: reference
+summary: Kind-prefixed IDs and sibling meta.json registration are the handbook catalog contract.
+id: SPEC-docs-foundation
+ticker: SPEC-001
+stage: accepted
+related:
+  - /docs/planning/prds/prd-docs-foundation
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/adr/adr-001-fumadocs-ssot
+  - /docs/spec/data-model/tasks
+  - /docs/spec/system-model
+  - /docs/spec/cli
+---
+
+## Scope
+
+Defines the durable data shape of handbook planning artifacts in the content
+tree. Task files live in [Tasks](/docs/spec/data-model/tasks). Routes and
+orchestration are covered by [System model](/docs/spec/system-model).
+
+## Entities
+
+| Kind | ID prefix | Catalog path | Lifecycle field |
+|---|---|---|---|
+| Product requirements | `PRD-` | `planning/prds` | `status` |
+| User stories | `US-` | `planning/stories` | (owned by linked PRD/plan) |
+| Specifications | `SPEC-` | `spec/<boundary>/…` | `stage` |
+| Architecture decisions | `ADR-` | `adr` | `stage` |
+| Implementation plans | `PLAN-` | `plans` | `stage` |
+
+## Frontmatter invariants
+
+- Every catalog document has a stable `id` matching its kind prefix.
+- Plans declare `changeType`, references (`prd` / `specs` / `stories`),
+  lifecycle `stage`, and non-empty `codeAreas` when authorizing implementation.
+- Sibling `meta.json` files explicitly register each catalog entry under `pages`.
+- Spec boundary folders (`data-model`, `system-model`) are index-only; detail
+  pages keep `SPEC-*` IDs under those folders.
+
+## Validation
+
+The planning check fails on duplicate or malformed IDs, missing references,
+invalid ready-state dependencies, missing code areas, or unregistered catalog
+documents.
+
+## Compatibility
+
+Brownfield handbooks that still use `development/plans` and `development/adr`
+must migrate paths with the IA flatten. IDs do not change when files move.

@@ -1,0 +1,76 @@
+---
+title: Handbook IA
+description: Routes, default IA, index-only catalogs, and Spec boundary folders.
+type: reference
+summary: One MDX tree renders /docs pages and .md twins; catalogs and Spec boundaries collapse to indexes.
+id: SPEC-handbook-information-architecture
+ticker: SPEC-007
+stage: accepted
+related:
+  - /docs/planning/prds/prd-handbook-navigation-and-typed-specs
+  - /docs/planning/stories/us-browse-catalogs-without-sidebar-bloat
+  - /docs/adr/adr-promote-adr-and-plans-to-top-level-catalogs
+  - /docs/spec/data-model
+  - /docs/spec/cli
+  - /docs/adr/adr-001-fumadocs-ssot
+---
+
+## Scope
+
+Observable navigation and rendering contracts for the handbook app and the
+default skill template IA.
+
+## Routes
+
+- `/` redirects to `/docs` (handbook entry).
+- `/docs` and `/docs/<slug>` render handbook pages.
+- `/docs/<slug>.md` returns the corresponding processed Markdown with
+  `text/markdown; charset=utf-8`.
+- Unknown page slugs return not found.
+
+## Default information architecture
+
+`Home → Vision → Start here → Domain → Workflow → Planning → Plans → ADR → Spec`
+
+| Section | Sidebar behavior |
+|---|---|
+| Domain | Living glossary, models, and policies |
+| Planning | Folder with index-only catalogs: PRDs, Stories |
+| Plans | Index-only catalog at the top level |
+| ADR | Index-only catalog at the top level |
+| Spec | Folder of boundary entries; Data model and System model are index-only |
+
+There is no intermediate Development section and no default Agent section.
+
+## Index-only catalogs
+
+Configured catalog folders keep detail pages registered in `meta.json` for
+validation, but the page tree exposes only the catalog index. Opening the
+index shows a table of documents. Detail pages provide back-to-index and
+sibling previous/next links.
+
+Default catalog prefixes:
+
+- `planning/prds` → `/docs/planning/prds`
+- `planning/stories` → `/docs/planning/stories`
+- `plans` → `/docs/plans`
+- `adr` → `/docs/adr`
+- `spec/data-model` → `/docs/spec/data-model`
+- `spec/system-model` → `/docs/spec/system-model`
+
+## Spec boundaries
+
+Sidebar lists only:
+
+- [Data model](/docs/spec/data-model)
+- [System model](/docs/spec/system-model)
+- [CLI](/docs/spec/cli)
+
+Data model and System model are index-only folders (same mechanism as PRDs).
+CLI may remain a single page until it needs children.
+
+## Acceptance criteria
+
+- Catalog and Spec-boundary detail pages do not appear as sidebar children.
+- Spec sidebar shows only the three boundary entries.
+- ADR and Plans remain second-level sidebar items.
